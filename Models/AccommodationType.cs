@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BookingCalc.DataBase;
 
 namespace BookingCalc.Models
 {
@@ -9,7 +7,7 @@ namespace BookingCalc.Models
     {
 
         /// <summary>Инициализация вида размещения без параметров</summary>
-        public AccommodationType() { }
+        public AccommodationType() {}
 
         /// <summary>Идентификатор вида размещения</summary>
         private Int32 _accommodationTypeID;

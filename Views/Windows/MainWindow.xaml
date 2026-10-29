@@ -6,7 +6,30 @@
         xmlns:local="clr-namespace:BookingCalc"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel LastChildFill="True" Margin="5">
+        
+        <!-- MENU панель главного окна-->
+        <Menu Name="GridTop1" DockPanel.Dock="Top" Background="Tan" Width="Auto" Height="30">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход" />
+            </MenuItem>
+            <MenuItem Header="Правка"/>
+            <MenuItem Header="База данных" >
+                <MenuItem Header="Прайс" Command="{Binding OpenWindowsCommands.OpenPersonWindomCommand}"></MenuItem>               
+            </MenuItem>
+        </Menu>
 
-    </Grid>
+        <!-- LEFT панель главного окна-->
+        <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="100" Height="Auto">
+        </Grid>
+
+
+        <!-- Bottom панель главного окна-->
+        <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
+        </Grid>
+
+        <!-- Centr панель главного окна-->
+        <Grid x:Name="TabArea" Background="LightGreen" Width="Auto" Height="Auto">
+        </Grid>
+    </DockPanel>
 </Window>

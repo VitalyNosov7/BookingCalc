@@ -5,7 +5,6 @@ namespace BookingCalc.Models
     public class PriceBooking
     {
 
-
         /// <summary>Инициализация данных о стоимости бронирования без параметров</summary>
         public PriceBooking() { }
 
@@ -108,18 +107,18 @@ namespace BookingCalc.Models
             set { _currentAccommodationType = value; }
         }
 
-        /// <summary>Идентификатор категории тарифа/summary>
+        /// <summary>Идентификатор категории тарифа</summary>
         private Int32 _tarifCategoryID = default;
-        /// <summary>Идентификатор категории тарифа/summary>
+        /// <summary>Идентификатор категории тарифа</summary>
         public Int32 TarifCategoryID
         {
             get { return _tarifCategoryID; }
             set { _tarifCategoryID = value; }
         }
 
-        /// <summary>Категория тарифа/summary>
+        /// <summary>Категория тарифа</summary>
         private TarifCategory _currentTarifCategory = null!;
-        /// <summary>Категория тарифа/summary>
+        /// <summary>Категория тарифа</summary>
         public TarifCategory CurrentTarifCategory
         {
             get { return _currentTarifCategory; }

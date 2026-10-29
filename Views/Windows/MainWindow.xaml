@@ -15,7 +15,7 @@
             </MenuItem>
             <MenuItem Header="Правка"/>
             <MenuItem Header="База данных" >
-                <MenuItem Header="Прайс" Command="{Binding OpenWindowsCommands.OpenPersonWindomCommand}"></MenuItem>               
+                <MenuItem Header="Прайс" Command="{Binding OpenWindowsCommands.OpenPriceBookingWindomCommand}"></MenuItem>               
             </MenuItem>
         </Menu>
 

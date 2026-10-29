@@ -11,7 +11,7 @@ namespace BookingCalc.DataBase
         public ApplicationContext()
         {
             // Для тестирования создания базы данных. Перед миграцией закомментировать!
-           Database.EnsureDeleted();
+          // Database.EnsureDeleted();
             Database.EnsureCreated();
 
         }

@@ -1,17 +1,20 @@
 ﻿using BookingCalc.Views.Interfaces;
 using BookingCalc.Views.Windows;
+
 namespace BookingCalc.Commands
 {
+    // В этом классе хранятся команды для открытия дополнительных окон в единственном экземпляре.
     public class OpenWindowsCommands
     {
         public OpenWindowsCommands(IWindowManager windowManager)
         {
             _windowManager = windowManager;
-
         }
+
+        // Взаимодействие с дополнительными окнами
         private readonly IWindowManager _windowManager;
 
-        // Окно для работы с данными Person из базы данных 
+        // Окно для работы с данными PriceBooking из базы данных 
         private RelayCommand? openPriceBookingWindomCommand;
         public RelayCommand OpenPriceBookingWindomCommand
         {
@@ -20,7 +23,6 @@ namespace BookingCalc.Commands
                 return openPriceBookingWindomCommand ??
                   (openPriceBookingWindomCommand = new RelayCommand((o) =>
                   {
-                      // App.OpenSingleInstancePersonWindow();
                       _windowManager.ShowOrActivate<PriceBookingWindow>();
                   }));
             }

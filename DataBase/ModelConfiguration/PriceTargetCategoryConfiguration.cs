@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookingCalc.DataBase.ModelConfiguration
 {
+    /// <summary>Конфигурация таблицы Целевой категории стоимости бронирования(Прайс для санатория, прайс для гостей)</summary>
     public class PriceTargetCategoryConfiguration : IEntityTypeConfiguration<PriceTargetCategory>
     {
         public void Configure(EntityTypeBuilder<PriceTargetCategory> builder)

@@ -1,6 +1,4 @@
-﻿using BookingCalc.DataBase;
-
-namespace BookingCalc.Models
+﻿namespace BookingCalc.Models
 {
     /// <summary>Класс содержит информацию о виде размещения(одноместное, двухместное, доп. и т.п.)</summary>
     public class AccommodationType

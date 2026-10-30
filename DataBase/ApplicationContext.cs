@@ -2,9 +2,9 @@
 using BookingCalc.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BookingCalc.DataBase
 {
+    /// <summary>Контекст данных БД</summary>
     public class ApplicationContext : DbContext
     {
 
@@ -37,7 +37,6 @@ namespace BookingCalc.DataBase
             modelBuilder.ApplyConfiguration(new RoomCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new SanatoriumConfiguration());
             modelBuilder.ApplyConfiguration(new TarifCategoryConfiguration());
-        }
-    
+        }    
     }
 }

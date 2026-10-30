@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookingCalc.DataBase.ModelConfiguration
 {
+    /// <summary>Конфигурация таблицы Вида размещения</summary>
     public class AccommodationTypeConfiguration : IEntityTypeConfiguration<AccommodationType>
     {
         public void Configure(EntityTypeBuilder<AccommodationType> builder)

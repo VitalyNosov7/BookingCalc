@@ -1,10 +1,9 @@
-﻿using BookingCalc.Commands;
-using BookingCalc.ViewModels.Base;
+﻿using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Interfaces;
-using BookingCalc.Views.Services;
 
 namespace BookingCalc.ViewModels
 {
+    /// <summary>Модель-Представление Прайс бронирования</summary>
     public class PriceBookingViewModel : ViewModelBase
     {
 
@@ -13,14 +12,7 @@ namespace BookingCalc.ViewModels
             _dialogService = dialogService;
         }
 
+        // Взаимодействие с диалоговыми окнами
         private readonly IDialogService _dialogService;
-
-        private OpenWindowsCommands _openWindowsCommands = new OpenWindowsCommands(new WindowManager());
-
-        public OpenWindowsCommands OpenWindowsCommands
-        {
-            get { return _openWindowsCommands; }
-            set { _openWindowsCommands = value; }
-        }
     }
 }

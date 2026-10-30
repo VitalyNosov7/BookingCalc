@@ -3,6 +3,7 @@ using System.Windows;
 
 namespace BookingCalc.Views.Services
 {
+    /// <summary>Взаимодействие с дополнительными окнами</summary>
      class WindowManager : IWindowManager
     {
         public void ShowOrActivate<TWindow>() where TWindow : Window, new()

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BookingCalc.Models
+﻿namespace BookingCalc.Models
 {
     /// <summary>Класс содержит информацию о категории тарифа санатория(с лечением, без лечения, оздоровление и т.п.)</summary>
     public class TarifCategory

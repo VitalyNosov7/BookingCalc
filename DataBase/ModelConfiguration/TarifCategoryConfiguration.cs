@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookingCalc.DataBase.ModelConfiguration
 {
+    /// <summary>Конфигурация таблицы Тарифа санатория(с лечением, без лечения, оздоровление и т.п.)</summary>
     public class TarifCategoryConfiguration : IEntityTypeConfiguration<TarifCategory>
     {
 

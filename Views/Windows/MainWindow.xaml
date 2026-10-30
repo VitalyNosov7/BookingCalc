@@ -30,6 +30,34 @@
 
         <!-- Centr панель главного окна-->
         <Grid x:Name="TabArea" Background="LightGreen" Width="Auto" Height="Auto">
+            
+                <StackPanel Width="Auto"
+			Orientation="Vertical">
+
+                    <DataGrid ItemsSource="{Binding BookingOperations}" 
+					  SelectedItem="{Binding SelectedBookingOperation, Mode=TwoWay}"
+					  AutoGenerateColumns="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+					  GridLinesVisibility="All"
+					  CanUserAddRows="False"
+					  IsReadOnly="True"
+					  Height="400">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding BookingOperationID}" Width="50"/>
+                            <DataGridTextColumn Header="Санаторий" Binding="{Binding BookingOperationName}" Width="150"/>
+                            <DataGridTextColumn Header="Категория номера" Binding="{Binding PrefixFileName}" Width="150"/>
+                            <DataGridTextColumn Header="Продолжительность" Binding="{Binding TextTemplateID}" Width="50"/>
+                            <DataGridTextColumn Header="Дата заезда" Binding="{Binding TemplateMessageBookingOperation.TemplateMessageText}" Width="200"/>
+                            <DataGridTextColumn Header="Дата выезда" Binding="{Binding TemplateMessageBookingOperation.TemplateMessageText}" Width="200"/>
+                            <DataGridTextColumn Header="Тип размещения" Binding="{Binding PrefixFileName}" Width="150"/>
+                            <DataGridTextColumn Header="Стоимость путевки" Binding="{Binding PrefixFileName}" Width="150"/>
+                            <DataGridTextColumn Header="Стоимость путевки + ПНК + ЗД" Binding="{Binding PrefixFileName}" Width="150"/>
+                            <DataGridTextColumn Header="К-во номеров" Binding="{Binding TextTemplateID}" Width="50"/>
+                    </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            
         </Grid>
     </DockPanel>
 </Window>

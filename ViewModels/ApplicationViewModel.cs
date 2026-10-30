@@ -1,7 +1,9 @@
 ﻿using BookingCalc.Commands;
 using BookingCalc.DataBase;
+using BookingCalc.Models;
 using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Services;
+using System.Collections.ObjectModel;
 
 namespace BookingCalc.ViewModels
 {
@@ -20,6 +22,15 @@ namespace BookingCalc.ViewModels
         {
             get { return _openWindowsCommands; }
             set { _openWindowsCommands = value; }
+        }
+
+        /// <summary>Список расчетов бронирования</summary>
+        private ObservableCollection<CalcBookingData> _calcBookings = new ObservableCollection<CalcBookingData>();
+        /// <summary>Список расчетов бронирования</summary>
+        public ObservableCollection<CalcBookingData> CalcBookings
+        {
+            get { return _calcBookings; }
+            set => Set(ref _calcBookings, value);
         }
     }
 }

@@ -19,14 +19,17 @@
             </MenuItem>
         </Menu>
 
-        <!-- LEFT панель главного окна-->
-        <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="100" Height="Auto">
-        </Grid>
-
 
         <!-- Bottom панель главного окна-->
         <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
         </Grid>
+
+               <!-- LEFT панель главного окна-->
+       <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="200" Height="Auto">
+			<StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+				<Button Content="Получить расчет" Command="{Binding GetBookingQuote}" Margin="0,0,10,0"/>				
+			</StackPanel>
+		</Grid>
 
         <!-- Centr панель главного окна-->
         <Grid x:Name="TabArea" Background="LightGreen" Width="Auto" Height="Auto">
@@ -34,7 +37,7 @@
                 <StackPanel Width="Auto"
 			Orientation="Vertical">
 
-                    <DataGrid ItemsSource="{Binding BookingOperations}" 
+				<DataGrid ItemsSource="{Binding CalcBookings}" 
 					  SelectedItem="{Binding SelectedBookingOperation, Mode=TwoWay}"
 					  AutoGenerateColumns="True"
                       HorizontalAlignment="Stretch"
@@ -44,14 +47,14 @@
 					  IsReadOnly="True"
 					  Height="400">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="№" Binding="{Binding BookingOperationID}" Width="50"/>
-                            <DataGridTextColumn Header="Санаторий" Binding="{Binding BookingOperationName}" Width="150"/>
-                            <DataGridTextColumn Header="Категория номера" Binding="{Binding PrefixFileName}" Width="150"/>
+						    <DataGridTextColumn Header="№" Binding="{Binding CalcBookingDataID}" Width="50"/>
+						    <DataGridTextColumn Header="Санаторий" Binding="{Binding SanatoriumID}" Width="150"/>
+						    <DataGridTextColumn Header="Категория номера" Binding="{Binding RoomCategoryID}" Width="150"/>
                             <DataGridTextColumn Header="Продолжительность" Binding="{Binding TextTemplateID}" Width="50"/>
-                            <DataGridTextColumn Header="Дата заезда" Binding="{Binding TemplateMessageBookingOperation.TemplateMessageText}" Width="200"/>
-                            <DataGridTextColumn Header="Дата выезда" Binding="{Binding TemplateMessageBookingOperation.TemplateMessageText}" Width="200"/>
-                            <DataGridTextColumn Header="Тип размещения" Binding="{Binding PrefixFileName}" Width="150"/>
-                            <DataGridTextColumn Header="Стоимость путевки" Binding="{Binding PrefixFileName}" Width="150"/>
+                            <DataGridTextColumn Header="Дата заезда" Binding="{Binding StartDate}" Width="200"/>
+						    <DataGridTextColumn Header="Дата выезда" Binding="{Binding EndDate}" Width="200"/>
+						    <DataGridTextColumn Header="Тип размещения" Binding="{Binding AccommodationTypeID}" Width="150"/>
+						    <DataGridTextColumn Header="Стоимость путевки" Binding="{Binding PriceFromGuest}" Width="150"/>
                             <DataGridTextColumn Header="Стоимость путевки + ПНК + ЗД" Binding="{Binding PrefixFileName}" Width="150"/>
                             <DataGridTextColumn Header="К-во номеров" Binding="{Binding TextTemplateID}" Width="50"/>
                     </DataGrid.Columns>

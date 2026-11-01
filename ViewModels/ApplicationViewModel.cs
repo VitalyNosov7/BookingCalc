@@ -1,9 +1,11 @@
-﻿using BookingCalc.Commands;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using BookingCalc.Commands;
 using BookingCalc.DataBase;
 using BookingCalc.Models;
 using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Services;
-using System.Collections.ObjectModel;
 
 namespace BookingCalc.ViewModels
 {
@@ -32,5 +34,46 @@ namespace BookingCalc.ViewModels
             get { return _calcBookings; }
             set => Set(ref _calcBookings, value);
         }
-    }
+
+		/// <summary>Выбранный расчет бронирования</summary>
+		private CalcBookingData _selectedCalcBooking = null!;
+		/// <summary>Выбранный расчет бронирования</summary>
+		public CalcBookingData SelectedBookingOperation
+		{
+			get { return _selectedCalcBooking!; }
+			set
+			{
+				Set(ref _selectedCalcBooking, value);
+			}
+		}
+
+		// Получить расчет
+		private RelayCommand? _getBookingQuote;
+		public RelayCommand GetBookingQuote
+		{
+			get
+			{
+				return _getBookingQuote ??
+				  (_getBookingQuote = new RelayCommand(obj =>
+				  {
+					  //MessageBox.Show("Проверка работы команды GetBookingQuote");
+					  CalcBookings = GetObsCollectCalcBookingDataTestData();
+				  }));
+			}
+		}
+
+		private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
+		{
+			ObservableCollection<CalcBookingData>  result = new ObservableCollection<CalcBookingData>();
+
+			result.Add(new CalcBookingData(){ CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), CalcResultFromGuest = 48300 });
+			result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), CalcResultFromGuest = 53130 });
+			result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), CalcResultFromGuest = 57960 });
+			result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), CalcResultFromGuest = 62790 });
+			result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), CalcResultFromGuest = 67620 });
+			result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), CalcResultFromGuest = 72450 });
+
+			return result;
+		}
+	}
 }

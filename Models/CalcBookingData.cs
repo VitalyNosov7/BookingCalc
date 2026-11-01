@@ -39,8 +39,17 @@
             set { _endDate = value; }
         }
 
-        /// <summary>Идентификатор категории номера</summary>
-        private Int32 _roomCategoryID = default;
+		/// <summary>Идентификатор санатория</summary>
+		private Int32 _sanatoriumID = default;
+		/// <summary>Идентификатор санатория</summary>
+		public Int32 SanatoriumID
+		{
+			get { return _sanatoriumID; }
+			set { _sanatoriumID = value; }
+		}
+
+		/// <summary>Идентификатор категории номера</summary>
+		private Int32 _roomCategoryID = default;
         /// <summary>Идентификатор категории номера</summary>
         public Int32 RoomCategoryID
         {

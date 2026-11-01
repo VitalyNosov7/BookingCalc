@@ -27,7 +27,8 @@
                <!-- LEFT панель главного окна-->
        <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="200" Height="Auto">
 			<StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
-				<Button Content="Получить расчет" Command="{Binding GetBookingQuote}" Margin="0,0,10,0"/>				
+				<Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
+				<Button Content="Сохранить в Excel" Command="{Binding SaveToExcelCommand}" Margin="5,5,10,0"/>
 			</StackPanel>
 		</Grid>
 

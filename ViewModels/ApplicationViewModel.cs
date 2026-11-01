@@ -16,6 +16,7 @@ namespace BookingCalc.ViewModels
 		public ApplicationViewModel()
 		{
 			new ApplicationContext(); // TODO: Убрать после добавления миграции БД. 
+			LoadingListsFromDatabase();
 		}
 
 		// Доступ к командам, которые открывают дополнительные окна в единственном экземпляре
@@ -34,6 +35,27 @@ namespace BookingCalc.ViewModels
 		{
 			get { return _calcBookings; }
 			set => Set(ref _calcBookings, value);
+		}
+
+		/// <summary>Список санаториев</summary>
+		private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
+		/// <summary>Список санаториев</summary>
+		public ObservableCollection<Sanatorium> SanatoriumList
+		{
+			get { return _sanatoriumList; }
+			set => Set(ref _sanatoriumList, value);
+		}
+
+		/// <summary>Выбранный санаторий</summary>
+		private Sanatorium _selectedSanatorium = null!;
+		/// <summary>Выбранный санаторий</summary>
+		public Sanatorium SelectedSanatorium
+		{
+			get { return _selectedSanatorium; }
+			set
+			{
+				Set(ref _selectedSanatorium, value);
+			}
 		}
 
 		/// <summary>Выбранный расчет бронирования</summary>
@@ -61,6 +83,53 @@ namespace BookingCalc.ViewModels
 					  CalcBookings = GetObsCollectCalcBookingDataTestData();
 				  }));
 			}
+		}
+
+		// Загрузка списка санаториев из базы данных
+		private RelayCommand? _loadingSanatoriumListFromDatabaseCommand;
+		public RelayCommand LoadingSanatoriumListFromDatabaseCommand
+		{
+			get
+			{
+				return _loadingSanatoriumListFromDatabaseCommand ??
+				  (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
+				  {
+					  SanatoriumList.Clear();
+					  //RoomCategoryList.Clear();
+					  //AccommodationTypeList.Clear();
+					  //TarifCategoryList.Clear();
+					  LoadSanatoriumList();
+				  }));
+			}
+		}
+
+		/// <summary>Загрузка списка санаториев</summary>
+		private void LoadSanatoriumList()
+		{
+
+			// Загрузка списка санаториев из базы данных.
+			using (ApplicationContext db = new ApplicationContext())
+			{
+				var sanatoriums = db.Sanatoriums.ToList();
+				//	SanatoriumList.Clear();
+				foreach (Sanatorium sanatorium in sanatoriums)
+				{
+					SanatoriumList.Add(sanatorium);
+				}
+			}
+		}
+
+		/// <summary>Загрузка списков из базы данных</summary>
+		private void LoadingListsFromDatabase()
+		{
+			//CleanFields(); // Очищаем поля
+			//LoadManagerList();  // Загрузка списка менеджеров.
+			LoadSanatoriumList(); // Загрузка списка санаториев
+			//LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+			//LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
+			//LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
+			//LoadBookingOperationList(); // Загрузка списка операций над бронированием вместе с текстовыми шаблонами
+			//LoadTemplateVariableDictionary(); // Загрузка переменных шаблона текста сообщений в словарь
 		}
 
 

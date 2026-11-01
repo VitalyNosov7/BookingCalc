@@ -75,13 +75,63 @@ namespace BookingCalc.ViewModels
 				  {
 					  // MessageBox.Show("Проверка работы команды SaveToExcelCommand");	
 
-					  var data = new[]
-					  {
-							new { Id = 1, Name = "Анна", Date = DateTime.Today },
-							new { Id = 2, Name = "Борис", Date = DateTime.Today.AddDays(1) },
-							new { Id = 3, Name = "Виктор", Date = DateTime.Today.AddDays(2) },
-							new { Id = 4, Name = "Захар", Date = DateTime.Today.AddDays(3) }
-					  };
+					  // Пример создания и записи в файл Excel
+
+					  // var data = new[]
+					  // {
+					  //	new { Id = 1, Name = "Анна", Date = DateTime.Today },
+					  //	new { Id = 2, Name = "Борис", Date = DateTime.Today.AddDays(1) },
+					  //	new { Id = 3, Name = "Виктор", Date = DateTime.Today.AddDays(2) },
+					  //	new { Id = 4, Name = "Захар", Date = DateTime.Today.AddDays(3) }
+					  // };
+
+					  // // Создаем рабочую книгу Excel
+					  // using var workbook = new XSSFWorkbook();
+					  // var sheet = workbook.CreateSheet("Лист1");
+
+					  // // Стили: дата и общий
+					  // var dateStyle = workbook.CreateCellStyle();
+					  // dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
+
+					  // var headerStyle = workbook.CreateCellStyle();
+					  // // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
+					  //// headerStyle.FillPattern = FillPattern.SolidForeground;
+
+					  // // Заголовки
+					  // var headerRow = sheet.CreateRow(0);
+					  // string[] headers = { "ID", "Имя", "Дата" };
+					  // for (int i = 0; i < headers.Length; i++)
+					  // {
+					  //  var cell = headerRow.CreateCell(i);
+					  //  cell.SetCellValue(headers[i]);
+					  //  cell.CellStyle = headerStyle;
+					  // }
+
+					  // // Данные
+					  // for (int i = 0; i < data.Length; i++)
+					  // {
+					  //  int rowNum = i + 1;
+					  //  var row = sheet.CreateRow(rowNum);
+
+					  //  row.CreateCell(0).SetCellValue(data[i].Id);
+
+					  //  var nameCell = row.CreateCell(1);
+					  //  nameCell.SetCellValue(data[i].Name ?? "");
+
+					  //  var dateCell = row.CreateCell(2);
+					  //  dateCell.SetCellValue(data[i].Date);
+					  //  dateCell.CellStyle = dateStyle;
+					  // }
+
+					  // //// Автоподбор ширины колонок
+					  // //for (int i = 0; i < headers.Length; i++)
+					  // // sheet.AutoSizeColumn(i);
+
+					  // // Сохранение
+					  // using var fs = new FileStream("data_npoi.xlsx", FileMode.Create, FileAccess.Write);
+					  // workbook.Write(fs);
+
+					  // =============================================
 
 					  // Создаем рабочую книгу Excel
 					  using var workbook = new XSSFWorkbook();
@@ -93,17 +143,19 @@ namespace BookingCalc.ViewModels
 
 					  var headerStyle = workbook.CreateCellStyle();
 					  // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
-					 // headerStyle.FillPattern = FillPattern.SolidForeground;
+					  // headerStyle.FillPattern = FillPattern.SolidForeground;
 
 					  // Заголовки
 					  var headerRow = sheet.CreateRow(0);
-					  string[] headers = { "ID", "Имя", "Дата" };
+					  string[] headers = { "ID", "Дата прайса", "Начало заезда", "Конец заезда", "Стоимость брони" };
 					  for (int i = 0; i < headers.Length; i++)
 					  {
 						  var cell = headerRow.CreateCell(i);
 						  cell.SetCellValue(headers[i]);
-						  cell.CellStyle = headerStyle;
+						  cell.CellStyle = headerStyle;						  
 					  }
+
+					  CalcBookingData [] data = GetObsCollectCalcBookingDataTestData().ToArray();
 
 					  // Данные
 					  for (int i = 0; i < data.Length; i++)
@@ -111,23 +163,27 @@ namespace BookingCalc.ViewModels
 						  int rowNum = i + 1;
 						  var row = sheet.CreateRow(rowNum);
 
-						  row.CreateCell(0).SetCellValue(data[i].Id);
+						  row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
 
-						  var nameCell = row.CreateCell(1);
-						  nameCell.SetCellValue(data[i].Name ?? "");
+						  var priceEffectiveDateCell = row.CreateCell(1);
+						  priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
+						  priceEffectiveDateCell.CellStyle = dateStyle;
 
-						  var dateCell = row.CreateCell(2);
-						  dateCell.SetCellValue(data[i].Date);
-						  dateCell.CellStyle = dateStyle;
+						  var startDateCell = row.CreateCell(2);
+						  startDateCell.SetCellValue(data[i].StartDate);
+						  startDateCell.CellStyle = dateStyle;
+
+						  var endDateCell = row.CreateCell(3);
+						  endDateCell.SetCellValue(data[i].EndDate);
+						  endDateCell.CellStyle = dateStyle;
+
+						  var calcResultFromGuestCell = row.CreateCell(4);
+						  calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].CalcResultFromGuest));
+
+						  // Сохранение
+						  using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
+						  workbook.Write(fs);
 					  }
-
-					  //// Автоподбор ширины колонок
-					  //for (int i = 0; i < headers.Length; i++)
-						 // sheet.AutoSizeColumn(i);
-
-					  // Сохранение
-					  using var fs = new FileStream("data_npoi.xlsx", FileMode.Create, FileAccess.Write);
-					  workbook.Write(fs);
 
 				  }));
 			}

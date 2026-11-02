@@ -29,172 +29,197 @@
         </Grid>
 
                <!-- LEFT панель главного окна-->
-       <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="200" Height="Auto">
-			
-			<StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
-				<!--НАЗВАНИЕ САНАТОРИЯ-->
-				<TextBlock Margin="3,0,0,0" 
-						   Width="100" 
-						   Height="20" 
-						   HorizontalAlignment="Left" 
-						   VerticalAlignment="Bottom" 
-						   Text="Санаторий"/>
-				<StackPanel Orientation="Horizontal">
-					<ComboBox x:Name="Sanatorium"
-								Width="100"
-								Margin="3,0,3,1"
-								ItemsSource="{Binding SanatoriumList}"
-								SelectedItem="{Binding SelectedSanatorium, UpdateSourceTrigger=PropertyChanged}"							
-								IsTextSearchEnabled="True"                                            
-								TextSearch.TextPath="SanatoriumName">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock>
-									<TextBlock.Text>
-										<MultiBinding StringFormat="{}{0}">
-											<Binding Path="SanatoriumName"/>
-										</MultiBinding>
-									</TextBlock.Text>
-								</TextBlock>
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<Button Content="DB"
-							Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
+       <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="220" Height="Auto">
 
-					<Button Content="R"
-							Command="{Binding LoadingSanatoriumListFromDatabaseCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-				</StackPanel>
 
-                <!--КАТЕГОРИЯ САНАТОРИЯ-->
-                <TextBlock Margin="3,0,0,0" 
-						   Width="150" 
-						   Height="20" 
-						   HorizontalAlignment="Left" 
-						   VerticalAlignment="Bottom" 
-						   Text="Категория санатория"/>
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox x:Name="RoomCategory"
-								Width="100"
-								Margin="3,0,3,1"
-								ItemsSource="{Binding RoomCategoryList}"
-								SelectedItem="{Binding SelectedRoomCategory, UpdateSourceTrigger=PropertyChanged}"								 
-								IsTextSearchEnabled="True"                                            
-								TextSearch.TextPath="RoomCategoryName">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="RoomCategoryName"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Button Content="DB"
-							Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-                    <Button Content="R"
-							Command="{Binding LoadingRoomCategoryListFromDatabaseCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
+
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+
+                <GroupBox Header="Данные бронирования" 
+                          x:Name="BookingData"
+                          Margin="3">
+
+                    <StackPanel>
+
+                        <!--НАЗВАНИЕ САНАТОРИЯ-->
+                        <TextBlock Margin="3,0,0,0" 
+                                   Width="100" 
+                                   Height="20" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Bottom" 
+                                   Text="Санаторий"/>       
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="Sanatorium"
+										Width="100"
+										Margin="3,0,3,1"
+										ItemsSource="{Binding SanatoriumList}"
+										SelectedItem="{Binding SelectedSanatorium, UpdateSourceTrigger=PropertyChanged}"												  
+										IsTextSearchEnabled="True"                                            
+										TextSearch.TextPath="SanatoriumName">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}">
+                                                    <Binding Path="SanatoriumName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="DB"
+									Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
+									Width="30"
+									Height="20"
+									Margin="3,3,3,3"/>
+
+                            <Button Content="R"
+									Command="{Binding LoadingSanatoriumListFromDatabaseCommand}"
+									Width="30"
+									Height="20"
+									Margin="3,3,3,3"/>
+                        </StackPanel>
+
+                        <!--КАТЕГОРИЯ САНАТОРИЯ-->
+                        <TextBlock Margin="3,0,0,0" 
+					               Width="150" 
+					               Height="20" 
+					               HorizontalAlignment="Left" 
+					               VerticalAlignment="Bottom" 
+					               Text="Категория санатория"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="RoomCategory"
+							            Width="100"
+							            Margin="3,0,3,1"
+							            ItemsSource="{Binding RoomCategoryList}"
+							            SelectedItem="{Binding SelectedRoomCategory, UpdateSourceTrigger=PropertyChanged}"								 
+							            IsTextSearchEnabled="True"                                            
+							            TextSearch.TextPath="RoomCategoryName">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}">
+                                                    <Binding Path="RoomCategoryName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="DB"
+					                Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
+					                Width="30"
+					                Height="20"
+					                Margin="3,3,3,3"/>
+                            <Button Content="R"
+						            Command="{Binding LoadingRoomCategoryListFromDatabaseCommand}"
+						            Width="30"
+						            Height="20"
+						            Margin="3,3,3,3"/>
+                        </StackPanel>
+
+                        <!--ВИД РАЗМЕЩЕНИЯ-->
+                        <TextBlock Margin="3,0,0,0" 
+					               Width="150" 
+					               Height="20"
+					               HorizontalAlignment="Left" 
+					               VerticalAlignment="Bottom" 
+					               Text="Вид размещения"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="AccommodationType"
+							            Width="100"
+							            Margin="3,0,3,1"
+							            ItemsSource="{Binding AccommodationTypeList}"
+							            SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger=PropertyChanged}"								  
+							            IsTextSearchEnabled="True"                                            
+							            TextSearch.TextPath="AccommodationTypeName">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}">
+                                                    <Binding Path="AccommodationTypeName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="DB"
+						            Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
+						            Width="30"
+						            Height="20"
+						            Margin="3,3,3,3"/>
+
+                            <Button Content="R"
+						            Command="{Binding LoadingAccommodationTypeListFromDatabaseCommand}"
+						            Width="30"
+						            Height="20"
+						            Margin="3,3,3,3"/>
+                        </StackPanel>
+
+                        <!--ТАРИФ-->
+                        <TextBlock Margin="3,0,0,0" 
+						            Width="150" 
+						            Height="20"
+						            HorizontalAlignment="Left" 
+						            VerticalAlignment="Bottom" 
+						            Text="Тариф"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="TarifCategory"
+							            Width="100"
+							            Margin="3,0,3,1"
+							            ItemsSource="{Binding TarifCategoryList}"
+							            SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
+							            IsTextSearchEnabled="True"                                            
+							            TextSearch.TextPath="TarifCategoryName">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}">
+                                                    <Binding Path="TarifCategoryName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="DB"
+						            Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
+						            Width="30"
+						            Height="20"
+						            Margin="3,3,3,3"/>
+                            <Button Content="R"
+						            Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
+						            Width="30"
+						            Height="20"
+						            Margin="3,3,3,3"/>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </GroupBox>    
+                
+
+                <GroupBox Header="Параметры бронирования" 
+                         x:Name="BookingParameters"
+                         Margin="3">
+
+                    <StackPanel>
+                        
+                    </StackPanel>
+
+                </GroupBox>
+
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+                    <Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
+                    <Button Content="Сохранить в Excel" Command="{Binding SaveToExcelCommand}" Margin="5,5,10,0"/>
                 </StackPanel>
 
-                <!--ВИД РАЗМЕЩЕНИЯ-->
-                <TextBlock Margin="3,0,0,0" 
-						   Width="150" 
-						   Height="20"
-						   HorizontalAlignment="Left" 
-						   VerticalAlignment="Bottom" 
-						   Text="Вид размещения"/>
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox x:Name="AccommodationType"
-								Width="100"
-								Margin="3,0,3,1"
-								ItemsSource="{Binding AccommodationTypeList}"
-								SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger=PropertyChanged}"								  
-								IsTextSearchEnabled="True"                                            
-								TextSearch.TextPath="AccommodationTypeName">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="AccommodationTypeName"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Button Content="DB"
-							Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-
-                    <Button Content="R"
-							Command="{Binding LoadingAccommodationTypeListFromDatabaseCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-                </StackPanel>
-
-                <!--ТАРИФ-->
-                <TextBlock Margin="3,0,0,0" 
-							Width="150" 
-							Height="20"
-							HorizontalAlignment="Left" 
-							VerticalAlignment="Bottom" 
-							Text="Тариф"/>
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox x:Name="TarifCategory"
-								Width="100"
-								Margin="3,0,3,1"
-								ItemsSource="{Binding TarifCategoryList}"
-								SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
-								IsTextSearchEnabled="True"                                            
-								TextSearch.TextPath="TarifCategoryName">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="TarifCategoryName"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Button Content="DB"
-							Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-                    <Button Content="R"
-							Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
-							Width="30"
-							Height="20"
-							Margin="3,3,3,3"/>
-                </StackPanel>
-
-                <Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
-				<Button Content="Сохранить в Excel" Command="{Binding SaveToExcelCommand}" Margin="5,5,10,0"/>
-			</StackPanel>
-
-           
+            </StackPanel>        
 
         </Grid>
 

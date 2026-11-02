@@ -60,16 +60,16 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<Button Content="DB"
-												Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
-												Width="30"
-												Height="20"
-												Margin="3,3,3,3"/>
+							Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
 
 					<Button Content="R"
-												Command="{Binding LoadingSanatoriumListFromDatabaseCommand}"
-												Width="30"
-												Height="20"
-												Margin="3,3,3,3"/>
+							Command="{Binding LoadingSanatoriumListFromDatabaseCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
 				</StackPanel>
 
                 <!--КАТЕГОРИЯ САНАТОРИЯ-->
@@ -100,15 +100,15 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Button Content="DB"
-										Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
-										Width="30"
-										Height="20"
-										Margin="3,3,3,3"/>
+							Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
                     <Button Content="R"
-										Command="{Binding LoadingRoomCategoryListFromDatabaseCommand}"
-										Width="30"
-										Height="20"
-										Margin="3,3,3,3"/>
+							Command="{Binding LoadingRoomCategoryListFromDatabaseCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
                 </StackPanel>
 
                 <!--ВИД РАЗМЕЩЕНИЯ-->
@@ -139,16 +139,55 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Button Content="DB"
-								Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
-								Width="30"
-								Height="20"
-								Margin="3,3,3,3"/>
+							Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
 
                     <Button Content="R"
-												Command="{Binding LoadingAccommodationTypeListFromDatabaseCommand}"
-												Width="30"
-												Height="20"
-												Margin="3,3,3,3"/>
+							Command="{Binding LoadingAccommodationTypeListFromDatabaseCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
+                </StackPanel>
+
+                <!--ТАРИФ-->
+                <TextBlock Margin="3,0,0,0" 
+							Width="150" 
+							Height="20"
+							HorizontalAlignment="Left" 
+							VerticalAlignment="Bottom" 
+							Text="Тариф"/>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox x:Name="TarifCategory"
+								Width="100"
+								Margin="3,0,3,1"
+								ItemsSource="{Binding TarifCategoryList}"
+								SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
+								IsTextSearchEnabled="True"                                            
+								TextSearch.TextPath="TarifCategoryName">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}">
+                                            <Binding Path="TarifCategoryName"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="DB"
+							Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
+                    <Button Content="R"
+							Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
+							Width="30"
+							Height="20"
+							Margin="3,3,3,3"/>
                 </StackPanel>
 
                 <Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
@@ -166,14 +205,14 @@
 			Orientation="Vertical">
 
 				<DataGrid ItemsSource="{Binding CalcBookings}" 
-					  SelectedItem="{Binding SelectedBookingOperation, Mode=TwoWay}"
-					  AutoGenerateColumns="True"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-					  GridLinesVisibility="All"
-					  CanUserAddRows="False"
-					  IsReadOnly="True"
-					  Height="400">
+						  SelectedItem="{Binding SelectedBookingOperation, Mode=TwoWay}"
+						  AutoGenerateColumns="True"
+						  HorizontalAlignment="Stretch"
+						  VerticalAlignment="Stretch"
+						  GridLinesVisibility="All"
+						  CanUserAddRows="False"
+						  IsReadOnly="True"
+						  Height="400">
                         <DataGrid.Columns>
 						    <DataGridTextColumn Header="№" Binding="{Binding CalcBookingDataID}" Width="50"/>
 						    <DataGridTextColumn Header="Санаторий" Binding="{Binding SanatoriumID}" Width="150"/>

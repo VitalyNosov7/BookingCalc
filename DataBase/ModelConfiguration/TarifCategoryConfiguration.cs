@@ -12,9 +12,11 @@ namespace BookingCalc.DataBase.ModelConfiguration
         {
             // Инициализация базы данных начальными данными
             builder.HasData(
-
-                new TarifCategory() { TarifCategoryID = 1, SanatoriumID = 1, TarifCategoryName = "С лечением" }, // Категория тарифа санатория Планета		
-                new TarifCategory() { TarifCategoryID = 2, SanatoriumID = 1, TarifCategoryName = "Без лечения" } // Категория тарифа санатория Планета		
+                // Категория тарифа санатория Планета
+                new TarifCategory() { TarifCategoryID = 1, SanatoriumID = 1, TarifCategoryName = "С лечением" }, 	
+                new TarifCategory() { TarifCategoryID = 2, SanatoriumID = 1, TarifCategoryName = "Без лечения" },
+                new TarifCategory() { TarifCategoryID = 3, SanatoriumID = 2, TarifCategoryName = "С лечением" },
+                new TarifCategory() { TarifCategoryID = 4, SanatoriumID = 2, TarifCategoryName = "Оздоровление" }
            );
         }
     }

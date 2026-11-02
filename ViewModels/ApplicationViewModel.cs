@@ -60,6 +60,7 @@ namespace BookingCalc.ViewModels
 				Set(ref _selectedSanatorium, value);
                 LoadRoomCategoryList();
                 LoadAccommodationTypeList();
+                LoadTarifCategoryList();
             }
 		}
 
@@ -75,7 +76,7 @@ namespace BookingCalc.ViewModels
                       SanatoriumList.Clear();
                       RoomCategoryList.Clear();
                       AccommodationTypeList.Clear();
-                      //TarifCategoryList.Clear();
+                      TarifCategoryList.Clear();
                       LoadSanatoriumList();
                   }));
             }
@@ -204,6 +205,59 @@ namespace BookingCalc.ViewModels
 
         #endregion ВИД РАЗМЕЩЕНИЯ
 
+        #region КАТЕГОРИЯ ТАРИФА
+
+        /// <summary>Весь список категорий тарифов из базы данных</summary>
+        private List<TarifCategory> _tarifCategoryFullList = new List<TarifCategory>();
+        /// <summary>Весь список категорий тарифов из базы данных</summary>
+        private List<TarifCategory> TarifCategoryFullList
+        {
+            get { return _tarifCategoryFullList; }
+            set { _tarifCategoryFullList = value; }
+        }
+
+        /// <summary>Список категорий тарифов</summary>
+        private ObservableCollection<TarifCategory> _tarifCategoryList = new ObservableCollection<TarifCategory>();
+        /// <summary>Список категорий тарифов</summary>
+        public ObservableCollection<TarifCategory> TarifCategoryList
+        {
+            get { return _tarifCategoryList; }
+            set => Set(ref _tarifCategoryList, value);
+        }
+
+        /// <summary>Выбранная  категория тарифа</summary>
+        private TarifCategory _selectedTarifCategory = null!;
+        /// <summary>Выбранная  категория тарифа</summary>
+        public TarifCategory SelectedTarifCategory
+        {
+            get { return _selectedTarifCategory; }
+            set => Set(ref _selectedTarifCategory, value);
+        }
+
+        /// <summary>Загрузка списка категорий тарифов</summary>
+        private void LoadTarifCategoryFullList()
+        {
+
+            // Загрузка всего списка категорий тарифов из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                TarifCategoryFullList = db.TarifCategories.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка  категорий тарифов в зависимости от того какой санаторий был выбран</summary>
+        private void LoadTarifCategoryList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredTarifCategory = TarifCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                TarifCategoryList = new ObservableCollection<TarifCategory>(filteredTarifCategory);
+            }
+            else { return; }
+        }
+
+        #endregion КАТЕГОРИЯ ТАРИФА
+
         /// <summary>Выбранный расчет бронирования</summary>
         private CalcBookingData _selectedCalcBooking = null!;
 		/// <summary>Выбранный расчет бронирования</summary>
@@ -241,7 +295,7 @@ namespace BookingCalc.ViewModels
 			LoadSanatoriumList(); // Загрузка списка санаториев
 			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
 			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
-			//LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
+			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
 			//LoadBookingOperationList(); // Загрузка списка операций над бронированием вместе с текстовыми шаблонами
 			//LoadTemplateVariableDictionary(); // Загрузка переменных шаблона текста сообщений в словарь
 		}
@@ -257,7 +311,7 @@ namespace BookingCalc.ViewModels
             SanatoriumList.Clear();
             RoomCategoryList.Clear();
             AccommodationTypeList.Clear();
-            //TarifCategoryList.Clear();
+            TarifCategoryList.Clear();
         }
 
 

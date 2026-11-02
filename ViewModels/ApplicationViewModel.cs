@@ -38,8 +38,10 @@ namespace BookingCalc.ViewModels
 			set => Set(ref _calcBookings, value);
 		}
 
-		/// <summary>Список санаториев</summary>
-		private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
+        #region САНАТОРИИ
+
+        /// <summary>Список санаториев</summary>
+        private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
 		/// <summary>Список санаториев</summary>
 		public ObservableCollection<Sanatorium> SanatoriumList
 		{
@@ -57,9 +59,46 @@ namespace BookingCalc.ViewModels
 			{
 				Set(ref _selectedSanatorium, value);
                 LoadRoomCategoryList();
+                LoadAccommodationTypeList();
             }
 		}
-  
+
+        // Загрузка списка санаториев из базы данных
+        private RelayCommand? _loadingSanatoriumListFromDatabaseCommand;
+        public RelayCommand LoadingSanatoriumListFromDatabaseCommand
+        {
+            get
+            {
+                return _loadingSanatoriumListFromDatabaseCommand ??
+                  (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
+                  {
+                      SanatoriumList.Clear();
+                      RoomCategoryList.Clear();
+                      AccommodationTypeList.Clear();
+                      //TarifCategoryList.Clear();
+                      LoadSanatoriumList();
+                  }));
+            }
+        }
+
+        /// <summary>Загрузка списка санаториев</summary>
+        private void LoadSanatoriumList()
+        {
+
+            // Загрузка списка санаториев из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var sanatoriums = db.Sanatoriums.ToList();
+                //	SanatoriumList.Clear();
+                foreach (Sanatorium sanatorium in sanatoriums)
+                {
+                    SanatoriumList.Add(sanatorium);
+                }
+            }
+        }
+        #endregion САНАТОРИИ
+
+        #region КАТЕГОРИЯ НОМЕРА
 
         /// <summary>Весь список категорий номера из базы данных</summary>
         private List<RoomCategory> _roomCategoryFullList = new List<RoomCategory>();
@@ -109,6 +148,61 @@ namespace BookingCalc.ViewModels
             }
             else { return; }
         }
+        #endregion КАТЕГОРИЯ НОМЕРА
+
+        #region ВИД РАЗМЕЩЕНИЯ
+
+        /// <summary>Весь список видов размещения из базы данных</summary>
+        private List<AccommodationType> _accommodationTypeFullList = new List<AccommodationType>();
+        /// <summary>Весь список видов размещения из базы данных</summary>
+        private List<AccommodationType> AccommodationTypeFullList
+        {
+            get { return _accommodationTypeFullList; }
+            set { _accommodationTypeFullList = value; }
+        }
+
+        /// <summary>Список видов размещения</summary>
+        private ObservableCollection<AccommodationType> _accommodationTypeList = new ObservableCollection<AccommodationType>();
+        /// <summary>Список видов размещения</summary>
+        public ObservableCollection<AccommodationType> AccommodationTypeList
+        {
+            get { return _accommodationTypeList; }
+            set => Set(ref _accommodationTypeList, value);
+        }
+
+        /// <summary>Выбранный вид размещения</summary>
+        private AccommodationType _selectedAccommodationType = null!;
+        /// <summary>Выбранный вид размещения</summary>
+        public AccommodationType SelectedAccommodationType
+        {
+            get { return _selectedAccommodationType; }
+            set => Set(ref _selectedAccommodationType, value);
+        }
+
+        /// <summary>Загрузка списка видов размещения</summary>
+        private void LoadAccommodationTypeFullList()
+        {
+
+            // Загрузка всего списка видов размещения из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                AccommodationTypeFullList = db.AccommodationTypes.ToList();
+            }
+        }
+
+
+        /// <summary>Загрузка списка видов размещения в зависимости от того какой санаторий был выбран</summary>
+        private void LoadAccommodationTypeList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredAccommodationType = AccommodationTypeFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                AccommodationTypeList = new ObservableCollection<AccommodationType>(filteredAccommodationType);
+            }
+            else { return; }
+        }
+
+        #endregion ВИД РАЗМЕЩЕНИЯ
 
         /// <summary>Выбранный расчет бронирования</summary>
         private CalcBookingData _selectedCalcBooking = null!;
@@ -137,48 +231,16 @@ namespace BookingCalc.ViewModels
 			}
 		}
 
-		// Загрузка списка санаториев из базы данных
-		private RelayCommand? _loadingSanatoriumListFromDatabaseCommand;
-		public RelayCommand LoadingSanatoriumListFromDatabaseCommand
-		{
-			get
-			{
-				return _loadingSanatoriumListFromDatabaseCommand ??
-				  (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
-				  {
-					  SanatoriumList.Clear();
-					  RoomCategoryList.Clear();
-					  //AccommodationTypeList.Clear();
-					  //TarifCategoryList.Clear();
-					  LoadSanatoriumList();
-				  }));
-			}
-		}
 
-		/// <summary>Загрузка списка санаториев</summary>
-		private void LoadSanatoriumList()
-		{
-
-			// Загрузка списка санаториев из базы данных.
-			using (ApplicationContext db = new ApplicationContext())
-			{
-				var sanatoriums = db.Sanatoriums.ToList();
-				//	SanatoriumList.Clear();
-				foreach (Sanatorium sanatorium in sanatoriums)
-				{
-					SanatoriumList.Add(sanatorium);
-				}
-			}
-		}
 
 		/// <summary>Загрузка списков из базы данных</summary>
 		private void LoadingListsFromDatabase()
 		{
-			//CleanFields(); // Очищаем поля
+			CleanFields(); // Очищаем поля
 			//LoadManagerList();  // Загрузка списка менеджеров.
 			LoadSanatoriumList(); // Загрузка списка санаториев
 			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
-			//LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
+			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
 			//LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
 			//LoadBookingOperationList(); // Загрузка списка операций над бронированием вместе с текстовыми шаблонами
 			//LoadTemplateVariableDictionary(); // Загрузка переменных шаблона текста сообщений в словарь
@@ -194,7 +256,7 @@ namespace BookingCalc.ViewModels
             //ManagerList.Clear();
             SanatoriumList.Clear();
             RoomCategoryList.Clear();
-            //AccommodationTypeList.Clear();
+            AccommodationTypeList.Clear();
             //TarifCategoryList.Clear();
         }
 

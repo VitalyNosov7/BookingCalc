@@ -111,6 +111,46 @@
 										Margin="3,3,3,3"/>
                 </StackPanel>
 
+                <!--ВИД РАЗМЕЩЕНИЯ-->
+                <TextBlock Margin="3,0,0,0" 
+						   Width="150" 
+						   Height="20"
+						   HorizontalAlignment="Left" 
+						   VerticalAlignment="Bottom" 
+						   Text="Вид размещения"/>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox x:Name="AccommodationType"
+								Width="100"
+								Margin="3,0,3,1"
+								ItemsSource="{Binding AccommodationTypeList}"
+								SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger=PropertyChanged}"								  
+								IsTextSearchEnabled="True"                                            
+								TextSearch.TextPath="AccommodationTypeName">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}">
+                                            <Binding Path="AccommodationTypeName"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="DB"
+								Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
+								Width="30"
+								Height="20"
+								Margin="3,3,3,3"/>
+
+                    <Button Content="R"
+												Command="{Binding LoadingAccommodationTypeListFromDatabaseCommand}"
+												Width="30"
+												Height="20"
+												Margin="3,3,3,3"/>
+                </StackPanel>
+
                 <Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
 				<Button Content="Сохранить в Excel" Command="{Binding SaveToExcelCommand}" Margin="5,5,10,0"/>
 			</StackPanel>

@@ -8,7 +8,7 @@
 		xmlns:ts="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
 		xmlns:vm="clr-namespace:BookingCalc.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
 
     <DockPanel LastChildFill="True" Margin="5">
         
@@ -29,11 +29,11 @@
         </Grid>
 
                <!-- LEFT панель главного окна-->
-       <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="220" Height="Auto">
+       <Grid Name="GridLeft" DockPanel.Dock="Left" Background="Aquamarine" Width="250" Height="Auto">
 
 
 
-                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="3">
 
                 <GroupBox Header="Данные бронирования" 
                           x:Name="BookingData"
@@ -51,6 +51,7 @@
                         <StackPanel Orientation="Horizontal">
                             <ComboBox x:Name="Sanatorium"
 										Width="100"
+                                        Height="25"
 										Margin="3,0,3,1"
 										ItemsSource="{Binding SanatoriumList}"
 										SelectedItem="{Binding SelectedSanatorium, UpdateSourceTrigger=PropertyChanged}"												  
@@ -91,6 +92,7 @@
                         <StackPanel Orientation="Horizontal">
                             <ComboBox x:Name="RoomCategory"
 							            Width="100"
+                                        Height="25"
 							            Margin="3,0,3,1"
 							            ItemsSource="{Binding RoomCategoryList}"
 							            SelectedItem="{Binding SelectedRoomCategory, UpdateSourceTrigger=PropertyChanged}"								 
@@ -130,6 +132,7 @@
                         <StackPanel Orientation="Horizontal">
                             <ComboBox x:Name="AccommodationType"
 							            Width="100"
+                                        Height="25"
 							            Margin="3,0,3,1"
 							            ItemsSource="{Binding AccommodationTypeList}"
 							            SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger=PropertyChanged}"								  
@@ -209,7 +212,79 @@
                          Margin="3">
 
                     <StackPanel>
-                        
+                        <StackPanel Orientation="Horizontal">
+                            <!--ДАТА ЗАЕЗДА-->
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Margin="3,0,0,0" 
+                                           Width="100" 
+                                           Height="20" 
+                                           HorizontalAlignment="Left" 
+                                           VerticalAlignment="Bottom" 
+                                           Text="Дата заезда"/>
+                                <DatePicker Name="StartDateBooking"
+											Width="100"
+                                            HorizontalAlignment="Left" 
+                                            SelectedDate="{Binding StartDatePeriodBooking,
+                                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                            </StackPanel>        
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Margin="3,0,5,0" 
+                                       Width="150" 
+                                       Height="20" 
+                                       HorizontalAlignment="Left" 
+                                       VerticalAlignment="Bottom" 
+                                       Text="Количествово ночей:"/>   
+                            <!--К-ВО НОЧЕЙ НАЧАЛО-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="3,0,5,0" 
+                                        Width="20" 
+                                        Height="20" 
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Bottom" 
+                                        Text="От"/>
+                                <TextBox   Text="{Binding NumberDaysUntilBooking, 
+												UpdateSourceTrigger=PropertyChanged}" 														   
+                                       Margin="0,0,0,0"
+                                       Width="60"
+                                       HorizontalAlignment="Left"
+                                       IsEnabled="True"/>
+
+                                <TextBlock Margin="3,0,5,0" 
+                                            Width="20" 
+                                            Height="20" 
+                                            HorizontalAlignment="Left" 
+                                            VerticalAlignment="Bottom" 
+                                            Text="До"/>
+                                <TextBox   Text="{Binding NumberDaysUntilBooking, 
+					UpdateSourceTrigger=PropertyChanged}" 														   
+                                             Margin="0,0,0,0"
+                                             Width="60"
+                                             HorizontalAlignment="Left"
+                                             IsEnabled="True"/> 
+                            </StackPanel>
+
+
+                            <!--К-ВО НОЧЕЙ КОНЕЦ-->
+                            <!--<StackPanel Orientation="Vertical">
+                                <TextBlock Margin="3,0,5,0" 
+                                           Width="100" 
+                                           Height="20" 
+                                           HorizontalAlignment="Left" 
+                                           VerticalAlignment="Bottom" 
+                                           Text="К-во ночей конец"/>    
+                                <TextBox   Text="{Binding NumberDaysUntilBooking, 
+									UpdateSourceTrigger=PropertyChanged}" 														   
+                                            Margin="0,0,0,0"
+                                            Width="60"
+                                            HorizontalAlignment="Left"
+                                            IsEnabled="True"/>
+                            </StackPanel>-->
+
+                        </StackPanel>
+
+
                     </StackPanel>
 
                 </GroupBox>

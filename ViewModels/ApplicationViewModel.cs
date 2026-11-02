@@ -61,6 +61,7 @@ namespace BookingCalc.ViewModels
                 LoadRoomCategoryList();
                 LoadAccommodationTypeList();
                 LoadTarifCategoryList();
+                LoadPriceEffectiveDateList();
             }
 		}
 
@@ -77,6 +78,7 @@ namespace BookingCalc.ViewModels
                       RoomCategoryList.Clear();
                       AccommodationTypeList.Clear();
                       TarifCategoryList.Clear();
+                      PriceEffectiveDateList.Clear();
                       LoadSanatoriumList();
                   }));
             }
@@ -258,6 +260,119 @@ namespace BookingCalc.ViewModels
 
         #endregion КАТЕГОРИЯ ТАРИФА
 
+        #region АКТУАЛЬНАЯ ДАТА ПРАЙСА
+
+        /// <summary>Весь список дат актуальности прайсов из базы данных</summary>
+        private List<DateTime> _priceEffectiveDateFullList = new List<DateTime>();
+        /// <summary>Весь список дат актуальности прайсов из базы данных</summary>
+        private List<DateTime> PriceEffectiveDateFullList
+        {
+            get { return _priceEffectiveDateFullList; }
+            set { _priceEffectiveDateFullList = value; }
+        }
+
+        /// <summary>Список дат актуальности прайсов из базы данных</summary>
+        private ObservableCollection<DateTime> _priceEffectiveDateList = new ObservableCollection<DateTime>();
+        /// <summary>Список дат актуальности прайсов из базы данных</summary>
+        public ObservableCollection<DateTime> PriceEffectiveDateList
+        {
+            get { return _priceEffectiveDateList; }
+            set => Set(ref _priceEffectiveDateList, value);
+        }
+
+        /// <summary>Выбранная  дата актуального прайса</summary>
+        private DateTime _selectedPriceEffectiveDate = default!;
+        /// <summary>Выбранная  дата актуального прайса</summary>
+        public DateTime SelectedPriceEffectiveDate
+        {
+            get { return _selectedPriceEffectiveDate; }
+            set => Set(ref _selectedPriceEffectiveDate, value);
+        }
+
+        ///// <summary>Загрузка списка  дат актуальности прайсов</summary>
+        //private void LoadPriceBookingFullList()
+        //{
+
+        //    // Загрузка всего списка  дат актуальности прайсов из базы данных.
+        //    using (ApplicationContext db = new ApplicationContext())
+        //    {
+        //        //TarifCategoryFullList = db.TarifCategories.ToList();
+
+        //        // TODO: 1 Получить полный список актуальных дат прайсов из таблицы PriceBooking  = ПРОТЕСТИРОВАТЬ!
+        //        var priceEffectiveDates = from d in db.PriceBookings select d.PriceEffectiveDate;
+        //        PriceEffectiveDateFullList = priceEffectiveDates.ToList();
+        //    }
+        //}
+
+        /// <summary>Загрузка списка  дат актуальности прайсов в зависимости от того какой санаторий был выбран</summary>
+        private void LoadPriceEffectiveDateList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                //var filteredTarifCategory = TarifCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                //TarifCategoryList = new ObservableCollection<TarifCategory>(filteredTarifCategory);
+
+                // TODO: 2. Из полного списка полученных дат выбрать  даты для текущего(выбранного) санатория
+            }
+            else { return; }
+        }
+
+        #endregion АКТУАЛЬНАЯ ДАТА ПРАЙСА
+
+        #region ПРАЙСЫ
+
+        /// <summary>Весь список прайсов из базы данных</summary>
+        private List<PriceBooking> _priceBookingFullList = new List<PriceBooking>();
+        /// <summary>Весь список прайсов из базы данных</summary>
+        private List<PriceBooking> PriceBookingFullList
+        {
+            get { return _priceBookingFullList; }
+            set { _priceBookingFullList = value; }
+        }
+
+        /// <summary>Список прайсов из базы данных</summary>
+        private ObservableCollection<PriceBooking> _priceBookingList = new ObservableCollection<PriceBooking>();
+        /// <summary>Список прайсов из базы данных</summary>
+        public ObservableCollection<PriceBooking> PriceBookingList
+        {
+            get { return _priceBookingList; }
+            set => Set(ref _priceBookingList, value);
+        }
+
+        /// <summary>Выбранный прайс</summary>
+        private PriceBooking _selectedPriceBooking = null!;
+        /// <summary>Выбранный прайс</summary>
+        public PriceBooking SelectedPriceBooking
+        {
+            get { return _selectedPriceBooking; }
+            set => Set(ref _selectedPriceBooking, value);
+        }
+
+        /// <summary>Загрузка всего списка прайсов</summary>
+        private void LoadPriceBookingFullList()
+        {
+
+            // Загрузка всего списка прайсов из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                PriceBookingFullList = db.PriceBookings.ToList();         
+            }
+        }
+
+        // TODO: Метод пока не используется - подумать, нужен ли
+        ///// <summary>Загрузка прайсов в зависимости от того какой санаторий был выбран</summary>
+        //private void LoadPriceBookingList()
+        //{
+        //    if (SelectedSanatorium != null)
+        //    {
+        //        var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+        //        PriceBookingList = new ObservableCollection<PriceBooking>(filteredPriceBooking);
+        //    }
+        //    else { return; }
+        //}
+
+        #endregion ПРАЙСЫ
+
         /// <summary>Выбранный расчет бронирования</summary>
         private CalcBookingData _selectedCalcBooking = null!;
 		/// <summary>Выбранный расчет бронирования</summary>
@@ -286,18 +401,15 @@ namespace BookingCalc.ViewModels
 		}
 
 
-
 		/// <summary>Загрузка списков из базы данных</summary>
 		private void LoadingListsFromDatabase()
 		{
-			CleanFields(); // Очищаем поля
-			//LoadManagerList();  // Загрузка списка менеджеров.
+			CleanFields(); // Очищаем поля		
 			LoadSanatoriumList(); // Загрузка списка санаториев
 			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
 			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
 			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
-			//LoadBookingOperationList(); // Загрузка списка операций над бронированием вместе с текстовыми шаблонами
-			//LoadTemplateVariableDictionary(); // Загрузка переменных шаблона текста сообщений в словарь
+            LoadPriceBookingFullList(); // Загрузка всех прайсов
 		}
 
 
@@ -305,9 +417,6 @@ namespace BookingCalc.ViewModels
         /// <summary>Очистить поля</summary>
         private void CleanFields()
         {
-            //ResultTemplate = String.Empty;
-            //FileName = String.Empty;
-            //ManagerList.Clear();
             SanatoriumList.Clear();
             RoomCategoryList.Clear();
             AccommodationTypeList.Clear();

@@ -202,6 +202,45 @@
 						            Margin="3,3,3,3"/>
                         </StackPanel>
 
+                        <!--АКТУАЛЬНАЯ ДАТА ПРАЙСА-->
+                        <TextBlock Margin="3,0,0,0" 
+	                                Width="150" 
+	                                Height="20"
+	                                HorizontalAlignment="Left" 
+	                                VerticalAlignment="Bottom" 
+	                                Text="Актуальная дата прайса"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="PriceEffectiveDate"
+					                    Width="100"
+					                    Margin="3,0,3,1"
+					                    ItemsSource="{Binding TarifCategoryList}"
+					                    SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
+					                    IsTextSearchEnabled="True"                                            
+					                    TextSearch.TextPath="TarifCategoryName">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}">
+                                                    <Binding Path="TarifCategoryName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="DB"
+	            Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
+	            Width="30"
+	            Height="20"
+	            Margin="3,3,3,3"/>
+                            <Button Content="R"
+	            Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
+	            Width="30"
+	            Height="20"
+	            Margin="3,3,3,3"/>
+                        </StackPanel>
+
                     </StackPanel>
 
                 </GroupBox>    

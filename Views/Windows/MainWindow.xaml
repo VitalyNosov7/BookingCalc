@@ -218,7 +218,12 @@
 					                    IsTextSearchEnabled="True"                                            
 					                    TextSearch.TextPath="PriceEffectiveDateName">
                                 <ComboBox.ItemTemplate>
-                                    <DataTemplate>
+                                    
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding StringFormat={}{0:dd.MM.yyyy}}" />
+                                        </DataTemplate>
+                                    
+                                    <!--<DataTemplate>
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0}">
@@ -226,7 +231,7 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                                    </DataTemplate>
+                                    </DataTemplate>-->
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button Content="DB"

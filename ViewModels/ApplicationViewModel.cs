@@ -1,12 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using BookingCalc.Commands;
+﻿using BookingCalc.Commands;
 using BookingCalc.DataBase;
 using BookingCalc.Models;
 using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Services;
+using NPOI.HPSF;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace BookingCalc.ViewModels
 {
@@ -55,11 +56,62 @@ namespace BookingCalc.ViewModels
 			set
 			{
 				Set(ref _selectedSanatorium, value);
-			}
+                LoadRoomCategoryList();
+            }
 		}
+  
 
-		/// <summary>Выбранный расчет бронирования</summary>
-		private CalcBookingData _selectedCalcBooking = null!;
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> _roomCategoryFullList = new List<RoomCategory>();
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> RoomCategoryFullList
+        {
+            get { return _roomCategoryFullList; }
+            set { _roomCategoryFullList = value; }
+        }
+
+        /// <summary>Список категорий номера</summary>
+        private ObservableCollection<RoomCategory> _roomCategoryList = new ObservableCollection<RoomCategory>();
+        /// <summary>Список категорий номера</summary>
+        public ObservableCollection<RoomCategory> RoomCategoryList
+        {
+            get { return _roomCategoryList; }
+            set => Set(ref _roomCategoryList, value);
+        }
+
+        /// <summary>Выбранная категория номера</summary>
+        private RoomCategory _selectedRoomCategory = null!;
+        /// <summary>Выбранная категория номера</summary>
+        public RoomCategory SelectedRoomCategory
+        {
+            get { return _selectedRoomCategory; }
+            set => Set(ref _selectedRoomCategory, value);
+        }
+
+        /// <summary>Загрузка списка категорий номеров</summary>
+        private void LoadRoomCategoryFullList()
+        {
+
+            // Загрузка всего списка категорий номеров из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                RoomCategoryFullList = db.RoomCategories.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка категорий номеров в зависимости от того какой санаторий был выбран</summary>
+        private void LoadRoomCategoryList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredRoomCategory = RoomCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                RoomCategoryList = new ObservableCollection<RoomCategory>(filteredRoomCategory);
+            }
+            else { return; }
+        }
+
+        /// <summary>Выбранный расчет бронирования</summary>
+        private CalcBookingData _selectedCalcBooking = null!;
 		/// <summary>Выбранный расчет бронирования</summary>
 		public CalcBookingData SelectedBookingOperation
 		{
@@ -95,7 +147,7 @@ namespace BookingCalc.ViewModels
 				  (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
 				  {
 					  SanatoriumList.Clear();
-					  //RoomCategoryList.Clear();
+					  RoomCategoryList.Clear();
 					  //AccommodationTypeList.Clear();
 					  //TarifCategoryList.Clear();
 					  LoadSanatoriumList();
@@ -125,7 +177,7 @@ namespace BookingCalc.ViewModels
 			//CleanFields(); // Очищаем поля
 			//LoadManagerList();  // Загрузка списка менеджеров.
 			LoadSanatoriumList(); // Загрузка списка санаториев
-			//LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
 			//LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
 			//LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
 			//LoadBookingOperationList(); // Загрузка списка операций над бронированием вместе с текстовыми шаблонами
@@ -133,8 +185,22 @@ namespace BookingCalc.ViewModels
 		}
 
 
-		// Сохранить в Excel
-		private RelayCommand? _saveToExcelCommand;
+
+        /// <summary>Очистить поля</summary>
+        private void CleanFields()
+        {
+            //ResultTemplate = String.Empty;
+            //FileName = String.Empty;
+            //ManagerList.Clear();
+            SanatoriumList.Clear();
+            RoomCategoryList.Clear();
+            //AccommodationTypeList.Clear();
+            //TarifCategoryList.Clear();
+        }
+
+
+        // Сохранить в Excel
+        private RelayCommand? _saveToExcelCommand;
 		public RelayCommand SaveToExcelCommand
 		{
 			get

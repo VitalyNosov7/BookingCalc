@@ -71,10 +71,53 @@
 												Height="20"
 												Margin="3,3,3,3"/>
 				</StackPanel>
-				<Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
+
+                <!--КАТЕГОРИЯ САНАТОРИЯ-->
+                <TextBlock Margin="3,0,0,0" 
+						   Width="150" 
+						   Height="20" 
+						   HorizontalAlignment="Left" 
+						   VerticalAlignment="Bottom" 
+						   Text="Категория санатория"/>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox x:Name="RoomCategory"
+								Width="100"
+								Margin="3,0,3,1"
+								ItemsSource="{Binding RoomCategoryList}"
+								SelectedItem="{Binding SelectedRoomCategory, UpdateSourceTrigger=PropertyChanged}"								 
+								IsTextSearchEnabled="True"                                            
+								TextSearch.TextPath="RoomCategoryName">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}">
+                                            <Binding Path="RoomCategoryName"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="DB"
+										Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
+										Width="30"
+										Height="20"
+										Margin="3,3,3,3"/>
+                    <Button Content="R"
+										Command="{Binding LoadingRoomCategoryListFromDatabaseCommand}"
+										Width="30"
+										Height="20"
+										Margin="3,3,3,3"/>
+                </StackPanel>
+
+                <Button Content="Получить расчет" Command="{Binding GetBookingQuoteCommand}" Margin="5,5,10,0"/>
 				<Button Content="Сохранить в Excel" Command="{Binding SaveToExcelCommand}" Margin="5,5,10,0"/>
 			</StackPanel>
-		</Grid>
+
+           
+
+        </Grid>
 
         <!-- Centr панель главного окна-->
         <Grid x:Name="TabArea" Background="LightGreen" Width="Auto" Height="Auto">

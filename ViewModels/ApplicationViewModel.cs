@@ -58,10 +58,13 @@ namespace BookingCalc.ViewModels
 			set
 			{
 				Set(ref _selectedSanatorium, value);
+                // CleanFields(); // Очищаем поля	
+                LoadPriceBookingList();
                 LoadRoomCategoryList();
                 LoadAccommodationTypeList();
                 LoadTarifCategoryList();
-                LoadPriceEffectiveDateList();
+                LoadPriceEffectiveDateList();                               	
+              //  LoadingListsFromDatabase();
             }
 		}
 
@@ -74,11 +77,14 @@ namespace BookingCalc.ViewModels
                 return _loadingSanatoriumListFromDatabaseCommand ??
                   (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
                   {
+                      // CleanFields();
+                      PriceBookingList.Clear();
                       SanatoriumList.Clear();
                       RoomCategoryList.Clear();
                       AccommodationTypeList.Clear();
                       TarifCategoryList.Clear();
-                      PriceEffectiveDateList.Clear();
+                      PriceEffectiveDateList.Clear();                     
+
                       LoadSanatoriumList();
                   }));
             }
@@ -313,6 +319,23 @@ namespace BookingCalc.ViewModels
                 //TarifCategoryList = new ObservableCollection<TarifCategory>(filteredTarifCategory);
 
                 // TODO: 2. Из полного списка полученных дат выбрать  даты для текущего(выбранного) санатория
+
+                if (SelectedSanatorium != null)
+                {
+                    var priceBookingLists = PriceBookingFullList.ToList();
+                    var selectedPriceBookingLists = priceBookingLists.Where(p => p.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+
+
+                    PriceEffectiveDateList = new ObservableCollection<DateTime>(priceBookingLists
+                                .Where(p => p.SanatoriumID == SelectedSanatorium.SanatoriumID)          // фильтрация по идентификатору
+                                .Select(p => p.PriceEffectiveDate)                                      // выбираем только даты
+                                .Distinct()                                                             // убирает повторяющиеся даты
+                                .ToList());                                                             // ToList() нужен, чтобы избежать проблем с отложенным выполнением и изменениями коллекции во время итерации
+                                             
+
+                }
+                else { return; }
+             
             }
             else { return; }
         }
@@ -358,18 +381,17 @@ namespace BookingCalc.ViewModels
                 PriceBookingFullList = db.PriceBookings.ToList();         
             }
         }
-
-        // TODO: Метод пока не используется - подумать, нужен ли
-        ///// <summary>Загрузка прайсов в зависимости от того какой санаторий был выбран</summary>
-        //private void LoadPriceBookingList()
-        //{
-        //    if (SelectedSanatorium != null)
-        //    {
-        //        var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
-        //        PriceBookingList = new ObservableCollection<PriceBooking>(filteredPriceBooking);
-        //    }
-        //    else { return; }
-        //}
+       
+        /// <summary>Загрузка прайсов в зависимости от того какой санаторий был выбран</summary>
+        private void LoadPriceBookingList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                PriceBookingList = new ObservableCollection<PriceBooking>(filteredPriceBooking);
+            }
+            else { return; }
+        }
 
         #endregion ПРАЙСЫ
 
@@ -404,12 +426,12 @@ namespace BookingCalc.ViewModels
 		/// <summary>Загрузка списков из базы данных</summary>
 		private void LoadingListsFromDatabase()
 		{
-			CleanFields(); // Очищаем поля		
-			LoadSanatoriumList(); // Загрузка списка санаториев
+            CleanFields(); // Очищаем поля	
+            LoadPriceBookingFullList(); // Загрузка всех прайсов	
+            LoadSanatoriumList(); // Загрузка списка санаториев
 			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
 			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
-			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
-            LoadPriceBookingFullList(); // Загрузка всех прайсов
+			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов            
 		}
 
 
@@ -421,6 +443,7 @@ namespace BookingCalc.ViewModels
             RoomCategoryList.Clear();
             AccommodationTypeList.Clear();
             TarifCategoryList.Clear();
+            PriceBookingList.Clear();
         }
 
 
@@ -433,66 +456,6 @@ namespace BookingCalc.ViewModels
 				return _saveToExcelCommand ??
 				  (_saveToExcelCommand = new RelayCommand(obj =>
 				  {
-					  // MessageBox.Show("Проверка работы команды SaveToExcelCommand");	
-
-					  // Пример создания и записи в файл Excel
-
-					  // var data = new[]
-					  // {
-					  //	new { Id = 1, Name = "Анна", Date = DateTime.Today },
-					  //	new { Id = 2, Name = "Борис", Date = DateTime.Today.AddDays(1) },
-					  //	new { Id = 3, Name = "Виктор", Date = DateTime.Today.AddDays(2) },
-					  //	new { Id = 4, Name = "Захар", Date = DateTime.Today.AddDays(3) }
-					  // };
-
-					  // // Создаем рабочую книгу Excel
-					  // using var workbook = new XSSFWorkbook();
-					  // var sheet = workbook.CreateSheet("Лист1");
-
-					  // // Стили: дата и общий
-					  // var dateStyle = workbook.CreateCellStyle();
-					  // dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
-
-					  // var headerStyle = workbook.CreateCellStyle();
-					  // // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
-					  //// headerStyle.FillPattern = FillPattern.SolidForeground;
-
-					  // // Заголовки
-					  // var headerRow = sheet.CreateRow(0);
-					  // string[] headers = { "ID", "Имя", "Дата" };
-					  // for (int i = 0; i < headers.Length; i++)
-					  // {
-					  //  var cell = headerRow.CreateCell(i);
-					  //  cell.SetCellValue(headers[i]);
-					  //  cell.CellStyle = headerStyle;
-					  // }
-
-					  // // Данные
-					  // for (int i = 0; i < data.Length; i++)
-					  // {
-					  //  int rowNum = i + 1;
-					  //  var row = sheet.CreateRow(rowNum);
-
-					  //  row.CreateCell(0).SetCellValue(data[i].Id);
-
-					  //  var nameCell = row.CreateCell(1);
-					  //  nameCell.SetCellValue(data[i].Name ?? "");
-
-					  //  var dateCell = row.CreateCell(2);
-					  //  dateCell.SetCellValue(data[i].Date);
-					  //  dateCell.CellStyle = dateStyle;
-					  // }
-
-					  // //// Автоподбор ширины колонок
-					  // //for (int i = 0; i < headers.Length; i++)
-					  // // sheet.AutoSizeColumn(i);
-
-					  // // Сохранение
-					  // using var fs = new FileStream("data_npoi.xlsx", FileMode.Create, FileAccess.Write);
-					  // workbook.Write(fs);
-
-					  // =============================================
-
 					  // Создаем рабочую книгу Excel
 					  using var workbook = new XSSFWorkbook();
 					  var sheet = workbook.CreateSheet("Лист1");
@@ -515,7 +478,8 @@ namespace BookingCalc.ViewModels
 						  cell.CellStyle = headerStyle;						  
 					  }
 
-					  CalcBookingData [] data = GetObsCollectCalcBookingDataTestData().ToArray();
+                      // TODO: заменить тестовые данные на рабочие!
+                      CalcBookingData[] data = GetObsCollectCalcBookingDataTestData().ToArray();
 
 					  // Данные
 					  for (int i = 0; i < data.Length; i++)
@@ -549,6 +513,7 @@ namespace BookingCalc.ViewModels
 			}
 		}
 
+        // TODO: Убрать(перенести) тестовые данные
 		private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
 		{
 			ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();

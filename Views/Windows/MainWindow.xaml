@@ -213,16 +213,16 @@
                             <ComboBox x:Name="PriceEffectiveDate"
 					                    Width="100"
 					                    Margin="3,0,3,1"
-					                    ItemsSource="{Binding TarifCategoryList}"
-					                    SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
+					                    ItemsSource="{Binding PriceEffectiveDateList}"
+					                    SelectedItem="{Binding SelectedPriceEffectiveDate, UpdateSourceTrigger=PropertyChanged}"
 					                    IsTextSearchEnabled="True"                                            
-					                    TextSearch.TextPath="TarifCategoryName">
+					                    TextSearch.TextPath="PriceEffectiveDateName">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0}">
-                                                    <Binding Path="TarifCategoryName"/>
+                                                    <Binding Path="PriceEffectiveDateName"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>

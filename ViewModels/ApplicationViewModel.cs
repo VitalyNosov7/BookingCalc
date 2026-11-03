@@ -330,9 +330,7 @@ namespace BookingCalc.ViewModels
                                 .Where(p => p.SanatoriumID == SelectedSanatorium.SanatoriumID)          // фильтрация по идентификатору
                                 .Select(p => p.PriceEffectiveDate)                                      // выбираем только даты
                                 .Distinct()                                                             // убирает повторяющиеся даты
-                                .ToList());                                                             // ToList() нужен, чтобы избежать проблем с отложенным выполнением и изменениями коллекции во время итерации
-                                             
-
+                                .ToList());                                                             // ToList() нужен, чтобы избежать проблем с отложенным выполнением и изменениями коллекции во время итерации      
                 }
                 else { return; }
              
@@ -407,7 +405,7 @@ namespace BookingCalc.ViewModels
 			}
 		}
 
-		// Получить расчет
+		// Получить расчет (выводит расчет в таблицу главного окна приложения)
 		private RelayCommand? _getBookingQuoteCommand;
 		public RelayCommand GetBookingQuoteCommand
 		{
@@ -514,6 +512,7 @@ namespace BookingCalc.ViewModels
 		}
 
         // TODO: Убрать(перенести) тестовые данные
+        // Тестовые данны для таблицы в главном окне
 		private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
 		{
 			ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();

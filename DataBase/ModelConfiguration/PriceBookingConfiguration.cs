@@ -21,7 +21,7 @@ namespace BookingCalc.DataBase.ModelConfiguration
 				new PriceBooking() { PriceBookingID = 5, SanatoriumID = 1, PriceEffectiveDate = new DateTime(2026, 06, 29), StartDatePeriodPrice = new DateTime(2027, 03, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 1, AccommodationTypeID = 1, PricePeriodDay = 6250 },
 				new PriceBooking() { PriceBookingID = 6, SanatoriumID = 1, PriceEffectiveDate = new DateTime(2026, 06, 29), StartDatePeriodPrice = new DateTime(2027, 03, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 1, AccommodationTypeID = 2, PricePeriodDay = 8300 },
 
-				 // =============== Актуальный прайс на дату 01.10.26
+				 // =============== Актуальный прайс на дату 01.10.26 Планета
 
 				 new PriceBooking() { PriceBookingID = 7, SanatoriumID = 1, PriceEffectiveDate = new DateTime(2026, 10, 01), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 1, AccommodationTypeID = 1, PricePeriodDay = 3000 },
 				new PriceBooking() { PriceBookingID = 8, SanatoriumID = 1, PriceEffectiveDate = new DateTime(2026, 10, 01), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 1, AccommodationTypeID = 2, PricePeriodDay = 6000 },
@@ -34,8 +34,29 @@ namespace BookingCalc.DataBase.ModelConfiguration
                 // КОНЕЦ Прайс Планета
 
                 // Прайс Киев 
-                // Актуальный прайс на дату 13.07.2026
-                new PriceBooking() { PriceBookingID = 13, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 07, 13), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 4830 }
+                // Актуальный прайс на дату 10.09.2026
+                new PriceBooking() { PriceBookingID = 13, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 5760 },
+                new PriceBooking() { PriceBookingID = 14, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 7920 },
+
+                // Актуальный прайс на дату 10.09.2026
+                new PriceBooking() { PriceBookingID = 15, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2027, 02, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 7200 },
+                new PriceBooking() { PriceBookingID = 16, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2027, 02, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 9900 },
+
+                new PriceBooking() { PriceBookingID = 17, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2027, 04, 01), EndDatePeriodPrice = new DateTime(2027, 04, 30), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 7500 },
+                new PriceBooking() { PriceBookingID = 18, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 09, 10), StartDatePeriodPrice = new DateTime(2027, 04, 01), EndDatePeriodPrice = new DateTime(2027, 04, 30), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 10460 },
+
+                // =============== Актуальный прайс на дату 10.10.26 Планета
+
+
+                new PriceBooking() { PriceBookingID = 19, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 6000 },
+                new PriceBooking() { PriceBookingID = 20, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2026, 11, 01), EndDatePeriodPrice = new DateTime(2026, 12, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 8000 },
+
+                // Актуальный прайс на дату 10.09.2026
+                new PriceBooking() { PriceBookingID = 21, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2027, 02, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 7800 },
+                new PriceBooking() { PriceBookingID = 22, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2027, 02, 01), EndDatePeriodPrice = new DateTime(2027, 03, 31), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 10000 },
+
+                new PriceBooking() { PriceBookingID = 23, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2027, 04, 01), EndDatePeriodPrice = new DateTime(2027, 04, 30), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 1, PricePeriodDay = 8500 },
+                new PriceBooking() { PriceBookingID = 24, SanatoriumID = 2, PriceEffectiveDate = new DateTime(2026, 10, 10), StartDatePeriodPrice = new DateTime(2027, 04, 01), EndDatePeriodPrice = new DateTime(2027, 04, 30), PriceTargetCategoryID = 1, TarifCategoryID = 1, RoomCategoryID = 5, AccommodationTypeID = 2, PricePeriodDay = 11000 }
             );
         }
     }

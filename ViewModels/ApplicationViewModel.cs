@@ -385,7 +385,7 @@ namespace BookingCalc.ViewModels
         {
             if (SelectedSanatorium != null)
             {
-                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate).ToList();
                 PriceBookingList = new ObservableCollection<PriceBooking>(filteredPriceBooking);
             }
             else { return; }
@@ -405,8 +405,10 @@ namespace BookingCalc.ViewModels
 			}
 		}
 
-		// Получить расчет (выводит расчет в таблицу главного окна приложения)
-		private RelayCommand? _getBookingQuoteCommand;
+        #region РАСЧЕТ
+
+        // Получить расчет (выводит расчет в таблицу главного окна приложения)
+        private RelayCommand? _getBookingQuoteCommand;
 		public RelayCommand GetBookingQuoteCommand
 		{
 			get
@@ -420,9 +422,21 @@ namespace BookingCalc.ViewModels
 			}
 		}
 
+        // Получить расчет бронирования(-ий)
+        private void GetCalcBooking()
+        {
+            // Получаем прайс по заданным параметрам из формы главного окна
+            var pricePeriods = PriceBookingFullList;
 
-		/// <summary>Загрузка списков из базы данных</summary>
-		private void LoadingListsFromDatabase()
+
+        }
+
+
+        #endregion РАСЧЕТ
+
+
+        /// <summary>Загрузка списков из базы данных</summary>
+        private void LoadingListsFromDatabase()
 		{
             CleanFields(); // Очищаем поля	
             LoadPriceBookingFullList(); // Загрузка всех прайсов	
@@ -444,6 +458,8 @@ namespace BookingCalc.ViewModels
             PriceBookingList.Clear();
         }
 
+
+        #region СОХРАНЕНИЕ В EXCEL
 
         // Сохранить в Excel
         private RelayCommand? _saveToExcelCommand;
@@ -526,5 +542,8 @@ namespace BookingCalc.ViewModels
 
 			return result;
 		}
-	}
+
+        #endregion СОХРАНЕНИЕ В EXCEL
+    }
 }
+

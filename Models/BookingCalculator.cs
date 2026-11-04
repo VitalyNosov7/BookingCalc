@@ -55,25 +55,25 @@
         }
 
         // Проверка, что между start и end нет «дыр» в сегментах
-        private static bool IsFullCoverage(List<BookingSegment> segments, DateTime start, DateTime end)
-        {
-            if (!segments.Any())
-                return false;
+        //private static bool IsFullCoverage(List<BookingSegment> segments, DateTime start, DateTime end)
+        //{
+        //    if (!segments.Any())
+        //        return false;
 
-            var sorted = segments.OrderBy(s => s.StartBookingPeriodSegment).ToList();
-            if (sorted.First().StartBookingPeriodSegment != start)
-                return false;
-            if (sorted.Last().EndBookingPeriodSegment != end)
-                return false;
+        //    var sorted = segments.OrderBy(s => s.StartBookingPeriodSegment).ToList();
+        //    if (sorted.First().StartBookingPeriodSegment != start)
+        //        return false;
+        //    if (sorted.Last().EndBookingPeriodSegment != end)
+        //        return false;
 
-            for (int i = 0; i < sorted.Count - 1; i++)
-            {
-                // Следующий должен начинаться ровно на день после конца текущего
-                if ((sorted[i + 1].StartBookingPeriodSegment - sorted[i].EndBookingPeriodSegment).Days != 1)
-                    return false;
-            }
+        //    for (int i = 0; i < sorted.Count - 1; i++)
+        //    {
+        //        // Следующий должен начинаться ровно на день после конца текущего
+        //        if ((sorted[i + 1].StartBookingPeriodSegment - sorted[i].EndBookingPeriodSegment).Days != 1)
+        //            return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }

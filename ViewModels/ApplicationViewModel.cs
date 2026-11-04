@@ -8,6 +8,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 
 namespace BookingCalc.ViewModels
 {
@@ -340,6 +341,28 @@ namespace BookingCalc.ViewModels
 
         #endregion АКТУАЛЬНАЯ ДАТА ПРАЙСА
 
+        #region ДАТЫ БРОНИРОВАНИЯ
+
+        /// <summary>Дата начала бронирования</summary>
+        private DateTime _startBookingDate = default;
+        /// <summary>Дата начала бронирования</summary>
+        public DateTime StartBookingDate
+        {
+            get { return _startBookingDate; }
+            set => Set(ref _startBookingDate, value);
+        }
+
+        /// <summary>Дата окончания бронирования</summary>
+        private DateTime _endBookingDate = default;
+        /// <summary>Дата окончания бронирования</summary>
+        public DateTime EndBookingDate
+        {
+            get { return _endBookingDate; }
+            set => Set(ref _endBookingDate, value);
+        }
+
+        #endregion ДАТЫ БРОНИРОВАНИЯ
+
         #region ПРАЙСЫ
 
         /// <summary>Весь список прайсов из базы данных</summary>
@@ -385,7 +408,7 @@ namespace BookingCalc.ViewModels
         {
             if (SelectedSanatorium != null)
             {
-                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate).ToList();
+                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID /*&& x.PriceEffectiveDate == SelectedPriceEffectiveDate*/).ToList();
                 PriceBookingList = new ObservableCollection<PriceBooking>(filteredPriceBooking);
             }
             else { return; }
@@ -416,9 +439,11 @@ namespace BookingCalc.ViewModels
 				return _getBookingQuoteCommand ??
 				  (_getBookingQuoteCommand = new RelayCommand(obj =>
 				  {
-					  //MessageBox.Show("Проверка работы команды GetBookingQuoteCommand");
-					  CalcBookings = GetObsCollectCalcBookingDataTestData();
-				  }));
+                      //MessageBox.Show("Проверка работы команды GetBookingQuoteCommand");
+                      // CalcBookings = GetObsCollectCalcBookingDataTestData();
+                      GetCalcBooking();
+
+                  }));
 			}
 		}
 
@@ -426,9 +451,22 @@ namespace BookingCalc.ViewModels
         private void GetCalcBooking()
         {
             // Получаем прайс по заданным параметрам из формы главного окна
-            var pricePeriods = PriceBookingFullList;
+            var filteredPriceBooking =  PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate).ToList();
+            var pricePeriodSegments = filteredPriceBooking;
 
+            var request = new BookingRequest
+            {
+                StartDateBookingPeriod = StartBookingDate,
+                EndDateBookingPeriod = EndBookingDate
+            };
 
+            var segments = BookingCalculator.CalculateSegments(pricePeriodSegments, request);
+
+            foreach (var s in segments)
+            {
+                //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+            }
         }
 
 

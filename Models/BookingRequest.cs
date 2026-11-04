@@ -15,6 +15,6 @@
         // Дата начала периода бронирования
         public DateTime StartDateBookingPeriod { get; set; }
         // Дата окончания периода бронирования
-        public DateTime EndDateDateBookingPeriod { get; set; }
+        public DateTime EndDateBookingPeriod { get; set; }
     }
 }

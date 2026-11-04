@@ -6,12 +6,12 @@
         List<PriceBooking> pricePeriods,
         BookingRequest request)
         {
-            if (request.StartDateBookingPeriod > request.EndDateDateBookingPeriod)
+            if (request.StartDateBookingPeriod > request.EndDateBookingPeriod)
                 throw new ArgumentException("Дата начала не может быть позже даты окончания.");
 
             // Нормализация: берём только дату (без времени)
             var start = request.StartDateBookingPeriod.Date;
-            var end = request.EndDateDateBookingPeriod.Date;
+            var end = request.EndDateBookingPeriod.Date;
 
             var sorted = pricePeriods
                 .OrderBy(p => p.StartDatePeriodPrice)
@@ -31,7 +31,9 @@
                 if (intersectStart > intersectEnd)
                     continue; // нет пересечения
 
-                int daysCount = (intersectEnd - intersectStart).Days + 1; // включительно
+                //int daysCount = (intersectEnd - intersectStart).Days + 1; // включительно
+
+                int daysCount = (intersectEnd - intersectStart).Days; // включительно
 
                 segments.Add(new BookingSegment
                 {
@@ -42,12 +44,12 @@
                 });
             }
 
-            // Опционально: проверить, что весь период покрыт
-            if (!IsFullCoverage(segments, start, end))
-            {
-                // Можно выбросить исключение, вернуть предупреждение или обработать как нужно
-                 throw new InvalidOperationException("Не все дни в запросе на бронирование охвачены ценовыми периодами.");
-            }
+            //// Опционально: проверить, что весь период покрыт
+            //if (!IsFullCoverage(segments, start, end))
+            //{
+            //    // Можно выбросить исключение, вернуть предупреждение или обработать как нужно
+            //     throw new InvalidOperationException("Не все дни в запросе на бронирование охвачены ценовыми периодами.");
+            //}
 
             return segments;
         }

@@ -44,15 +44,6 @@ namespace BookingCalc.Models
             set { _endDatePeriodPrice = value; }
         }
 
-        /// <summary>Стоимость 1 дня(ночи) бронирования для санатория</summary>
-        private Decimal _pricePeriodDayFromSanatorium = default;
-        /// <summary>Стоимость 1 дня(ночи) бронирования для санатория</summary>
-        public Decimal PricePeriodDayFromSanatorium
-        {
-            get { return _pricePeriodDayFromSanatorium; }
-            set { _pricePeriodDayFromSanatorium = value; }
-        }
-
         /// <summary>Стоимость 1 дня(ночи) бронирования для гостя</summary>
         private Decimal _pricePeriodDayFromGuest = default;
         /// <summary>Стоимость 1 дня(ночи) бронирования для гостя</summary>
@@ -60,6 +51,15 @@ namespace BookingCalc.Models
         {
             get { return _pricePeriodDayFromGuest; }
             set { _pricePeriodDayFromGuest = value; }
+        }
+
+        /// <summary>Стоимость 1 дня(ночи) бронирования для санатория</summary>
+        private Decimal _pricePeriodDayFromSanatorium = default;
+        /// <summary>Стоимость 1 дня(ночи) бронирования для санатория</summary>
+        public Decimal PricePeriodDayFromSanatorium
+        {
+            get { return _pricePeriodDayFromSanatorium; }
+            set { _pricePeriodDayFromSanatorium = value; }
         }
 
         /// <summary>Идентификатор санатория</summary>

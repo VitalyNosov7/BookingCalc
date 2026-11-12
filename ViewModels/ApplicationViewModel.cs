@@ -442,7 +442,6 @@ namespace BookingCalc.ViewModels
                       //MessageBox.Show("Проверка работы команды GetBookingQuoteCommand");
                       // CalcBookings = GetObsCollectCalcBookingDataTestData();
                       GetCalcBooking();
-
                   }));
 			}
 		}
@@ -460,7 +459,9 @@ namespace BookingCalc.ViewModels
                 EndDateBookingPeriod = EndBookingDate
             };
 
-            var segments = BookingCalculator.CalculateSegments(pricePeriodSegments, request);
+            // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
+            // Расчет по "ночному" правилу
+            var segments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
 
             foreach (var s in segments)
             {

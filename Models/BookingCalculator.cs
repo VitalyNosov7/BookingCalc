@@ -86,7 +86,8 @@
 
         #region РАСЧЕТ НОЧЕЙ
 
-        public static List<BookingSegment> CalculateSegments(
+        // Расчет по "ночному" правилу
+        public static List<BookingSegment> CalculateSegmentsDoNighttimeRule(
     List<PriceBooking> pricePeriods,
     BookingRequest request)
         {

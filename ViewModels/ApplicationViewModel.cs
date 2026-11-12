@@ -343,6 +343,34 @@ namespace BookingCalc.ViewModels
 
         #region ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА
 
+        /// <summary>Список целевых категорий стоимости бронирования(Прайс для санатория, прайс для гостей)</summary>
+        private ObservableCollection<PriceTargetCategory> _priceTargetCategoryList = new ObservableCollection<PriceTargetCategory>();
+        /// <summary>Список целевых категорий стоимости бронирования(Прайс для санатория, прайс для гостей)</summary>
+        public ObservableCollection<PriceTargetCategory> PriceTargetCategoryList
+        {
+            get { return _priceTargetCategoryList; }
+            set => Set(ref _priceTargetCategoryList, value);
+        }
+
+        /// <summary>Выбранная  целевая категория стоимости бронирования</summary>
+        private PriceTargetCategory _selectedPriceTargetCategory = null!;
+        /// <summary>Выбранная  целевая категория стоимости бронирования</summary>
+        public PriceTargetCategory SelectedPriceTargetCategory
+        {
+            get { return _selectedPriceTargetCategory; }
+            set => Set(ref _selectedPriceTargetCategory, value);
+        }
+
+        /// <summary>Загрузка списка целевых категорий стоимости бронирования</summary>
+        private void LoadPriceTargetCategoryList()
+        {
+
+            // Загрузка всего списка категорий тарифов из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                PriceTargetCategoryList = db.PriceTargetCategories.ToList();
+            }
+        }
 
 
         #endregion ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА

@@ -341,6 +341,12 @@ namespace BookingCalc.ViewModels
 
         #endregion АКТУАЛЬНАЯ ДАТА ПРАЙСА
 
+        #region ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА
+
+
+
+        #endregion ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА
+
         #region ДАТЫ БРОНИРОВАНИЯ
 
         /// <summary>Дата начала бронирования</summary>

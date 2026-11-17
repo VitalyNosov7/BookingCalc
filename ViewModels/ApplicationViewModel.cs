@@ -3,7 +3,6 @@ using BookingCalc.DataBase;
 using BookingCalc.Models;
 using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Services;
-using NPOI.HPSF;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.ObjectModel;
@@ -64,7 +63,8 @@ namespace BookingCalc.ViewModels
                 LoadRoomCategoryList();
                 LoadAccommodationTypeList();
                 LoadTarifCategoryList();
-                LoadPriceEffectiveDateList();                               	
+                LoadPriceEffectiveDateList();
+                LoadPriceTargetCategoryList();
               //  LoadingListsFromDatabase();
             }
 		}
@@ -84,7 +84,8 @@ namespace BookingCalc.ViewModels
                       RoomCategoryList.Clear();
                       AccommodationTypeList.Clear();
                       TarifCategoryList.Clear();
-                      PriceEffectiveDateList.Clear();                     
+                      PriceEffectiveDateList.Clear();
+                      PriceTargetCategoryList.Clear();
 
                       LoadSanatoriumList();
                   }));
@@ -370,15 +371,22 @@ namespace BookingCalc.ViewModels
             set => Set(ref _selectedPriceTargetCategory, value);
         }
 
-        /// <summary>Загрузка списка целевых категорий стоимости бронирования</summary>
+        /// <summary>Загрузка всего списка целевых категорий стоимости бронирования</summary>
         private void LoadPriceTargetCategoryFullList()
         {
 
-            // Загрузка всего списка категорий тарифов из базы данных.
+            // Загрузка всего списка целевых категорий стоимости бронирования из базы данных.
             using (ApplicationContext db = new ApplicationContext())
             {
                 PriceTargetCategoryFullList = db.PriceTargetCategories.ToList();
             }
+        }
+
+        /// <summary>Загрузка списка целевых категорий стоимости бронирования</summary>
+        private void LoadPriceTargetCategoryList()
+        {            
+            var filteredPriceTargetCategory = PriceTargetCategoryFullList.ToList();
+            PriceTargetCategoryList = new ObservableCollection<PriceTargetCategory>(filteredPriceTargetCategory);
         }
 
 
@@ -525,8 +533,10 @@ namespace BookingCalc.ViewModels
             LoadSanatoriumList(); // Загрузка списка санаториев
 			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
 			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
-			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов            
-		}
+			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
+            LoadPriceTargetCategoryFullList();  // Загрузка всех целевых категорий стоимости бронирования
+
+        }
 
 
 
@@ -538,6 +548,7 @@ namespace BookingCalc.ViewModels
             AccommodationTypeList.Clear();
             TarifCategoryList.Clear();
             PriceBookingList.Clear();
+            PriceTargetCategoryList.Clear();
         }
 
 

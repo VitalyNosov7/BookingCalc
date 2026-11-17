@@ -13,7 +13,7 @@ namespace BookingCalc.DataBase.ModelConfiguration
             builder.HasData(
      
                 new PriceTargetCategory() { PriceTargetCategoryID = 1, PriceTargetCategoryName = "Прайс для гостей" },
-                new PriceTargetCategory() { PriceTargetCategoryID = 2, PriceTargetCategoryName = "Прайс для cсанатория" }
+                new PriceTargetCategory() { PriceTargetCategoryID = 2, PriceTargetCategoryName = "Прайс для cанатория" }
             );
         }
     }

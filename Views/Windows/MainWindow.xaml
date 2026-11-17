@@ -257,16 +257,16 @@
                             <ComboBox x:Name="PriceTargetCategory"
 				            Width="100"
 				            Margin="3,0,3,1"
-				            ItemsSource="{Binding TarifCategoryList}"
-				            SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"
+				            ItemsSource="{Binding PriceTargetCategoryList}"
+				            SelectedItem="{Binding SelectedPriceTargetCategory, UpdateSourceTrigger=PropertyChanged}"
 				            IsTextSearchEnabled="True"                                            
-				            TextSearch.TextPath="TarifCategoryName">
+				            TextSearch.TextPath="PriceTargetCategoryName">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0}">
-                                                    <Binding Path="TarifCategoryName"/>
+                                                    <Binding Path="PriceTargetCategoryName"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>

@@ -529,6 +529,11 @@ namespace BookingCalc.ViewModels
                     //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                     MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                 }
+
+                Decimal bookingSum = segments.Sum(p => p.TotalPrice);
+
+                MessageBox.Show($"Сумма брони {bookingSum}");
+
             }
             else
             {

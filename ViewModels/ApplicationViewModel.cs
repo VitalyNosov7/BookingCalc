@@ -11,64 +11,63 @@ using System.Windows;
 
 namespace BookingCalc.ViewModels
 {
-	/// <summary>Модель-Представление главного окна</summary>
-	public class ApplicationViewModel : ViewModelBase
-	{
-		public ApplicationViewModel()
-		{
-			new ApplicationContext(); // TODO: Убрать после добавления миграции БД. 
-			LoadingListsFromDatabase();
-		}
+    /// <summary>Модель-Представление главного окна</summary>
+    public class ApplicationViewModel : ViewModelBase
+    {
+        public ApplicationViewModel()
+        {
+            new ApplicationContext(); // TODO: Убрать после добавления миграции БД. 
+            LoadingListsFromDatabase();
+        }
 
-		// Доступ к командам, которые открывают дополнительные окна в единственном экземпляре
-		private OpenWindowsCommands _openWindowsCommands = new OpenWindowsCommands(new WindowManager());
-		// Доступ к командам, которые открывают дополнительные окна в единственном экземпляре
-		public OpenWindowsCommands OpenWindowsCommands
-		{
-			get { return _openWindowsCommands; }
-			set { _openWindowsCommands = value; }
-		}
+        // Доступ к командам, которые открывают дополнительные окна в единственном экземпляре
+        private OpenWindowsCommands _openWindowsCommands = new OpenWindowsCommands(new WindowManager());
+        // Доступ к командам, которые открывают дополнительные окна в единственном экземпляре
+        public OpenWindowsCommands OpenWindowsCommands
+        {
+            get { return _openWindowsCommands; }
+            set { _openWindowsCommands = value; }
+        }
 
-		/// <summary>Список расчетов бронирования</summary>
-		private ObservableCollection<CalcBookingData> _calcBookings = new ObservableCollection<CalcBookingData>();
-		/// <summary>Список расчетов бронирования</summary>
-		public ObservableCollection<CalcBookingData> CalcBookings
-		{
-			get { return _calcBookings; }
-			set => Set(ref _calcBookings, value);
-		}
+        /// <summary>Список расчетов бронирования</summary>
+        private ObservableCollection<CalcBookingData> _calcBookings = new ObservableCollection<CalcBookingData>();
+        /// <summary>Список расчетов бронирования</summary>
+        public ObservableCollection<CalcBookingData> CalcBookings
+        {
+            get { return _calcBookings; }
+            set => Set(ref _calcBookings, value);
+        }
 
         #region САНАТОРИИ
 
         /// <summary>Список санаториев</summary>
         private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
-		/// <summary>Список санаториев</summary>
-		public ObservableCollection<Sanatorium> SanatoriumList
-		{
-			get { return _sanatoriumList; }
-			set => Set(ref _sanatoriumList, value);
-		}
+        /// <summary>Список санаториев</summary>
+        public ObservableCollection<Sanatorium> SanatoriumList
+        {
+            get { return _sanatoriumList; }
+            set => Set(ref _sanatoriumList, value);
+        }
 
-		/// <summary>Выбранный санаторий</summary>
-		private Sanatorium _selectedSanatorium = null!;
-		/// <summary>Выбранный санаторий</summary>
-		public Sanatorium SelectedSanatorium
-		{
-			get { return _selectedSanatorium; }
-			set
-			{
-				Set(ref _selectedSanatorium, value);
+        /// <summary>Выбранный санаторий</summary>
+        private Sanatorium _selectedSanatorium = null!;
+        /// <summary>Выбранный санаторий</summary>
+        public Sanatorium SelectedSanatorium
+        {
+            get { return _selectedSanatorium; }
+            set
+            {
+                Set(ref _selectedSanatorium, value);
                 // CleanFields(); // Очищаем поля	
                 LoadPriceBookingList();
                 LoadRoomCategoryList();
                 LoadAccommodationTypeList();
                 LoadTarifCategoryList();
                 LoadPriceEffectiveDateList();
-              //  PriceTargetCategoryList.Clear();
                 LoadPriceTargetCategoryList();
-              //  LoadingListsFromDatabase();
+                //  LoadingListsFromDatabase();
             }
-		}
+        }
 
         // Загрузка списка санаториев из базы данных
         private RelayCommand? _loadingSanatoriumListFromDatabaseCommand;
@@ -79,7 +78,7 @@ namespace BookingCalc.ViewModels
                 return _loadingSanatoriumListFromDatabaseCommand ??
                   (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
                   {
-                       CleanFields();
+                      CleanFields();
                       //PriceBookingList.Clear();
                       //SanatoriumList.Clear();
                       //RoomCategoryList.Clear();
@@ -336,7 +335,7 @@ namespace BookingCalc.ViewModels
                                 .ToList());                                                             // ToList() нужен, чтобы избежать проблем с отложенным выполнением и изменениями коллекции во время итерации      
                 }
                 else { return; }
-             
+
             }
             else { return; }
         }
@@ -456,10 +455,10 @@ namespace BookingCalc.ViewModels
             // Загрузка всего списка прайсов из базы данных.
             using (ApplicationContext db = new ApplicationContext())
             {
-                PriceBookingFullList = db.PriceBookings.ToList();         
+                PriceBookingFullList = db.PriceBookings.ToList();
             }
         }
-       
+
         /// <summary>Загрузка прайсов в зависимости от того какой санаторий был выбран</summary>
         private void LoadPriceBookingList()
         {
@@ -475,55 +474,59 @@ namespace BookingCalc.ViewModels
 
         /// <summary>Выбранный расчет бронирования</summary>
         private CalcBookingData _selectedCalcBooking = null!;
-		/// <summary>Выбранный расчет бронирования</summary>
-		public CalcBookingData SelectedBookingOperation
-		{
-			get { return _selectedCalcBooking!; }
-			set
-			{
-				Set(ref _selectedCalcBooking, value);
-			}
-		}
+        /// <summary>Выбранный расчет бронирования</summary>
+        public CalcBookingData SelectedBookingOperation
+        {
+            get { return _selectedCalcBooking!; }
+            set
+            {
+                Set(ref _selectedCalcBooking, value);
+            }
+        }
 
         #region РАСЧЕТ
 
         // Получить расчет (выводит расчет в таблицу главного окна приложения)
         private RelayCommand? _getBookingQuoteCommand;
-		public RelayCommand GetBookingQuoteCommand
-		{
-			get
-			{
-				return _getBookingQuoteCommand ??
-				  (_getBookingQuoteCommand = new RelayCommand(obj =>
-				  {
+        public RelayCommand GetBookingQuoteCommand
+        {
+            get
+            {
+                return _getBookingQuoteCommand ??
+                  (_getBookingQuoteCommand = new RelayCommand(obj =>
+                  {
                       //MessageBox.Show("Проверка работы команды GetBookingQuoteCommand");
                       // CalcBookings = GetObsCollectCalcBookingDataTestData();
                       GetCalcBooking();
                   }));
-			}
-		}
+            }
+        }
 
         // Получить расчет бронирования(-ий)
         private void GetCalcBooking()
         {
             // Получаем прайс по заданным параметрам из формы главного окна
-            var filteredPriceBooking =  PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate).ToList();
-            var pricePeriodSegments = filteredPriceBooking;
-
-            var request = new BookingRequest
+            // Проверка выбраны ли параметры:
+            if (SelectedSanatorium != null || SelectedAccommodationType != null || SelectedPriceTargetCategory != null || SelectedTarifCategory != null || SelectedRoomCategory != null)
             {
-                StartDateBookingPeriod = StartBookingDate,
-                EndDateBookingPeriod = EndBookingDate
-            };
+                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
+                var pricePeriodSegments = filteredPriceBooking;
 
-            // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
-            // Расчет по "ночному" правилу
-            var segments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+                var request = new BookingRequest
+                {
+                    StartDateBookingPeriod = StartBookingDate,
+                    EndDateBookingPeriod = EndBookingDate
+                };
 
-            foreach (var s in segments)
-            {
-                //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
-                MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
+                // Расчет по "ночному" правилу
+                var segments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+
+                foreach (var s in segments)
+                {
+                    //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                    MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                }
             }
         }
 
@@ -533,13 +536,13 @@ namespace BookingCalc.ViewModels
 
         /// <summary>Загрузка списков из базы данных</summary>
         private void LoadingListsFromDatabase()
-		{
+        {
             CleanFields(); // Очищаем поля	
             LoadPriceBookingFullList(); // Загрузка всех прайсов	
             LoadSanatoriumList(); // Загрузка списка санаториев
-			LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
-			LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
-			LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
+            LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+            LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
+            LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
             LoadPriceTargetCategoryFullList();  // Загрузка всех целевых категорий стоимости бронирования
 
         }
@@ -554,7 +557,7 @@ namespace BookingCalc.ViewModels
             AccommodationTypeList.Clear();
             TarifCategoryList.Clear();
             PriceTargetCategoryList.Clear();
-            PriceBookingList.Clear();            
+            PriceBookingList.Clear();
         }
 
 
@@ -562,85 +565,85 @@ namespace BookingCalc.ViewModels
 
         // Сохранить в Excel
         private RelayCommand? _saveToExcelCommand;
-		public RelayCommand SaveToExcelCommand
-		{
-			get
-			{
-				return _saveToExcelCommand ??
-				  (_saveToExcelCommand = new RelayCommand(obj =>
-				  {
-					  // Создаем рабочую книгу Excel
-					  using var workbook = new XSSFWorkbook();
-					  var sheet = workbook.CreateSheet("Лист1");
+        public RelayCommand SaveToExcelCommand
+        {
+            get
+            {
+                return _saveToExcelCommand ??
+                  (_saveToExcelCommand = new RelayCommand(obj =>
+                  {
+                      // Создаем рабочую книгу Excel
+                      using var workbook = new XSSFWorkbook();
+                      var sheet = workbook.CreateSheet("Лист1");
 
-					  // Стили: дата и общий
-					  var dateStyle = workbook.CreateCellStyle();
-					  dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
+                      // Стили: дата и общий
+                      var dateStyle = workbook.CreateCellStyle();
+                      dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
 
-					  var headerStyle = workbook.CreateCellStyle();
-					  // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
-					  // headerStyle.FillPattern = FillPattern.SolidForeground;
+                      var headerStyle = workbook.CreateCellStyle();
+                      // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
+                      // headerStyle.FillPattern = FillPattern.SolidForeground;
 
-					  // Заголовки
-					  var headerRow = sheet.CreateRow(0);
-					  string[] headers = { "ID", "Дата прайса", "Начало заезда", "Конец заезда", "Стоимость брони" };
-					  for (int i = 0; i < headers.Length; i++)
-					  {
-						  var cell = headerRow.CreateCell(i);
-						  cell.SetCellValue(headers[i]);
-						  cell.CellStyle = headerStyle;						  
-					  }
+                      // Заголовки
+                      var headerRow = sheet.CreateRow(0);
+                      string[] headers = { "ID", "Дата прайса", "Начало заезда", "Конец заезда", "Стоимость брони" };
+                      for (int i = 0; i < headers.Length; i++)
+                      {
+                          var cell = headerRow.CreateCell(i);
+                          cell.SetCellValue(headers[i]);
+                          cell.CellStyle = headerStyle;
+                      }
 
                       // TODO: заменить тестовые данные на рабочие!
                       CalcBookingData[] data = GetObsCollectCalcBookingDataTestData().ToArray();
 
-					  // Данные
-					  for (int i = 0; i < data.Length; i++)
-					  {
-						  int rowNum = i + 1;
-						  var row = sheet.CreateRow(rowNum);
+                      // Данные
+                      for (int i = 0; i < data.Length; i++)
+                      {
+                          int rowNum = i + 1;
+                          var row = sheet.CreateRow(rowNum);
 
-						  row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
+                          row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
 
-						  var priceEffectiveDateCell = row.CreateCell(1);
-						  priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
-						  priceEffectiveDateCell.CellStyle = dateStyle;
+                          var priceEffectiveDateCell = row.CreateCell(1);
+                          priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
+                          priceEffectiveDateCell.CellStyle = dateStyle;
 
-						  var startDateCell = row.CreateCell(2);
-						  startDateCell.SetCellValue(data[i].StartDate);
-						  startDateCell.CellStyle = dateStyle;
+                          var startDateCell = row.CreateCell(2);
+                          startDateCell.SetCellValue(data[i].StartDate);
+                          startDateCell.CellStyle = dateStyle;
 
-						  var endDateCell = row.CreateCell(3);
-						  endDateCell.SetCellValue(data[i].EndDate);
-						  endDateCell.CellStyle = dateStyle;
+                          var endDateCell = row.CreateCell(3);
+                          endDateCell.SetCellValue(data[i].EndDate);
+                          endDateCell.CellStyle = dateStyle;
 
-						  var calcResultFromGuestCell = row.CreateCell(4);
-						  calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].CalcResultFromGuest));
+                          var calcResultFromGuestCell = row.CreateCell(4);
+                          calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].CalcResultFromGuest));
 
-						  // Сохранение
-						  using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
-						  workbook.Write(fs);
-					  }
+                          // Сохранение
+                          using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
+                          workbook.Write(fs);
+                      }
 
-				  }));
-			}
-		}
+                  }));
+            }
+        }
 
         // TODO: Убрать(перенести) тестовые данные
         // Тестовые данны для таблицы в главном окне
-		private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
-		{
-			ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();
+        private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
+        {
+            ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();
 
-			result.Add(new CalcBookingData() { CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), CalcResultFromGuest = 48300 });
-			result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), CalcResultFromGuest = 53130 });
-			result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), CalcResultFromGuest = 57960 });
-			result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), CalcResultFromGuest = 62790 });
-			result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), CalcResultFromGuest = 67620 });
-			result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), CalcResultFromGuest = 72450 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), CalcResultFromGuest = 48300 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), CalcResultFromGuest = 53130 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), CalcResultFromGuest = 57960 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), CalcResultFromGuest = 62790 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), CalcResultFromGuest = 67620 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), CalcResultFromGuest = 72450 });
 
-			return result;
-		}
+            return result;
+        }
 
         #endregion СОХРАНЕНИЕ В EXCEL
     }

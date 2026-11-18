@@ -512,6 +512,8 @@ namespace BookingCalc.ViewModels
                 var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
                 var pricePeriodSegments = filteredPriceBooking;
 
+                // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке
+
                 var request = new BookingRequest
                 {
                     StartDateBookingPeriod = StartBookingDate,
@@ -527,6 +529,10 @@ namespace BookingCalc.ViewModels
                     //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                     MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Не все параметры выбраны!");
             }
         }
 

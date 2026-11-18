@@ -1,4 +1,6 @@
-﻿namespace BookingCalc.Models
+﻿using System.Windows;
+
+namespace BookingCalc.Models
 {
     public static class BookingCalculator
     {
@@ -93,7 +95,8 @@
             var checkout = request.EndDateBookingPeriod.Date;     // день выезда — НЕ тарифицируется
 
             if (checkout <= start)
-                throw new ArgumentException("Дата выезда должна быть позже даты заезда.");
+                // throw new ArgumentException("Дата выезда должна быть позже даты заезда.");
+                MessageBox.Show("Дата выезда должна быть позже даты заезда.");
 
             var segments = new List<BookingSegment>();
 

@@ -64,6 +64,7 @@ namespace BookingCalc.ViewModels
                 LoadAccommodationTypeList();
                 LoadTarifCategoryList();
                 LoadPriceEffectiveDateList();
+              //  PriceTargetCategoryList.Clear();
                 LoadPriceTargetCategoryList();
               //  LoadingListsFromDatabase();
             }
@@ -78,14 +79,14 @@ namespace BookingCalc.ViewModels
                 return _loadingSanatoriumListFromDatabaseCommand ??
                   (_loadingSanatoriumListFromDatabaseCommand = new RelayCommand(obj =>
                   {
-                      // CleanFields();
-                      PriceBookingList.Clear();
-                      SanatoriumList.Clear();
-                      RoomCategoryList.Clear();
-                      AccommodationTypeList.Clear();
-                      TarifCategoryList.Clear();
-                      PriceEffectiveDateList.Clear();
-                      PriceTargetCategoryList.Clear();
+                       CleanFields();
+                      //PriceBookingList.Clear();
+                      //SanatoriumList.Clear();
+                      //RoomCategoryList.Clear();
+                      //AccommodationTypeList.Clear();
+                      //TarifCategoryList.Clear();
+                      //PriceEffectiveDateList.Clear();
+                      //PriceTargetCategoryList.Clear();
 
                       LoadSanatoriumList();
                   }));
@@ -384,9 +385,14 @@ namespace BookingCalc.ViewModels
 
         /// <summary>Загрузка списка целевых категорий стоимости бронирования</summary>
         private void LoadPriceTargetCategoryList()
-        {            
-            var filteredPriceTargetCategory = PriceTargetCategoryFullList.ToList();
-            PriceTargetCategoryList = new ObservableCollection<PriceTargetCategory>(filteredPriceTargetCategory);
+        {
+            if (SelectedSanatorium != null)
+            {
+                PriceTargetCategoryList.Clear();
+                var filteredPriceTargetCategory = PriceTargetCategoryFullList.ToList();
+                PriceTargetCategoryList = new ObservableCollection<PriceTargetCategory>(filteredPriceTargetCategory);
+            }
+            else { return; }
         }
 
 
@@ -547,8 +553,8 @@ namespace BookingCalc.ViewModels
             RoomCategoryList.Clear();
             AccommodationTypeList.Clear();
             TarifCategoryList.Clear();
-            PriceBookingList.Clear();
             PriceTargetCategoryList.Clear();
+            PriceBookingList.Clear();            
         }
 
 

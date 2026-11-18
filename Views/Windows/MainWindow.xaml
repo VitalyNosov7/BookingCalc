@@ -235,15 +235,15 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button Content="DB"
-	            Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
-	            Width="30"
-	            Height="20"
-	            Margin="3,3,3,3"/>
+	                                Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
+	                                Width="30"
+	                                Height="20"
+	                                Margin="3,3,3,3"/>
                             <Button Content="R"
-	            Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
-	            Width="30"
-	            Height="20"
-	            Margin="3,3,3,3"/>
+	                                Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
+	                                Width="30"
+	                                Height="20"
+	                                Margin="3,3,3,3"/>
                         </StackPanel>
 
                         <!--ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА(для гостей или санатория)-->
@@ -274,15 +274,15 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button Content="DB"
-			            Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
-			            Width="30"
-			            Height="20"
-			            Margin="3,3,3,3"/>
+			                        Command="{Binding OpenWindowsCommands.OpenTarifCategoryeWindowCommand}"
+			                        Width="30"
+			                        Height="20"
+			                        Margin="3,3,3,3"/>
                             <Button Content="R"
-			            Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
-			            Width="30"
-			            Height="20"
-			            Margin="3,3,3,3"/>
+			                        Command="{Binding LoadingTarifCategoryListFromDatabaseCommand}"
+			                        Width="30"
+			                        Height="20"
+			                        Margin="3,3,3,3"/>
                         </StackPanel>
 
 

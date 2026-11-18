@@ -29,15 +29,6 @@ namespace BookingCalc.ViewModels
             set { _openWindowsCommands = value; }
         }
 
-        /// <summary>Список расчетов бронирования</summary>
-        private ObservableCollection<CalcBookingData> _calcBookings = new ObservableCollection<CalcBookingData>();
-        /// <summary>Список расчетов бронирования</summary>
-        public ObservableCollection<CalcBookingData> CalcBookings
-        {
-            get { return _calcBookings; }
-            set => Set(ref _calcBookings, value);
-        }
-
         #region САНАТОРИИ
 
         /// <summary>Список санаториев</summary>
@@ -486,6 +477,25 @@ namespace BookingCalc.ViewModels
 
         #region РАСЧЕТ
 
+        /// <summary>Список расчетов бронирования</summary>
+        private ObservableCollection<CalcBookingData> _calcBookings = new ObservableCollection<CalcBookingData>();
+        /// <summary>Список расчетов бронирования</summary>
+        public ObservableCollection<CalcBookingData> CalcBookings
+        {
+            get { return _calcBookings; }
+            set => Set(ref _calcBookings, value);
+        }
+
+        // Данные текущего расчета бронирования
+        private CalcBookingData _currentCalcBookingData = null!;
+        // Данные текущего расчета бронирования
+        public CalcBookingData CurrentCalcBookingData
+        {
+            get { return _currentCalcBookingData; }
+            set { _currentCalcBookingData = value; }
+        }
+
+
         // Получить расчет (выводит расчет в таблицу главного окна приложения)
         private RelayCommand? _getBookingQuoteCommand;
         public RelayCommand GetBookingQuoteCommand
@@ -528,12 +538,12 @@ namespace BookingCalc.ViewModels
             // Проверка выбраны ли параметры:
             if (SelectedSanatorium != null || SelectedAccommodationType != null || SelectedPriceTargetCategory != null || SelectedTarifCategory != null || SelectedRoomCategory != null)
             {
-                var filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
-                var pricePeriodSegments = filteredPriceBooking;
+                List<PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
+               // var pricePeriodSegments = filteredPriceBooking;
 
                 // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке
 
-                var request = new BookingRequest
+                BookingRequest request = new BookingRequest
                 {
                     StartDateBookingPeriod = StartBookingDate,
                     EndDateBookingPeriod = EndBookingDate
@@ -541,7 +551,8 @@ namespace BookingCalc.ViewModels
 
                 // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
                 // Расчет по "ночному" правилу
-                BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+               // BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+                BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(filteredPriceBooking, request);
 
                 foreach (BookingSegment s in BookingSegments)
                 {
@@ -549,9 +560,19 @@ namespace BookingCalc.ViewModels
                     MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                 }
 
-                TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice);
+               // TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice);
 
-                MessageBox.Show($"Сумма брони {TotalBookingSum}");
+                // Заполняем список расчетов бронирования CalcBookings
+                // Очищаем список
+                CalcBookings.Clear();
+                CurrentCalcBookingData = null!;
+                Int32 currentCalcBookingDataID = 0;
+                CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, SanatoriumID = SelectedSanatorium!.SanatoriumID, RoomCategoryID = SelectedRoomCategory.RoomCategoryID, AccommodationTypeID = SelectedAccommodationType!.AccommodationTypeID, TarifCategoryID = SelectedTarifCategory!.TarifCategoryID, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
+                CalcBookings.Add(CurrentCalcBookingData);
+
+                // Тестовое сообщение с суммой текущего бронирования
+               // MessageBox.Show($"Сумма брони {TotalBookingSum}");
+                MessageBox.Show($"Сумма брони {CurrentCalcBookingData.TotalBookingSum}");
 
             }
             else
@@ -560,36 +581,7 @@ namespace BookingCalc.ViewModels
                 MessageBox.Show("Не все параметры выбраны!");
             }
         }
-
-
         #endregion РАСЧЕТ
-
-
-        /// <summary>Загрузка списков из базы данных</summary>
-        private void LoadingListsFromDatabase()
-        {
-            CleanFields(); // Очищаем поля	
-            LoadPriceBookingFullList(); // Загрузка всех прайсов	
-            LoadSanatoriumList(); // Загрузка списка санаториев
-            LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
-            LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
-            LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
-            LoadPriceTargetCategoryFullList();  // Загрузка всех целевых категорий стоимости бронирования
-
-        }
-
-
-
-        /// <summary>Очистить поля</summary>
-        private void CleanFields()
-        {
-            SanatoriumList.Clear();
-            RoomCategoryList.Clear();
-            AccommodationTypeList.Clear();
-            TarifCategoryList.Clear();
-            PriceTargetCategoryList.Clear();
-            PriceBookingList.Clear();
-        }
 
 
         #region СОХРАНЕНИЕ В EXCEL
@@ -649,7 +641,7 @@ namespace BookingCalc.ViewModels
                           endDateCell.CellStyle = dateStyle;
 
                           var calcResultFromGuestCell = row.CreateCell(4);
-                          calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].CalcResultFromGuest));
+                          calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].TotalBookingSum));
 
                           // Сохранение
                           using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
@@ -666,17 +658,41 @@ namespace BookingCalc.ViewModels
         {
             ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();
 
-            result.Add(new CalcBookingData() { CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), CalcResultFromGuest = 48300 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), CalcResultFromGuest = 53130 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), CalcResultFromGuest = 57960 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), CalcResultFromGuest = 62790 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), CalcResultFromGuest = 67620 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), CalcResultFromGuest = 72450 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), TotalBookingSum = 48300 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), TotalBookingSum = 53130 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), TotalBookingSum = 57960 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), TotalBookingSum = 62790 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), TotalBookingSum = 67620 });
+            result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), TotalBookingSum = 72450 });
 
             return result;
         }
 
         #endregion СОХРАНЕНИЕ В EXCEL
+
+        /// <summary>Загрузка списков из базы данных</summary>
+        private void LoadingListsFromDatabase()
+        {
+            CleanFields(); // Очищаем поля	
+            LoadPriceBookingFullList(); // Загрузка всех прайсов	
+            LoadSanatoriumList(); // Загрузка списка санаториев
+            LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+            LoadAccommodationTypeFullList(); // Загрузка всех видов размещения
+            LoadTarifCategoryFullList(); // Загрузка всех категорий тарифов
+            LoadPriceTargetCategoryFullList();  // Загрузка всех целевых категорий стоимости бронирования
+
+        }
+
+        /// <summary>Очистить поля</summary>
+        private void CleanFields()
+        {
+            SanatoriumList.Clear();
+            RoomCategoryList.Clear();
+            AccommodationTypeList.Clear();
+            TarifCategoryList.Clear();
+            PriceTargetCategoryList.Clear();
+            PriceBookingList.Clear();
+        }
     }
 }
 

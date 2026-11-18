@@ -75,40 +75,14 @@
             set { _tarifCategoryID = value; }
         }
 
-        /// <summary>Стоимость бронирования для гостей</summary>
-        private Decimal _priceFromGuest = default;
-        /// <summary>Стоимость бронирования для гостей</summary>
-        public Decimal PriceFromGuest
-        {
-            get { return _priceFromGuest; }
-            set { _priceFromGuest = value; }
-        }
 
-        /// <summary>Результат расчета бронирования для гостей</summary>
-        private Decimal _calcResultFromGuest = default;
-        /// <summary>Результат расчета бронирования для гостей</summary>
-        public Decimal CalcResultFromGuest
+        /// <summary>Результат расчета бронирования</summary>
+        private Decimal _totalBookingSum = default;
+        /// <summary>Результат расчета бронирования</summary>
+        public Decimal TotalBookingSum
         {
-            get { return _calcResultFromGuest; }
-            set { _calcResultFromGuest = value; }
-        }
-
-        /// <summary>Стоимость бронирования для санатория</summary>
-        private Decimal _priceFromSanatorium = default;
-        /// <summary>Стоимость бронирования для санатория</summary>
-        public Decimal PriceFromSanatorium
-        {
-            get { return _priceFromSanatorium; }
-            set { _priceFromSanatorium = value; }
-        }
-
-        /// <summary>Результат расчета бронирования для санатория</summary>
-        private Decimal _calcResultFromSanatorium = default;
-        /// <summary>Результат расчета бронирования для санатория</summary>
-        public Decimal CalcResultFromSanatorium
-        {
-            get { return _calcResultFromSanatorium; }
-            set { _calcResultFromSanatorium = value; }
+            get { return _totalBookingSum; }
+            set { _totalBookingSum = value; }
         }
     }
 }

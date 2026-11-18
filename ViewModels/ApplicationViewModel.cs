@@ -502,6 +502,25 @@ namespace BookingCalc.ViewModels
             }
         }
 
+        // Список сегментов текущего обрабатываемого бронирования
+        private List<BookingSegment> _bookingSegments = null!;
+        // Список сегментов текущего обрабатываемого бронирования
+        public List<BookingSegment> BookingSegments
+        {
+            get { return _bookingSegments; }
+            set { _bookingSegments = value; }
+        }
+
+        // Сумма текущего обрабатываемого бронирования
+        private Decimal _totalBookingSum = default;
+        // Сумма текущего обрабатываемого бронирования
+        public Decimal TotalBookingSum
+        {
+            get { return _totalBookingSum ; }
+            set { _totalBookingSum  = value; }
+        }
+
+
         // Получить расчет бронирования(-ий)
         private void GetCalcBooking()
         {
@@ -522,21 +541,22 @@ namespace BookingCalc.ViewModels
 
                 // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
                 // Расчет по "ночному" правилу
-                var segments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+                BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
 
-                foreach (var s in segments)
+                foreach (BookingSegment s in BookingSegments)
                 {
                     //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                     MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
                 }
 
-                Decimal bookingSum = segments.Sum(p => p.TotalPrice);
+                TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice);
 
-                MessageBox.Show($"Сумма брони {bookingSum}");
+                MessageBox.Show($"Сумма брони {TotalBookingSum}");
 
             }
             else
             {
+                // TODO: разобраться почему не всегда при не выбранных параметрах не выдает сообщение
                 MessageBox.Show("Не все параметры выбраны!");
             }
         }

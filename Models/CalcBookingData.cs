@@ -39,8 +39,13 @@
             set { _endDate = value; }
         }
 
-		/// <summary>Идентификатор санатория</summary>
-		private Int32 _sanatoriumID = default;
+   
+        // Количество суток бронирования
+        public Int32 CountDays => (EndDate - StartDate).Days;
+        
+
+        /// <summary>Идентификатор санатория</summary>
+        private Int32 _sanatoriumID = default;
 		/// <summary>Идентификатор санатория</summary>
 		public Int32 SanatoriumID
 		{
@@ -48,13 +53,31 @@
 			set { _sanatoriumID = value; }
 		}
 
-		/// <summary>Идентификатор категории номера</summary>
-		private Int32 _roomCategoryID = default;
+        /// <summary>Текущий санаторий</summary>
+        private Sanatorium _currentSanatorium = null!;
+        /// <summary>Текущий санаторий</summary>
+        public Sanatorium CurrentSanatorium
+        {
+            get { return _currentSanatorium; }
+            set { _currentSanatorium = value; }
+        }
+
+        /// <summary>Идентификатор категории номера</summary>
+        private Int32 _roomCategoryID = default;
         /// <summary>Идентификатор категории номера</summary>
         public Int32 RoomCategoryID
         {
             get { return _roomCategoryID; }
             set { _roomCategoryID = value; }
+        }
+
+        /// <summary>Текущий идентификатор категории номера</summary>
+        private RoomCategory _currentRoomCategory = null!;
+        /// <summary>Текущий идентификатор категории номера</summary>
+        public RoomCategory CurrentRoomCategory
+        {
+            get { return _currentRoomCategory; }
+            set { _currentRoomCategory = value; }
         }
 
         /// <summary>Идентификатор вида размещения</summary>
@@ -66,6 +89,15 @@
             set { _accommodationTypeID = value; }
         }
 
+        /// <summary>Текущий идентификатор вида размещения</summary>
+        private AccommodationType _currentAccommodationType = null!;
+        /// <summary>Текущий идентификатор вида размещения</summary>
+        public AccommodationType CurrentAccommodationType
+        {
+            get { return _currentAccommodationType; }
+            set { _currentAccommodationType = value; }
+        }
+
         /// <summary>Идентификатор категории тарифа/summary>
         private Int32 _tarifCategoryID = default;
         /// <summary>Идентификатор категории тарифа/summary>
@@ -73,6 +105,15 @@
         {
             get { return _tarifCategoryID; }
             set { _tarifCategoryID = value; }
+        }
+
+        /// <summary>Текущий идентификатор категории тарифа/summary>
+        private TarifCategory _currentTarifCategory = null!;
+        /// <summary>Текущий идентификатор категории тарифа/summary>
+        public TarifCategory CurrentTarifCategory
+        {
+            get { return _currentTarifCategory; }
+            set { _currentTarifCategory = value; }
         }
 
 

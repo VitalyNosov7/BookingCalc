@@ -536,7 +536,7 @@ namespace BookingCalc.ViewModels
         {
             // Получаем прайс по заданным параметрам из формы главного окна
             // Проверка выбраны ли параметры:
-            if (SelectedSanatorium != null || SelectedAccommodationType != null || SelectedPriceTargetCategory != null || SelectedTarifCategory != null || SelectedRoomCategory != null)
+            if (SelectedSanatorium != null && SelectedAccommodationType != null && SelectedPriceTargetCategory != null && SelectedTarifCategory != null && SelectedRoomCategory != null)
             {
                 List<PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
                // var pricePeriodSegments = filteredPriceBooking;
@@ -567,7 +567,7 @@ namespace BookingCalc.ViewModels
                 CalcBookings.Clear();
                 CurrentCalcBookingData = null!;
                 Int32 currentCalcBookingDataID = 0;
-                CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, SanatoriumID = SelectedSanatorium!.SanatoriumID, RoomCategoryID = SelectedRoomCategory.RoomCategoryID, AccommodationTypeID = SelectedAccommodationType!.AccommodationTypeID, TarifCategoryID = SelectedTarifCategory!.TarifCategoryID, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
+                CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, CurrentSanatorium = SelectedSanatorium, CurrentRoomCategory = SelectedRoomCategory, CurrentAccommodationType = SelectedAccommodationType, CurrentTarifCategory = SelectedTarifCategory, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
                 CalcBookings.Add(CurrentCalcBookingData);
 
                 // Тестовое сообщение с суммой текущего бронирования

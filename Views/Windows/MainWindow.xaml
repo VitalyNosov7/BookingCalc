@@ -405,7 +405,7 @@
 
 				<DataGrid ItemsSource="{Binding CalcBookings}" 
 						  SelectedItem="{Binding SelectedBookingOperation, Mode=TwoWay}"
-						  AutoGenerateColumns="True"
+						  AutoGenerateColumns="False"
 						  HorizontalAlignment="Stretch"
 						  VerticalAlignment="Stretch"
 						  GridLinesVisibility="All"
@@ -414,15 +414,14 @@
 						  Height="400">
                         <DataGrid.Columns>
 						    <DataGridTextColumn Header="№" Binding="{Binding CalcBookingDataID}" Width="50"/>
-						    <DataGridTextColumn Header="Санаторий" Binding="{Binding SanatoriumID}" Width="150"/>
-						    <DataGridTextColumn Header="Категория номера" Binding="{Binding RoomCategoryID}" Width="150"/>
-                            <DataGridTextColumn Header="Продолжительность" Binding="{Binding TextTemplateID}" Width="50"/>
-                            <DataGridTextColumn Header="Дата заезда" Binding="{Binding StartDate}" Width="200"/>
-						    <DataGridTextColumn Header="Дата выезда" Binding="{Binding EndDate}" Width="200"/>
-						    <DataGridTextColumn Header="Тип размещения" Binding="{Binding AccommodationTypeID}" Width="150"/>
-						    <DataGridTextColumn Header="Стоимость путевки" Binding="{Binding PriceFromGuest}" Width="150"/>
-                            <DataGridTextColumn Header="Стоимость путевки + ПНК + ЗД" Binding="{Binding PrefixFileName}" Width="150"/>
-                            <DataGridTextColumn Header="К-во номеров" Binding="{Binding TextTemplateID}" Width="50"/>
+                            <DataGridTextColumn Header="Санаторий" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="150"/>
+                            <DataGridTextColumn Header="Категория номера" Binding="{Binding CurrentRoomCategory.RoomCategoryName}" Width="150"/>
+                        <DataGridTextColumn Header="Дата заезда" Binding="{Binding StartDate, StringFormat={}{0:dd.MM.yyyy}}" Width="200"/>
+                        <DataGridTextColumn Header="Дата выезда" Binding="{Binding EndDate, StringFormat={}{0:dd.MM.yyyy}}" Width="200"/>
+                            <DataGridTextColumn Header="Продолжительность" Binding="{Binding CountDays}" Width="50"/>
+                            <DataGridTextColumn Header="Тип размещения" Binding="{Binding CurrentAccommodationType.AccommodationTypeName}" Width="150"/>
+                        <DataGridTextColumn Header="Тариф" Binding="{Binding CurrentTarifCategory.TarifCategoryName}" Width="150"/>
+                            <DataGridTextColumn Header="Стоимость путевки" Binding="{Binding TotalBookingSum}" Width="150"/>                            
                     </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

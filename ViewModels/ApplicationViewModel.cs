@@ -567,6 +567,12 @@ namespace BookingCalc.ViewModels
                 CalcBookings.Clear();
                 CurrentCalcBookingData = null!;
                 Int32 currentCalcBookingDataID = 0;
+
+                // TODO: разработать логику, которая позволит выводить несколько расчетов в таблицу
+                // 1. Определить поля DateTime для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
+                // 2. Определить поле, которое будет определять на сколько будет уведичиваться период бронирования(например 10 - будет означать что от стартового периода бронирования период  будет увеличиваться  на 1 ночь, далее на 2 ночи и так далее увеличение будет происходить до 10 ночей)
+
+
                 CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, CurrentSanatorium = SelectedSanatorium, CurrentRoomCategory = SelectedRoomCategory, CurrentAccommodationType = SelectedAccommodationType, CurrentTarifCategory = SelectedTarifCategory, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
                 CalcBookings.Add(CurrentCalcBookingData);
 

@@ -408,6 +408,26 @@ namespace BookingCalc.ViewModels
             set => Set(ref _endBookingDate, value);
         }
 
+        /// <summary>Дата окончания цикла бронирования</summary>
+        private DateTime _endDateBookingCycle = default;
+        /// <summary>Дата окончания цикла бронирования</summary>
+        public DateTime EndDateBookingCycle
+        {
+            get { return _endDateBookingCycle; }
+            set => Set(ref _endDateBookingCycle, value);
+        }
+
+        /// <summary>Максимальное число увеличения дней бронирования</summary>
+        private Int32 _maxIncreaseNumberDays = default;
+        /// <summary>Максимальное число увеличения дней бронирования</summary>
+        public Int32 MaxIncreaseNumberDays
+        {
+            get { return _maxIncreaseNumberDays; }
+            set => Set(ref _maxIncreaseNumberDays, value);
+        }
+
+
+
         #endregion ДАТЫ БРОНИРОВАНИЯ
 
         #region ПРАЙСЫ
@@ -569,8 +589,9 @@ namespace BookingCalc.ViewModels
                 Int32 currentCalcBookingDataID = 0;
 
                 // TODO: разработать логику, которая позволит выводить несколько расчетов в таблицу
-                // 1. Определить поля DateTime для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
+                // 1. Определить поле DateTime(конечная дата)  для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
                 // 2. Определить поле, которое будет определять на сколько будет уведичиваться период бронирования(например 10 - будет означать что от стартового периода бронирования период  будет увеличиваться  на 1 ночь, далее на 2 ночи и так далее увеличение будет происходить до 10 ночей)
+                // 3. Разработать цикл в котором будет расчитываться бронирования за период, который указан в форме.
 
 
                 CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, CurrentSanatorium = SelectedSanatorium, CurrentRoomCategory = SelectedRoomCategory, CurrentAccommodationType = SelectedAccommodationType, CurrentTarifCategory = SelectedTarifCategory, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };

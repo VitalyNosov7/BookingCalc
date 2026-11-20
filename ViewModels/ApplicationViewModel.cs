@@ -3,6 +3,7 @@ using BookingCalc.DataBase;
 using BookingCalc.Models;
 using BookingCalc.ViewModels.Base;
 using BookingCalc.Views.Services;
+using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.ObjectModel;
@@ -409,12 +410,12 @@ namespace BookingCalc.ViewModels
         }
 
         /// <summary>Дата окончания цикла бронирования</summary>
-        private DateTime _endDateBookingCycle = default;
+        private DateTime _endBookingDateCycle = default;
         /// <summary>Дата окончания цикла бронирования</summary>
-        public DateTime EndDateBookingCycle
+        public DateTime EndBookingDateCycle
         {
-            get { return _endDateBookingCycle; }
-            set => Set(ref _endDateBookingCycle, value);
+            get { return _endBookingDateCycle; }
+            set => Set(ref _endBookingDateCycle, value);
         }
 
         /// <summary>Максимальное число увеличения дней бронирования</summary>
@@ -426,7 +427,8 @@ namespace BookingCalc.ViewModels
             set => Set(ref _maxIncreaseNumberDays, value);
         }
 
-
+        // Количество дней, которые нужно перебрать для бронирования
+        public Int32 CountDaysCheckBooking => (EndBookingDateCycle - StartBookingDate).Days;
 
         #endregion ДАТЫ БРОНИРОВАНИЯ
 
@@ -546,60 +548,94 @@ namespace BookingCalc.ViewModels
         // Сумма текущего обрабатываемого бронирования
         public Decimal TotalBookingSum
         {
-            get { return _totalBookingSum ; }
-            set { _totalBookingSum  = value; }
+            get { return _totalBookingSum; }
+            set { _totalBookingSum = value; }
         }
 
 
         // Получить расчет бронирования(-ий)
         private void GetCalcBooking()
         {
+            
+
+
             // Получаем прайс по заданным параметрам из формы главного окна
             // Проверка выбраны ли параметры:
             if (SelectedSanatorium != null && SelectedAccommodationType != null && SelectedPriceTargetCategory != null && SelectedTarifCategory != null && SelectedRoomCategory != null)
             {
-                List<PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
-               // var pricePeriodSegments = filteredPriceBooking;
+                // Изменяемые даты:
+                DateTime startBookingDate = StartBookingDate;
+                DateTime endBookingDate = EndBookingDate;
+                DateTime endBookingDateCycle = EndBookingDateCycle;
 
-                // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке
+                    // TODO: Вынести в отдельный метод
+                    List <PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
 
-                BookingRequest request = new BookingRequest
-                {
-                    StartDateBookingPeriod = StartBookingDate,
-                    EndDateBookingPeriod = EndBookingDate
-                };
-
-                // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
-                // Расчет по "ночному" правилу
-               // BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
-                BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(filteredPriceBooking, request);
-
-                foreach (BookingSegment s in BookingSegments)
-                {
-                    //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
-                    MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
-                }
-
-               // TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice);
-
-                // Заполняем список расчетов бронирования CalcBookings
-                // Очищаем список
-                CalcBookings.Clear();
-                CurrentCalcBookingData = null!;
-                Int32 currentCalcBookingDataID = 0;
 
                 // TODO: разработать логику, которая позволит выводить несколько расчетов в таблицу
-                // 1. Определить поле DateTime(конечная дата)  для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
-                // 2. Определить поле, которое будет определять на сколько будет уведичиваться период бронирования(например 10 - будет означать что от стартового периода бронирования период  будет увеличиваться  на 1 ночь, далее на 2 ночи и так далее увеличение будет происходить до 10 ночей)
+                // =X= 1. Определить поле DateTime(конечная дата)  для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
+                // =X= 2. Определить поле, которое будет определять на сколько будет уведичиваться период бронирования(например 10 - будет означать что от стартового периода бронирования период  будет увеличиваться  на 1 ночь, далее на 2 ночи и так далее увеличение будет происходить до 10 ночей)
                 // 3. Разработать цикл в котором будет расчитываться бронирования за период, который указан в форме.
+                // Очищаем список
+                CalcBookings.Clear();
 
+                // TODO: Разработать механизм получения ID из БД
+                Int32 currentCalcBookingDataID = 1;
 
-                CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID + 1, PriceEffectiveDate = SelectedPriceEffectiveDate, StartDate = StartBookingDate, EndDate = EndBookingDate, CurrentSanatorium = SelectedSanatorium, CurrentRoomCategory = SelectedRoomCategory, CurrentAccommodationType = SelectedAccommodationType, CurrentTarifCategory = SelectedTarifCategory, TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
-                CalcBookings.Add(CurrentCalcBookingData);
+                // Заполняем список расчетов бронирования CalcBookings     
+                for (Int32 k = 1; k < CountDaysCheckBooking; k++) // Цикл перебора дней в периоде для бронирования
+                {
+                    // В этом цикле проходим по периоду с StartBookingDate по EndBookingDate, до тех пор пока StartBookingDate не достигнет значения EndDateBookingCycle, и производим расчет по этому периоду.
+
+  
+
+                    //foreach (BookingSegment s in BookingSegments)
+                    //{
+                    //    //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                    //    MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
+                    //}
+
+                    
+
+                    for (Int32 i = 1; i < MaxIncreaseNumberDays; i++) // Цикл увеличения количества дней бронирования
+                    {
+
+                        // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке
+                        BookingRequest request = null!;
+                        request = new BookingRequest
+                        {
+                            StartDateBookingPeriod = startBookingDate,
+                            EndDateBookingPeriod = endBookingDate
+                        };
+
+                        // TODO: Определить алгоритм по которому будет определяться, по какому прайсу будет вестись расчет(для гостей или санатория)
+                        // Расчет по "ночному" правилу
+                        // BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(pricePeriodSegments, request);
+                        BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(filteredPriceBooking, request);
+
+                        CurrentCalcBookingData = null!;
+                        CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID
+                                                                        , PriceEffectiveDate = SelectedPriceEffectiveDate
+                                                                        , StartDate = startBookingDate
+                                                                        , EndDate = endBookingDate
+                                                                        , CurrentSanatorium = SelectedSanatorium
+                                                                        , CurrentRoomCategory = SelectedRoomCategory
+                                                                        , CurrentAccommodationType = SelectedAccommodationType
+                                                                        , CurrentTarifCategory = SelectedTarifCategory
+                                                                        , TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
+
+                        CalcBookings.Add(CurrentCalcBookingData);
+
+                        // Увеличение значений
+                        currentCalcBookingDataID ++;
+                    }
+                }            
+
+            
 
                 // Тестовое сообщение с суммой текущего бронирования
-               // MessageBox.Show($"Сумма брони {TotalBookingSum}");
-                MessageBox.Show($"Сумма брони {CurrentCalcBookingData.TotalBookingSum}");
+                // MessageBox.Show($"Сумма брони {TotalBookingSum}");
+               // MessageBox.Show($"Сумма брони {CurrentCalcBookingData.TotalBookingSum}");
 
             }
             else

@@ -392,7 +392,7 @@ namespace BookingCalc.ViewModels
         #region ДАТЫ БРОНИРОВАНИЯ
 
         /// <summary>Дата начала бронирования</summary>
-        private DateTime _startBookingDate = default;
+        private DateTime _startBookingDate = DateTime.Now;
         /// <summary>Дата начала бронирования</summary>
         public DateTime StartBookingDate
         {
@@ -401,7 +401,7 @@ namespace BookingCalc.ViewModels
         }
 
         /// <summary>Дата окончания бронирования</summary>
-        private DateTime _endBookingDate = default;
+        private DateTime _endBookingDate = DateTime.Now + TimeSpan.FromDays(10);
         /// <summary>Дата окончания бронирования</summary>
         public DateTime EndBookingDate
         {
@@ -410,7 +410,9 @@ namespace BookingCalc.ViewModels
         }
 
         /// <summary>Дата окончания цикла бронирования</summary>
-        private DateTime _endBookingDateCycle = default;
+        private DateTime _endBookingDateCycle = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
+        .AddMonths(1)
+        .AddDays(-1);
         /// <summary>Дата окончания цикла бронирования</summary>
         public DateTime EndBookingDateCycle
         {
@@ -555,8 +557,7 @@ namespace BookingCalc.ViewModels
 
         // Получить расчет бронирования(-ий)
         private void GetCalcBooking()
-        {
-            
+        {          
 
 
             // Получаем прайс по заданным параметрам из формы главного окна
@@ -570,12 +571,7 @@ namespace BookingCalc.ViewModels
 
                     // TODO: Вынести в отдельный метод
                     List <PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
-
-
-                // TODO: разработать логику, которая позволит выводить несколько расчетов в таблицу
-                // =X= 1. Определить поле DateTime(конечная дата)  для определения интервала времени по которому в цикле будет проводиться расчет (каджый день - начало заезда)
-                // =X= 2. Определить поле, которое будет определять на сколько будет уведичиваться период бронирования(например 10 - будет означать что от стартового периода бронирования период  будет увеличиваться  на 1 ночь, далее на 2 ночи и так далее увеличение будет происходить до 10 ночей)
-                // 3. Разработать цикл в котором будет расчитываться бронирования за период, который указан в форме.
+          
                 // Очищаем список
                 CalcBookings.Clear();
 
@@ -585,16 +581,7 @@ namespace BookingCalc.ViewModels
                 // Заполняем список расчетов бронирования CalcBookings     
                 for (Int32 k = 1; k < CountDaysCheckBooking; k++) // Цикл перебора дней в периоде для бронирования
                 {
-                    // В этом цикле проходим по периоду с StartBookingDate по EndBookingDate, до тех пор пока StartBookingDate не достигнет значения EndDateBookingCycle, и производим расчет по этому периоду.
-                     
-
-                    //foreach (BookingSegment s in BookingSegments)
-                    //{
-                    //    //Console.WriteLine($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
-                    //    MessageBox.Show($"{s.StartBookingPeriodSegment:dd.MM} - {s.EndBookingPeriodSegment:dd.MM}, дней: {s.DaysCount}, цена/день: {s.PricePerDay}, итого: {s.TotalPrice}");
-                    //}
-
-                    
+                    // В этом цикле проходим по периоду с StartBookingDate по EndBookingDate, до тех пор пока StartBookingDate не достигнет значения EndDateBookingCycle, и производим расчет по этому периоду.                     
 
                     for (Int32 i = 1; i < MaxIncreaseNumberDays+1; i++) // Цикл увеличения количества дней бронирования
                     {

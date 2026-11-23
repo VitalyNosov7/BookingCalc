@@ -694,7 +694,7 @@ namespace BookingCalc.ViewModels
                               int rowNum = i + 1;
                               var row = sheet.CreateRow(rowNum);
 
-                              row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
+                              row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID); // Выводит ID
 
                               var priceEffectiveDateCell = row.CreateCell(1);
                               priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);

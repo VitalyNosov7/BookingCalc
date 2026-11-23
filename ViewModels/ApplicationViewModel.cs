@@ -677,7 +677,7 @@ namespace BookingCalc.ViewModels
                           // Заголовки
                           var headerRow = sheet.CreateRow(0);
                           string[] headers = { "ID", "Санаторий", "Категория номера", "Дата заезда", "Дата выезда", "Продолжительность", "Тип размещения", "Тариф", "Стоимость путевки" };
-                          for (int i = 0; i < headers.Length; i++)
+                          for (Int32 i = 0; i < headers.Length; i++)
                           {
                               var cell = headerRow.CreateCell(i);
                               cell.SetCellValue(headers[i]);
@@ -689,27 +689,44 @@ namespace BookingCalc.ViewModels
                           CalcBookingData[] data = CalcBookings.ToArray();
 
                           // Данные
-                          for (int i = 0; i < data.Length; i++)
+                          for (Int32 i = 0; i < data.Length; i++)
                           {
-                              int rowNum = i + 1;
+                              Int32 rowNum = i + 1;
                               var row = sheet.CreateRow(rowNum);
 
                               row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID); // Выводит ID
 
-                              var priceEffectiveDateCell = row.CreateCell(1);
-                              priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
-                              priceEffectiveDateCell.CellStyle = dateStyle;
+                              var sanatoriumNameCell = row.CreateCell(1);
+                              sanatoriumNameCell.SetCellValue(data[i].CurrentSanatorium.SanatoriumName); // Название санатория
+                              sanatoriumNameCell.CellStyle = dateStyle;
 
-                              var startDateCell = row.CreateCell(2);
-                              startDateCell.SetCellValue(data[i].StartDate);
+                              var roomCaregoryCell = row.CreateCell(2);
+                              roomCaregoryCell.SetCellValue(data[i].CurrentRoomCategory.RoomCategoryName); // Название категории номера
+                              roomCaregoryCell.CellStyle = dateStyle;
+
+                              var startDateCell = row.CreateCell(3);
+                              startDateCell.SetCellValue(data[i].StartDate); // Дата начала бронирования
                               startDateCell.CellStyle = dateStyle;
 
-                              var endDateCell = row.CreateCell(3);
-                              endDateCell.SetCellValue(data[i].EndDate);
+                              var endDateCell = row.CreateCell(4);
+                              endDateCell.SetCellValue(data[i].EndDate); // Дата окончания  бронирования
                               endDateCell.CellStyle = dateStyle;
 
-                              var calcResultFromGuestCell = row.CreateCell(4);
-                              calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].TotalBookingSum));
+                              var countDaysCell = row.CreateCell(5);
+                              countDaysCell.SetCellValue(data[i].CountDays); //  Количество дней бронирования CurrentAccommodationType
+                              countDaysCell.CellStyle = dateStyle;
+
+                              var accommodationTypeCell = row.CreateCell(6);
+                              accommodationTypeCell.SetCellValue(data[i].CurrentAccommodationType.AccommodationTypeName); //  Тип размещения 
+                              accommodationTypeCell.CellStyle = dateStyle;
+
+                              var tarifCategoryNameCell = row.CreateCell(7);
+                              tarifCategoryNameCell.SetCellValue(data[i].CurrentTarifCategory.TarifCategoryName); //  Тариф
+                              tarifCategoryNameCell.CellStyle = dateStyle;
+
+
+                              var totalBookingSumCell = row.CreateCell(8);
+                              totalBookingSumCell.SetCellValue(Convert.ToDouble(data[i].TotalBookingSum));
 
                               // Сохранение
                               using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);

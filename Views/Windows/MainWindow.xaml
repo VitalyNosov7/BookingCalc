@@ -418,7 +418,7 @@
 						  IsReadOnly="True"
 						  Height="400">
                         <DataGrid.Columns>
-						    <DataGridTextColumn Header="№" Binding="{Binding CalcBookingDataID}" Width="50"/>
+						    <DataGridTextColumn Header="ID" Binding="{Binding CalcBookingDataID}" Width="50"/>
                             <DataGridTextColumn Header="Санаторий" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="150"/>
                             <DataGridTextColumn Header="Категория номера" Binding="{Binding CurrentRoomCategory.RoomCategoryName}" Width="150"/>
                         <DataGridTextColumn Header="Дата заезда" Binding="{Binding StartDate, StringFormat={}{0:dd.MM.yyyy}}" Width="200"/>

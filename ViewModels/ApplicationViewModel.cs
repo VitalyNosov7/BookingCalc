@@ -557,7 +557,7 @@ namespace BookingCalc.ViewModels
 
         // Получить расчет бронирования(-ий)
         private void GetCalcBooking()
-        {          
+        {
 
 
             // Получаем прайс по заданным параметрам из формы главного окна
@@ -569,9 +569,9 @@ namespace BookingCalc.ViewModels
                 DateTime endBookingDate = EndBookingDate;
                 DateTime endBookingDateCycle = EndBookingDateCycle;
 
-                    // TODO: Вынести в отдельный метод
-                    List <PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
-          
+                // TODO: Вынести в отдельный метод
+                List<PriceBooking> filteredPriceBooking = PriceBookingFullList.Where(x => x.SanatoriumID == SelectedSanatorium!.SanatoriumID && x.PriceEffectiveDate == SelectedPriceEffectiveDate && x.AccommodationTypeID == SelectedAccommodationType!.AccommodationTypeID && x.PriceTargetCategoryID == SelectedPriceTargetCategory!.PriceTargetCategoryID && x.TarifCategoryID == SelectedTarifCategory!.TarifCategoryID && x.RoomCategoryID == SelectedRoomCategory.RoomCategoryID).ToList();
+
                 // Очищаем список
                 CalcBookings.Clear();
 
@@ -583,7 +583,7 @@ namespace BookingCalc.ViewModels
                 {
                     // В этом цикле проходим по периоду с StartBookingDate по EndBookingDate, до тех пор пока StartBookingDate не достигнет значения EndDateBookingCycle, и производим расчет по этому периоду.                     
 
-                    for (Int32 i = 1; i < MaxIncreaseNumberDays+1; i++) // Цикл увеличения количества дней бронирования
+                    for (Int32 i = 1; i < MaxIncreaseNumberDays + 1; i++) // Цикл увеличения количества дней бронирования
                     {
 
                         // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке
@@ -600,31 +600,42 @@ namespace BookingCalc.ViewModels
                         BookingSegments = BookingCalculator.CalculateSegmentsDoNighttimeRule(filteredPriceBooking, request);
 
                         CurrentCalcBookingData = null!;
-                        CurrentCalcBookingData = new CalcBookingData { CalcBookingDataID = currentCalcBookingDataID
-                                                                        , PriceEffectiveDate = SelectedPriceEffectiveDate
-                                                                        , StartDate = startBookingDate
-                                                                        , EndDate = endBookingDate
-                                                                        , CurrentSanatorium = SelectedSanatorium
-                                                                        , CurrentRoomCategory = SelectedRoomCategory
-                                                                        , CurrentAccommodationType = SelectedAccommodationType
-                                                                        , CurrentTarifCategory = SelectedTarifCategory
-                                                                        , TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice) };
+                        CurrentCalcBookingData = new CalcBookingData
+                        {
+                            CalcBookingDataID = currentCalcBookingDataID
+                                                                        ,
+                            PriceEffectiveDate = SelectedPriceEffectiveDate
+                                                                        ,
+                            StartDate = startBookingDate
+                                                                        ,
+                            EndDate = endBookingDate
+                                                                        ,
+                            CurrentSanatorium = SelectedSanatorium
+                                                                        ,
+                            CurrentRoomCategory = SelectedRoomCategory
+                                                                        ,
+                            CurrentAccommodationType = SelectedAccommodationType
+                                                                        ,
+                            CurrentTarifCategory = SelectedTarifCategory
+                                                                        ,
+                            TotalBookingSum = BookingSegments.Sum(p => p.TotalPrice)
+                        };
 
                         CalcBookings.Add(CurrentCalcBookingData);
 
                         // Увеличение значений
-                        currentCalcBookingDataID ++;
+                        currentCalcBookingDataID++;
                         endBookingDate = endBookingDate.AddDays(1); // Увеличиваем endBookingDate на 1 день
                     }
                     startBookingDate = startBookingDate.AddDays(1); // Увеличиваем startBookingDate на 1 день
                     endBookingDate = EndBookingDate.AddDays(k); // Увеличиваем EndBookingDate на k дней и обновляем значение переменной endBookingDate
-                }            
+                }
 
-            
+
 
                 // Тестовое сообщение с суммой текущего бронирования
                 // MessageBox.Show($"Сумма брони {TotalBookingSum}");
-               // MessageBox.Show($"Сумма брони {CurrentCalcBookingData.TotalBookingSum}");
+                // MessageBox.Show($"Сумма брони {CurrentCalcBookingData.TotalBookingSum}");
 
             }
             else
@@ -647,57 +658,63 @@ namespace BookingCalc.ViewModels
                 return _saveToExcelCommand ??
                   (_saveToExcelCommand = new RelayCommand(obj =>
                   {
-                      // Создаем рабочую книгу Excel
-                      using var workbook = new XSSFWorkbook();
-                      var sheet = workbook.CreateSheet("Лист1");
 
-                      // Стили: дата и общий
-                      var dateStyle = workbook.CreateCellStyle();
-                      dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
-
-                      var headerStyle = workbook.CreateCellStyle();
-                      // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
-                      // headerStyle.FillPattern = FillPattern.SolidForeground;
-
-                      // Заголовки
-                      var headerRow = sheet.CreateRow(0);
-                      string[] headers = { "ID", "Дата прайса", "Начало заезда", "Конец заезда", "Стоимость брони" };
-                      for (int i = 0; i < headers.Length; i++)
+                      if (CalcBookings != null && CalcBookings.Count > 0)
                       {
-                          var cell = headerRow.CreateCell(i);
-                          cell.SetCellValue(headers[i]);
-                          cell.CellStyle = headerStyle;
-                      }
 
-                      // TODO: заменить тестовые данные на рабочие!
-                      CalcBookingData[] data = GetObsCollectCalcBookingDataTestData().ToArray();
+                          // Создаем рабочую книгу Excel
+                          using var workbook = new XSSFWorkbook();
+                          var sheet = workbook.CreateSheet("Лист1");
 
-                      // Данные
-                      for (int i = 0; i < data.Length; i++)
-                      {
-                          int rowNum = i + 1;
-                          var row = sheet.CreateRow(rowNum);
+                          // Стили: дата и общий
+                          var dateStyle = workbook.CreateCellStyle();
+                          dateStyle.DataFormat = (short)workbook.CreateDataFormat().GetFormat("dd.MM.yyyy");
 
-                          row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
+                          var headerStyle = workbook.CreateCellStyle();
+                          // headerStyle.FillForegroundColor = NPOI.HPSF.HSSFColor.Grey25Percent.Index;
+                          // headerStyle.FillPattern = FillPattern.SolidForeground;
 
-                          var priceEffectiveDateCell = row.CreateCell(1);
-                          priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
-                          priceEffectiveDateCell.CellStyle = dateStyle;
+                          // Заголовки
+                          var headerRow = sheet.CreateRow(0);
+                          string[] headers = { "ID", "Санаторий", "Категория номера", "Дата заезда", "Дата выезда", "Продолжительность", "Тип размещения", "Тариф", "Стоимость путевки" };
+                          for (int i = 0; i < headers.Length; i++)
+                          {
+                              var cell = headerRow.CreateCell(i);
+                              cell.SetCellValue(headers[i]);
+                              cell.CellStyle = headerStyle;
+                          }
 
-                          var startDateCell = row.CreateCell(2);
-                          startDateCell.SetCellValue(data[i].StartDate);
-                          startDateCell.CellStyle = dateStyle;
+                          // TODO: заменить тестовые данные на рабочие!
+                          // CalcBookingData[] data = GetObsCollectCalcBookingDataTestData().ToArray();
+                          CalcBookingData[] data = CalcBookings.ToArray();
 
-                          var endDateCell = row.CreateCell(3);
-                          endDateCell.SetCellValue(data[i].EndDate);
-                          endDateCell.CellStyle = dateStyle;
+                          // Данные
+                          for (int i = 0; i < data.Length; i++)
+                          {
+                              int rowNum = i + 1;
+                              var row = sheet.CreateRow(rowNum);
 
-                          var calcResultFromGuestCell = row.CreateCell(4);
-                          calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].TotalBookingSum));
+                              row.CreateCell(0).SetCellValue(data[i].CalcBookingDataID);
 
-                          // Сохранение
-                          using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
-                          workbook.Write(fs);
+                              var priceEffectiveDateCell = row.CreateCell(1);
+                              priceEffectiveDateCell.SetCellValue(data[i].PriceEffectiveDate);
+                              priceEffectiveDateCell.CellStyle = dateStyle;
+
+                              var startDateCell = row.CreateCell(2);
+                              startDateCell.SetCellValue(data[i].StartDate);
+                              startDateCell.CellStyle = dateStyle;
+
+                              var endDateCell = row.CreateCell(3);
+                              endDateCell.SetCellValue(data[i].EndDate);
+                              endDateCell.CellStyle = dateStyle;
+
+                              var calcResultFromGuestCell = row.CreateCell(4);
+                              calcResultFromGuestCell.SetCellValue(Convert.ToDouble(data[i].TotalBookingSum));
+
+                              // Сохранение
+                              using var fs = new FileStream("Result_Calc.xlsx", FileMode.Create, FileAccess.Write);
+                              workbook.Write(fs);
+                          }
                       }
 
                   }));

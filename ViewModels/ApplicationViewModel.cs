@@ -586,8 +586,7 @@ namespace BookingCalc.ViewModels
                 for (Int32 k = 1; k < CountDaysCheckBooking; k++) // Цикл перебора дней в периоде для бронирования
                 {
                     // В этом цикле проходим по периоду с StartBookingDate по EndBookingDate, до тех пор пока StartBookingDate не достигнет значения EndDateBookingCycle, и производим расчет по этому периоду.
-
-  
+                     
 
                     //foreach (BookingSegment s in BookingSegments)
                     //{
@@ -628,7 +627,10 @@ namespace BookingCalc.ViewModels
 
                         // Увеличение значений
                         currentCalcBookingDataID ++;
+                        endBookingDate = endBookingDate.AddDays(1); // Увеличиваем endBookingDate на 1 день
                     }
+                    startBookingDate = startBookingDate.AddDays(1); // Увеличиваем startBookingDate на 1 день
+                    endBookingDate = EndBookingDate.AddDays(k); // Увеличиваем EndBookingDate на k дней и обновляем значение переменной endBookingDate
                 }            
 
             

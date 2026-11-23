@@ -596,7 +596,7 @@ namespace BookingCalc.ViewModels
 
                     
 
-                    for (Int32 i = 1; i < MaxIncreaseNumberDays; i++) // Цикл увеличения количества дней бронирования
+                    for (Int32 i = 1; i < MaxIncreaseNumberDays+1; i++) // Цикл увеличения количества дней бронирования
                     {
 
                         // TODO: Добавить проверку вводимых дат. Можно ориентироваться на даты, которые были отобраны в выборке

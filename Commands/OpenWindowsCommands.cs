@@ -42,5 +42,19 @@ namespace BookingCalc.Commands
                   }));
             }
         }
+
+        // Окно для работы с данными RoomCategory из базы данных  
+        private RelayCommand? _openRoomCategoryWindowCommand;
+        public RelayCommand OpenRoomCategoryWindowCommand
+        {
+            get
+            {
+                return _openRoomCategoryWindowCommand ??
+                  (_openRoomCategoryWindowCommand = new RelayCommand((o) =>
+                  {
+                      _windowManager.ShowOrActivate<RoomCategoryWindow>();
+                  }));
+            }
+        }
     }
 }

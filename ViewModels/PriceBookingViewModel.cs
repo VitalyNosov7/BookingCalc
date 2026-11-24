@@ -30,12 +30,12 @@ namespace BookingCalc.ViewModels
         }
 
         /// <summary>Список прайсов бронирования</summary>
-        private ObservableCollection<PriceBooking> _priceBookings = new ObservableCollection<PriceBooking>();
+        private ObservableCollection<PriceBooking> _priceBookingList = new ObservableCollection<PriceBooking>();
         /// <summary>Список прайсов бронирования</summary>
-        public ObservableCollection<PriceBooking> PriceBookings
+        public ObservableCollection<PriceBooking> PriceBookingList
         {
-            get { return _priceBookings; }
-            set => Set(ref _priceBookings, value);
+            get { return _priceBookingList; }
+            set => Set(ref _priceBookingList, value);
         }
 
         /// <summary>Выбранный прайс бронирования</summary>
@@ -240,41 +240,99 @@ namespace BookingCalc.ViewModels
                   {
                       using (ApplicationContext db = new ApplicationContext())
                       {
-                          //List<PriceBooking> listPriceBooking = db.PriceBookings.ToList();
-                          //PriceBookings.Clear();
-                          //foreach (PriceBooking priceBooking in listPriceBooking)
-                          //{
+                          List<PriceBooking> priceBookingList = db.PriceBookings.ToList();
+                          PriceBookingList.Clear();
+                          foreach (PriceBooking priceBooking in priceBookingList)
+                          {
 
-                          //    Sanatorium? foundSanatorium = db.Sanatoriums.Find(priceBooking.SanatoriumID);
-                          //    if (foundSanatorium != null)
-                          //    {
-                          //        Sanatorium createdNewSanatorium = new Sanatorium
-                          //        {
-                          //            SanatoriumID = foundSanatorium.SanatoriumID,
-                          //            SanatoriumName = foundSanatorium.SanatoriumName,
-                          //            EmailSanatorium = foundSanatorium.EmailSanatorium
-                          //        };
-                          //        priceBooking.CurrentSanatorium = createdNewSanatorium;
-                          //        PriceBookings.Add(priceBooking);
-                          //    }
-                          //    else
-                          //    {
-                          //        MessageBox.Show("Данные о санатории не найдены в базе данных!");
-                          //        return;
-                          //    }
+                              Sanatorium? foundSanatorium = db.Sanatoriums.Find(priceBooking.SanatoriumID);
+                              if (foundSanatorium != null)
+                              {
+                                  Sanatorium createdNewSanatorium = new Sanatorium
+                                  {
+                                      SanatoriumID = foundSanatorium.SanatoriumID,
+                                      SanatoriumName = foundSanatorium.SanatoriumName,
+                                      EmailSanatorium = foundSanatorium.EmailSanatorium
+                                  };
+                                  priceBooking.CurrentSanatorium = createdNewSanatorium;
+                                  PriceBookingList.Add(priceBooking);
+                              }
+                              else
+                              {
+                                  MessageBox.Show("Данные о санатории не найдены в базе данных!");
+                                  return;
+                              }
 
                           }
 
-                          //SelectedAccommodationType = null!;
-                          //ExtractDataSanatoriumFromDBCommand.Execute(null!);
-                          //ClearPropertyAccommodationType();
+                          SelectedPriceBooking = null!;
+                          ExtractDataSanatoriumFromDBCommand.Execute(null!);
+                          ClearPropertyPriceBooking();
                       }
 
                   }));
             }
         }
 
+        // Получение данных о санаториях из базы данных
+        private RelayCommand? extractDataSanatoriumFromDBCommand;
+        // Получение данных о санаториях из базы данных
+        public RelayCommand ExtractDataSanatoriumFromDBCommand
+        {
+            get
+            {
+                return extractDataSanatoriumFromDBCommand ??
+                  (extractDataSanatoriumFromDBCommand = new RelayCommand(obj =>
+                  {
+                      using (ApplicationContext db = new ApplicationContext())
+                      {
+                          List<Sanatorium> listSanatoriums = db.Sanatoriums.ToList();
+                          SanatoriumList.Clear();
+                          foreach (Sanatorium sanatorium in listSanatoriums)
+                          {
+                              Sanatorium? foundSanatorium = db.Sanatoriums.Find(sanatorium.SanatoriumID);
+                              if (foundSanatorium != null)
+                              {
+                                  Sanatorium createdNewSanatorium = new Sanatorium
+                                  {
+                                      SanatoriumID = foundSanatorium.SanatoriumID,
+                                      SanatoriumName = foundSanatorium.SanatoriumName,
+                                      EmailSanatorium = foundSanatorium.EmailSanatorium
+                                  };
+
+                                  SanatoriumList.Add(createdNewSanatorium);
+                              }
+                              else
+                              {
+                                  MessageBox.Show("Данные о санатории не найдены в базе данных!");
+                                  return;
+                              }
+
+                          }
+
+                          SelectedSanatorium = null!;
+                          ClearPropertyPriceBooking();
+                      }
+
+                  }));
+            }
+        }
+
+       
+
         #endregion КОМАНДЫ
+
+        #region МЕТОДЫ
+
+        /// <summary>Очистить свойства прайса бронирования</summary>
+        private void ClearPropertyPriceBooking()
+        {
+            PriceBookingID = default;
+            SanatoriumID = default;           
+        }
+
+        #endregion МЕТОДЫ
+
 
 
     }

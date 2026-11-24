@@ -1,0 +1,108 @@
+﻿<Window x:Class="BookingCalc.Views.Windows.TarifCategoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingCalc.Views.Windows"
+        mc:Ignorable="d"
+                Title="TarifCategoryWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True" Margin="5">
+
+
+        <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="3,3,3,3" Command="{Binding AddTarifCategoryFromDBCommand}">Добавить</Button>
+                <Button Margin="3,3,3,3" Command ="{Binding EditTarifCategoryToDBCommand}">Редактировать</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeleteTarifCategoryToDBCommand}">Удалить</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeselectTarifCategoryCommand}">Снять выделение</Button>
+                <Button Margin="3,3,3,3" Command="{Binding UpdateDataTarifCategoryFromDBCommand}">Обновить данные</Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal">
+
+            <Grid Width="250">
+                <StackPanel Orientation="Vertical">
+
+                    <TextBlock>TarifCategoryID</TextBlock>
+                    <TextBox Margin="3,3,3,3" 
+							HorizontalAlignment="Left" 
+							Width="50" 
+							Height="20" 
+							Text="{Binding TarifCategoryID}"
+							IsEnabled="False">
+                    </TextBox>
+
+                    <TextBlock>SanatoriumID</TextBlock>
+                    <TextBox Margin="3,3,3,3" 
+							HorizontalAlignment="Left" 
+							Width="50" 
+							Height="20" 
+							Text="{Binding SanatoriumID}"
+							IsEnabled="False">
+                    </TextBox>
+
+                    <TextBlock>SanatoriumName</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="Sanatorium"
+												  Width="200"
+												  Margin="3,0,3,1"
+												  ItemsSource="{Binding SanatoriumList}"
+												  SelectedItem="{Binding SelectedSanatorium, UpdateSourceTrigger=PropertyChanged}"  
+												  IsTextSearchEnabled="True"                                            
+												  TextSearch.TextPath="SanatoriumName">
+                            <!--DisplayMemberPath="Name"-->
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}">
+                                                <Binding Path="SanatoriumName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Content="DB"
+												Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
+												Width="30"
+												Height="20"
+												Margin="3,3,3,3"/>
+                    </StackPanel>
+
+                    <TextBlock>TarifCategoryName</TextBlock>
+                    <TextBox Name="TextTemplateVariabName"
+							Margin="3,3,3,3" 
+							HorizontalAlignment="Left" 
+							Width="240" 
+							Height="50" 
+							Text="{Binding TarifCategoryName}">
+                    </TextBox>
+
+
+                </StackPanel>
+            </Grid>
+
+            <Grid>
+                <StackPanel Width="Auto"
+					Orientation="Vertical">
+                    <DataGrid ItemsSource="{Binding TarifCategories}" 
+					  SelectedItem="{Binding SelectedTarifCategory, Mode=TwoWay}"
+					  AutoGenerateColumns="False"
+					  GridLinesVisibility="All"
+					  CanUserAddRows="False"
+					  IsReadOnly="True"
+					  Height="400">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="TCID" Binding="{Binding TarifCategoryID}" Width="50"/>
+                            <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
+                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="100"/>
+                            <DataGridTextColumn Header="TCName" Binding="{Binding TarifCategoryName}" Width="300"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+</Window>

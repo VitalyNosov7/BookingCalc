@@ -70,5 +70,19 @@ namespace BookingCalc.Commands
                   }));
             }
         }
+
+        // Окно для работы с данными TarifCategory из базы данных  
+        private RelayCommand? _openTarifCategoryWindowCommand;
+        public RelayCommand OpenTarifCategoryeWindowCommand
+        {
+            get
+            {
+                return _openTarifCategoryWindowCommand ??
+                  (_openTarifCategoryWindowCommand = new RelayCommand((o) =>
+                  {
+                      _windowManager.ShowOrActivate<TarifCategoryWindow>();
+                  }));
+            }
+        }
     }
 }

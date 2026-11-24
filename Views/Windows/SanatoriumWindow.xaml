@@ -8,18 +8,6 @@
         Title="SanatoriumWindow" Height="450" Width="600">
     <DockPanel LastChildFill="True" Margin="5">
 
-        <!--<Grid Name="GridTop" DockPanel.Dock="Top" Background="Coral" Width="Auto" Height="30">
-	<StackPanel Orientation="Horizontal">
-		<TextBlock Margin="3,3,3,3" >Поиск</TextBlock>
-
-		<TextBox Margin="3,3,3,3" 
-		HorizontalAlignment="Left" 
-		Width="200" 
-		Height="20" ></TextBox>
-
-		<Button Margin="3,3,3,3">Найти</Button>
-	</StackPanel>
-</Grid>-->
 
         <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
             <StackPanel Orientation="Horizontal">
@@ -69,19 +57,19 @@
                 <StackPanel Width="Auto"
 					Orientation="Vertical">
 
-                    <ListView  Name="sanatoriumsList" 
-						Height="350"
-						ScrollViewer.VerticalScrollBarVisibility="Auto"
-						ItemsSource="{Binding Sanatoriums}"
-						SelectedItem="{Binding SelectedSanatorium, Mode=TwoWay}">
-                        <ListView.View >
-                            <GridView >
-                                <GridViewColumn DisplayMemberBinding="{Binding SanatoriumID}" Width="80">SanatoriumID</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding SanatoriumName}" Width="100">SanatoriumName</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding EmailSanatorium}" Width="200">EmailSanatorium</GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <DataGrid ItemsSource="{Binding Sanatoriums}" 
+                              SelectedItem="{Binding SelectedSanatorium, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              GridLinesVisibility="All"
+                              CanUserAddRows="False"
+                              IsReadOnly="True"
+                              Height="400">
+                        <DataGrid.Columns>                           
+                            <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
+                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding SanatoriumName}" Width="100"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding EmailSanatorium}" Width="300"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </Grid>
 

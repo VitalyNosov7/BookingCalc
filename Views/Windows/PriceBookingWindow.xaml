@@ -28,7 +28,7 @@
 							HorizontalAlignment="Left" 
 							Width="50" 
 							Height="20" 
-							Text="{Binding AccommodationTypeID}"
+							Text="{Binding PriceBookingListID}"
 							IsEnabled="False">
                     </TextBox>
 
@@ -86,15 +86,15 @@
             <Grid>
                 <StackPanel Width="Auto"
 					Orientation="Vertical">
-                    <DataGrid ItemsSource="{Binding AccommodationTypes}" 
-					  SelectedItem="{Binding SelectedAccommodationType, Mode=TwoWay}"
+                    <DataGrid ItemsSource="{Binding PriceBookingList}" 
+					  SelectedItem="{Binding SelectedPriceBooking, Mode=TwoWay}"
 					  AutoGenerateColumns="False"
 					  GridLinesVisibility="All"
 					  CanUserAddRows="False"
 					  IsReadOnly="True"
 					  Height="400">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ATID" Binding="{Binding AccommodationTypeID}" Width="50"/>
+                            <DataGridTextColumn Header="PBID" Binding="{Binding PriceBookingID}" Width="50"/>
                             <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
                             <DataGridTextColumn Header="Sanatorium" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="100"/>
                             <DataGridTextColumn Header="ATName" Binding="{Binding AccommodationTypeName}" Width="300"/>

@@ -15,6 +15,7 @@ namespace BookingCalc.ViewModels
 
         public PriceBookingViewModel(IDialogService dialogService)
         {
+            ExtractDataPriceBookingFromDBCommand.Execute(null!);
             _dialogService = dialogService;
         }
 

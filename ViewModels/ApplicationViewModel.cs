@@ -738,21 +738,6 @@ namespace BookingCalc.ViewModels
             }
         }
 
-        // TODO: Убрать(перенести) тестовые данные
-        // Тестовые данны для таблицы в главном окне
-        private ObservableCollection<CalcBookingData> GetObsCollectCalcBookingDataTestData()
-        {
-            ObservableCollection<CalcBookingData> result = new ObservableCollection<CalcBookingData>();
-
-            result.Add(new CalcBookingData() { CalcBookingDataID = 1, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 11), TotalBookingSum = 48300 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 2, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 12), TotalBookingSum = 53130 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 3, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 13), TotalBookingSum = 57960 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 4, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 14), TotalBookingSum = 62790 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 5, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 15), TotalBookingSum = 67620 });
-            result.Add(new CalcBookingData() { CalcBookingDataID = 6, StartDate = new DateTime(2026, 11, 01), EndDate = new DateTime(2026, 11, 16), TotalBookingSum = 72450 });
-
-            return result;
-        }
 
         #endregion СОХРАНЕНИЕ В EXCEL
 

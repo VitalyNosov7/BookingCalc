@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using BookingCalc.ViewModels;
+using BookingCalc.Views.Services;
+using System.Windows;
 
 namespace BookingCalc.Views.Windows
 {
@@ -9,7 +11,7 @@ namespace BookingCalc.Views.Windows
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

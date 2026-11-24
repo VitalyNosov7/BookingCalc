@@ -27,5 +27,20 @@ namespace BookingCalc.Commands
                   }));
             }
         }
+
+        // Окно для работы с данными Sanatorium из базы данных 
+        private RelayCommand? openSanatoriumWindomCommand;
+        public RelayCommand OpenSanatoriumWindomCommand
+        {
+            get
+            {
+                return openSanatoriumWindomCommand ??
+                  (openSanatoriumWindomCommand = new RelayCommand((o) =>
+                  {
+                      // App.OpenSingleInstancePersonWindow();
+                      _windowManager.ShowOrActivate<SanatoriumWindow>();
+                  }));
+            }
+        }
     }
 }

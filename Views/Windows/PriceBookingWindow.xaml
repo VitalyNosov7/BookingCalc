@@ -97,7 +97,7 @@
                             <DataGridTextColumn Header="PBID" Binding="{Binding PriceBookingID}" Width="50"/>
                             <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
                             <DataGridTextColumn Header="Sanatorium" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="100"/>
-                            <DataGridTextColumn Header="ATName" Binding="{Binding AccommodationTypeName}" Width="300"/>
+                            <DataGridTextColumn Header="ActualDate" Binding="{Binding PriceEffectiveDate}" Width="100"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

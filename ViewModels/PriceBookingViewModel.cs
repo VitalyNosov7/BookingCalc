@@ -17,6 +17,7 @@ namespace BookingCalc.ViewModels
         {
             ExtractDataPriceBookingFromDBCommand.Execute(null!);
             _dialogService = dialogService;
+            LoadingListsFromDatabase();
         }
 
         // Взаимодействие с диалоговыми окнами
@@ -48,7 +49,7 @@ namespace BookingCalc.ViewModels
             set
             {
                 Set(ref _selectedPriceBooking, value);
-                //  FillPropertyPriceBooking();
+                FillPropertyPriceBooking();
             }
         }
 
@@ -73,23 +74,89 @@ namespace BookingCalc.ViewModels
                 if (SelectedSanatorium != null)
                 {
                     SanatoriumID = SelectedSanatorium.SanatoriumID;
+                    LoadRoomCategoryList();
                 }
                 else { return; }
 
             }
         }
 
+        #region КАТЕГОРИЯ НОМЕРА
+
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> _roomCategoryFullList = new List<RoomCategory>();
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> RoomCategoryFullList
+        {
+            get { return _roomCategoryFullList; }
+            set { _roomCategoryFullList = value; }
+        }
+
+        /// <summary>Список категорий номера</summary>
+        private ObservableCollection<RoomCategory> _roomCategoryList = new ObservableCollection<RoomCategory>();
+        /// <summary>Список категорий номера</summary>
+        public ObservableCollection<RoomCategory> RoomCategoryList
+        {
+            get { return _roomCategoryList; }
+            set => Set(ref _roomCategoryList, value);
+        }
+
+        /// <summary>Выбранная категория номера</summary>
+        private RoomCategory _selectedRoomCategory = null!;
+        /// <summary>Выбранная категория номера</summary>
+        public RoomCategory SelectedRoomCategory
+        {
+            get { return _selectedRoomCategory; }           
+
+            set
+            {
+                Set(ref _selectedRoomCategory, value);
+                FillPropertyPriceBooking();
+            }
+        }
+
+        /// <summary>Заполнить свойства категории номеров</summary>
+        private void FillPropertyPriceBooking()
+        {
+            if (SelectedPriceBooking != null)
+            {
+                PriceBookingID = SelectedPriceBooking.PriceBookingID;
+                SanatoriumID = SelectedPriceBooking.SanatoriumID;
+                CurrentSanatorium = SelectedPriceBooking.CurrentSanatorium;
+               // RoomCategoryName = SelectedRoomCategory.RoomCategoryName;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        /// <summary>Загрузка списка категорий номеров</summary>
+        private void LoadRoomCategoryFullList()
+        {
+
+            // Загрузка всего списка категорий номеров из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                RoomCategoryFullList = db.RoomCategories.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка категорий номеров в зависимости от того какой санаторий был выбран</summary>
+        private void LoadRoomCategoryList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredRoomCategory = RoomCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                RoomCategoryList = new ObservableCollection<RoomCategory>(filteredRoomCategory);
+            }
+            else { return; }
+        }
+        #endregion КАТЕГОРИЯ НОМЕРА
+
         #region СВОЙСТВА PriceBooking
 
-        ///// <summary>Идентификатор санатория</summary>
-        //private Int32 _sanatoriumID = default;
-        ///// <summary>Идентификатор санатория</summary>
-        //public Int32 SanatoriumID
-        //{
-        //    get { return _sanatoriumID; }
-        //    set => Set(ref _sanatoriumID, value);
-        //}
-
+  
         /// <summary>Идентификатор стоимости бронирования</summary>
         private Int32 _priceBookingID = default;
         /// <summary>Идентификатор стоимости бронирования</summary>
@@ -333,6 +400,13 @@ namespace BookingCalc.ViewModels
         }
 
         #endregion МЕТОДЫ
+
+
+        /// <summary>Загрузка списков из базы данных</summary>
+        private void LoadingListsFromDatabase()
+        {
+            LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+        }
 
 
 

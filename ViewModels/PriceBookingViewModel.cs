@@ -120,6 +120,24 @@ namespace BookingCalc.ViewModels
             set => Set(ref _pricePeriodDay, value);
         }
 
+        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
+        private Int32 _priceTargetCategoryID = default;
+        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
+        public Int32 PriceTargetCategoryID
+        {
+            get { return _priceTargetCategoryID; }
+            set => Set(ref _priceTargetCategoryID, value);
+        }
+
+        /// <summary>Целевая категория стоимости бронирования</summary>
+        private PriceTargetCategory _currentPriceTargetCategory = null!;
+        /// <summary>Целевая категория стоимости бронирования</summary>
+        public PriceTargetCategory CurrentPriceTargetCategory
+        {
+            get { return _currentPriceTargetCategory; }
+            set => Set(ref _currentPriceTargetCategory, value);
+        }
+
         #endregion ПРАЙС БРОНИРОВАНИЯ
 
         // ================================================================================
@@ -152,6 +170,24 @@ namespace BookingCalc.ViewModels
                 else { return; }
 
             }
+        }
+
+        /// <summary>Идентификатор санатория</summary>
+        private Int32 _sanatoriumID = default;
+        /// <summary>Идентификатор санатория</summary>
+        public Int32 SanatoriumID
+        {
+            get { return _sanatoriumID; }
+            set => Set(ref _sanatoriumID, value);
+        }
+
+        /// <summary>Санаторий</summary>
+        private Sanatorium _currentSanatorium = null!;
+        /// <summary>Санаторий</summary>
+        public Sanatorium CurrentSanatorium
+        {
+            get { return _currentSanatorium; }
+            set => Set(ref _currentSanatorium, value);
         }
 
         #endregion САНАТОРИЙ
@@ -286,33 +322,7 @@ namespace BookingCalc.ViewModels
 
         // ================================================================================
 
-        #region СВОЙСТВА PriceBooking
-
-        #region САНАТОРИЙ
-
-        /// <summary>Идентификатор санатория</summary>
-        private Int32 _sanatoriumID = default;
-        /// <summary>Идентификатор санатория</summary>
-        public Int32 SanatoriumID
-        {
-            get { return _sanatoriumID; }
-            set => Set(ref _sanatoriumID, value);
-        }
-
-        /// <summary>Санаторий</summary>
-        private Sanatorium _currentSanatorium = null!;
-        /// <summary>Санаторий</summary>
-        public Sanatorium CurrentSanatorium
-        {
-            get { return _currentSanatorium; }
-            set => Set(ref _currentSanatorium, value);
-        }
-
-        #endregion САНАТОРИЙ
-
-
-
-
+        #region ТАРИФ
 
 
         /// <summary>Идентификатор категории тарифа</summary>
@@ -333,25 +343,7 @@ namespace BookingCalc.ViewModels
             set => Set(ref _currentTarifCategory, value);
         }
 
-        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
-        private Int32 _priceTargetCategoryID = default;
-        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
-        public Int32 PriceTargetCategoryID
-        {
-            get { return _priceTargetCategoryID; }
-            set => Set(ref _priceTargetCategoryID, value);
-        }
-
-        /// <summary>Целевая категория стоимости бронирования</summary>
-        private PriceTargetCategory _currentPriceTargetCategory = null!;
-        /// <summary>Целевая категория стоимости бронирования</summary>
-        public PriceTargetCategory CurrentPriceTargetCategory
-        {
-            get { return _currentPriceTargetCategory; }
-            set => Set(ref _currentPriceTargetCategory, value);
-        }
-
-        #endregion СВОЙСТВА PriceBooking
+        #endregion ТАРИФ
 
         // ================================================================================
 

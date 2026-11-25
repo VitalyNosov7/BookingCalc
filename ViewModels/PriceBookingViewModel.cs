@@ -31,6 +31,12 @@ namespace BookingCalc.ViewModels
             set { _openWindowsCommands = value; }
         }
 
+        #region ПРАЙС БРОНИРОВАНИЯ
+
+
+
+        
+
         /// <summary>Список прайсов бронирования</summary>
         private ObservableCollection<PriceBooking> _priceBookingList = new ObservableCollection<PriceBooking>();
         /// <summary>Список прайсов бронирования</summary>
@@ -52,6 +58,24 @@ namespace BookingCalc.ViewModels
                 FillPropertyPriceBooking();
             }
         }
+
+        /// <summary>Заполнить свойства категории номеров</summary>
+        private void FillPropertyPriceBooking()
+        {
+            if (SelectedPriceBooking != null)
+            {
+                PriceBookingID = SelectedPriceBooking.PriceBookingID;
+                SanatoriumID = SelectedPriceBooking.SanatoriumID;
+                CurrentSanatorium = SelectedPriceBooking.CurrentSanatorium;
+                // RoomCategoryName = SelectedRoomCategory.RoomCategoryName;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        #endregion ПРАЙС БРОНИРОВАНИЯ
 
         /// <summary>Список санаториев</summary>
         private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
@@ -81,82 +105,7 @@ namespace BookingCalc.ViewModels
             }
         }
 
-        #region КАТЕГОРИЯ НОМЕРА
 
-        /// <summary>Весь список категорий номера из базы данных</summary>
-        private List<RoomCategory> _roomCategoryFullList = new List<RoomCategory>();
-        /// <summary>Весь список категорий номера из базы данных</summary>
-        private List<RoomCategory> RoomCategoryFullList
-        {
-            get { return _roomCategoryFullList; }
-            set { _roomCategoryFullList = value; }
-        }
-
-        /// <summary>Список категорий номера</summary>
-        private ObservableCollection<RoomCategory> _roomCategoryList = new ObservableCollection<RoomCategory>();
-        /// <summary>Список категорий номера</summary>
-        public ObservableCollection<RoomCategory> RoomCategoryList
-        {
-            get { return _roomCategoryList; }
-            set => Set(ref _roomCategoryList, value);
-        }
-
-        /// <summary>Выбранная категория номера</summary>
-        private RoomCategory _selectedRoomCategory = null!;
-        /// <summary>Выбранная категория номера</summary>
-        public RoomCategory SelectedRoomCategory
-        {
-            get { return _selectedRoomCategory; }           
-
-            set
-            {
-                Set(ref _selectedRoomCategory, value);
-                FillPropertyPriceBooking();
-            }
-        }
-
-        /// <summary>Заполнить свойства категории номеров</summary>
-        private void FillPropertyPriceBooking()
-        {
-            if (SelectedPriceBooking != null)
-            {
-                PriceBookingID = SelectedPriceBooking.PriceBookingID;
-                SanatoriumID = SelectedPriceBooking.SanatoriumID;
-                CurrentSanatorium = SelectedPriceBooking.CurrentSanatorium;
-               // RoomCategoryName = SelectedRoomCategory.RoomCategoryName;
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        /// <summary>Загрузка списка категорий номеров</summary>
-        private void LoadRoomCategoryFullList()
-        {
-
-            // Загрузка всего списка категорий номеров из базы данных.
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                RoomCategoryFullList = db.RoomCategories.ToList();
-            }
-        }
-
-        /// <summary>Загрузка списка категорий номеров в зависимости от того какой санаторий был выбран</summary>
-        private void LoadRoomCategoryList()
-        {
-            if (SelectedSanatorium != null)
-            {
-                var filteredRoomCategory = RoomCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
-                RoomCategoryList = new ObservableCollection<RoomCategory>(filteredRoomCategory);
-            }
-            else { return; }
-        }
-        #endregion КАТЕГОРИЯ НОМЕРА
-
-        #region СВОЙСТВА PriceBooking
-
-  
         /// <summary>Идентификатор стоимости бронирования</summary>
         private Int32 _priceBookingID = default;
         /// <summary>Идентификатор стоимости бронирования</summary>
@@ -202,23 +151,60 @@ namespace BookingCalc.ViewModels
             set => Set(ref _pricePeriodDay, value);
         }
 
-        /// <summary>Идентификатор санатория</summary>
-        private Int32 _sanatoriumID = default;
-        /// <summary>Идентификатор санатория</summary>
-        public Int32 SanatoriumID
+        #region КАТЕГОРИЯ НОМЕРА
+
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> _roomCategoryFullList = new List<RoomCategory>();
+        /// <summary>Весь список категорий номера из базы данных</summary>
+        private List<RoomCategory> RoomCategoryFullList
         {
-            get { return _sanatoriumID; }
-            set => Set(ref _sanatoriumID, value);
+            get { return _roomCategoryFullList; }
+            set { _roomCategoryFullList = value; }
         }
 
-        /// <summary>Санаторий</summary>
-        private Sanatorium _currentSanatorium = null!;
-        /// <summary>Санаторий</summary>
-        public Sanatorium CurrentSanatorium
+        /// <summary>Список категорий номера</summary>
+        private ObservableCollection<RoomCategory> _roomCategoryList = new ObservableCollection<RoomCategory>();
+        /// <summary>Список категорий номера</summary>
+        public ObservableCollection<RoomCategory> RoomCategoryList
         {
-            get { return _currentSanatorium; }
-            set => Set(ref _currentSanatorium, value);
+            get { return _roomCategoryList; }
+            set => Set(ref _roomCategoryList, value);
         }
+
+        /// <summary>Выбранная категория номера</summary>
+        private RoomCategory _selectedRoomCategory = null!;
+        /// <summary>Выбранная категория номера</summary>
+        public RoomCategory SelectedRoomCategory
+        {
+            get { return _selectedRoomCategory; }
+
+            set => Set(ref _selectedRoomCategory, value);
+        }
+
+
+
+        /// <summary>Загрузка списка категорий номеров</summary>
+        private void LoadRoomCategoryFullList()
+        {
+
+            // Загрузка всего списка категорий номеров из базы данных.
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                RoomCategoryFullList = db.RoomCategories.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка категорий номеров в зависимости от того какой санаторий был выбран</summary>
+        private void LoadRoomCategoryList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredRoomCategory = RoomCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                RoomCategoryList = new ObservableCollection<RoomCategory>(filteredRoomCategory);
+            }
+            else { return; }
+        }
+
 
         /// <summary>Идентификатор категории номера</summary>
         private Int32 _roomCategoryID = default;
@@ -236,6 +222,37 @@ namespace BookingCalc.ViewModels
         {
             get { return _currentRoomCategory; }
             set => Set(ref _currentRoomCategory, value);
+        }
+        #endregion КАТЕГОРИЯ НОМЕРА
+
+        #region ВИД РАЗМЕЩЕНИЯ
+
+        /// <summary>Весь список вида размещения из базы данных</summary>
+        private List<AccommodationType>_accommodationTypeFullList = new List<AccommodationType>();
+        /// <summary>Весь список вида размещения из базы данных</summary>
+        private List<AccommodationType> AccommodationTypeFullList
+        {
+            get { return _accommodationTypeFullList; }
+            set { _accommodationTypeFullList = value; }
+        }
+
+        /// <summary>Список вида размещения</summary>
+        private ObservableCollection<AccommodationType> _accommodationTypeList = new ObservableCollection<AccommodationType>();
+        /// <summary>Список вида размещения</summary>
+        public ObservableCollection<AccommodationType> AccommodationTypeList
+        {
+            get { return _accommodationTypeList; }
+            set => Set(ref _accommodationTypeList, value);
+        }
+
+        /// <summary>Выбранный вида размещения</summary>
+        private AccommodationType _selectedAccommodationType = null!;
+        /// <summary>Выбранный вида размещения</summary>
+        public AccommodationType SelectedAccommodationType
+        {
+            get { return _selectedAccommodationType; }
+
+            set => Set(ref _selectedAccommodationType, value);
         }
 
         /// <summary>Идентификатор вида размещения</summary>
@@ -255,6 +272,33 @@ namespace BookingCalc.ViewModels
             get { return _currentAccommodationType; }
             set => Set(ref _currentAccommodationType, value);
         }
+
+        #endregion ВИД РАЗМЕЩЕНИЯ
+
+        #region СВОЙСТВА PriceBooking
+
+
+
+        /// <summary>Идентификатор санатория</summary>
+        private Int32 _sanatoriumID = default;
+        /// <summary>Идентификатор санатория</summary>
+        public Int32 SanatoriumID
+        {
+            get { return _sanatoriumID; }
+            set => Set(ref _sanatoriumID, value);
+        }
+
+        /// <summary>Санаторий</summary>
+        private Sanatorium _currentSanatorium = null!;
+        /// <summary>Санаторий</summary>
+        public Sanatorium CurrentSanatorium
+        {
+            get { return _currentSanatorium; }
+            set => Set(ref _currentSanatorium, value);
+        }
+
+
+
 
         /// <summary>Идентификатор категории тарифа</summary>
         private Int32 _tarifCategoryID = default;

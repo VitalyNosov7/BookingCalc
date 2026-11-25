@@ -75,37 +75,6 @@ namespace BookingCalc.ViewModels
             }
         }
 
-        #endregion ПРАЙС БРОНИРОВАНИЯ
-
-        /// <summary>Список санаториев</summary>
-        private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
-        /// <summary>Список санаториев</summary>
-        public ObservableCollection<Sanatorium> SanatoriumList
-        {
-            get { return _sanatoriumList; }
-            set => Set(ref _sanatoriumList, value);
-        }
-
-        /// <summary>Выбранный санаторий</summary>
-        private Sanatorium _selectedSanatorium = new Sanatorium();
-        /// <summary>Выбранный санаторий</summary>
-        public Sanatorium SelectedSanatorium
-        {
-            get { return _selectedSanatorium!; }
-            set
-            {
-                Set(ref _selectedSanatorium, value);
-                if (SelectedSanatorium != null)
-                {
-                    SanatoriumID = SelectedSanatorium.SanatoriumID;
-                    LoadRoomCategoryList();
-                }
-                else { return; }
-
-            }
-        }
-
-
         /// <summary>Идентификатор стоимости бронирования</summary>
         private Int32 _priceBookingID = default;
         /// <summary>Идентификатор стоимости бронирования</summary>
@@ -150,6 +119,44 @@ namespace BookingCalc.ViewModels
             get { return _pricePeriodDay; }
             set => Set(ref _pricePeriodDay, value);
         }
+
+        #endregion ПРАЙС БРОНИРОВАНИЯ
+
+        // ================================================================================
+
+        #region САНАТОРИЙ
+
+        /// <summary>Список санаториев</summary>
+        private ObservableCollection<Sanatorium> _sanatoriumList = new ObservableCollection<Sanatorium>();
+        /// <summary>Список санаториев</summary>
+        public ObservableCollection<Sanatorium> SanatoriumList
+        {
+            get { return _sanatoriumList; }
+            set => Set(ref _sanatoriumList, value);
+        }
+
+        /// <summary>Выбранный санаторий</summary>
+        private Sanatorium _selectedSanatorium = new Sanatorium();
+        /// <summary>Выбранный санаторий</summary>
+        public Sanatorium SelectedSanatorium
+        {
+            get { return _selectedSanatorium!; }
+            set
+            {
+                Set(ref _selectedSanatorium, value);
+                if (SelectedSanatorium != null)
+                {
+                    SanatoriumID = SelectedSanatorium.SanatoriumID;
+                    LoadRoomCategoryList();
+                }
+                else { return; }
+
+            }
+        }
+
+        #endregion САНАТОРИЙ
+
+        // ================================================================================
 
         #region КАТЕГОРИЯ НОМЕРА
 
@@ -225,6 +232,8 @@ namespace BookingCalc.ViewModels
         }
         #endregion КАТЕГОРИЯ НОМЕРА
 
+        // ================================================================================
+
         #region ВИД РАЗМЕЩЕНИЯ
 
         /// <summary>Весь список вида размещения из базы данных</summary>
@@ -275,9 +284,11 @@ namespace BookingCalc.ViewModels
 
         #endregion ВИД РАЗМЕЩЕНИЯ
 
+        // ================================================================================
+
         #region СВОЙСТВА PriceBooking
 
-
+        #region САНАТОРИЙ
 
         /// <summary>Идентификатор санатория</summary>
         private Int32 _sanatoriumID = default;
@@ -296,6 +307,10 @@ namespace BookingCalc.ViewModels
             get { return _currentSanatorium; }
             set => Set(ref _currentSanatorium, value);
         }
+
+        #endregion САНАТОРИЙ
+
+
 
 
 
@@ -337,6 +352,8 @@ namespace BookingCalc.ViewModels
         }
 
         #endregion СВОЙСТВА PriceBooking
+
+        // ================================================================================
 
         #region КОМАНДЫ
 
@@ -430,9 +447,11 @@ namespace BookingCalc.ViewModels
             }
         }
 
-       
 
-        #endregion КОМАНДЫ
+
+        #endregion КОМАНДЫ\
+
+        // ================================================================================
 
         #region МЕТОДЫ
 
@@ -443,16 +462,15 @@ namespace BookingCalc.ViewModels
             SanatoriumID = default;           
         }
 
-        #endregion МЕТОДЫ
-
-
         /// <summary>Загрузка списков из базы данных</summary>
         private void LoadingListsFromDatabase()
         {
             LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
         }
 
+        #endregion МЕТОДЫ
 
+        // ================================================================================
 
     }
 }

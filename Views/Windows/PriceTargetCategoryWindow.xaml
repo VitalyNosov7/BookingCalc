@@ -57,17 +57,17 @@
                 <StackPanel Width="Auto"
 				Orientation="Vertical">
 
-                    <DataGrid ItemsSource="{Binding Sanatoriums}" 
-                          SelectedItem="{Binding SelectedSanatorium, Mode=TwoWay}"
+                    <DataGrid ItemsSource="{Binding PriceTargetCategoryList}" 
+                          SelectedItem="{Binding SelectedPriceTargetCategory, Mode=TwoWay}"
                           AutoGenerateColumns="False"
                           GridLinesVisibility="All"
                           CanUserAddRows="False"
                           IsReadOnly="True"
                           Height="400">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
-                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding SanatoriumName}" Width="100"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding EmailSanatorium}" Width="300"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding PriceTargetCategoryID}" Width="50"/>
+                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding PriceTargetCategoryName}" Width="100"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding PriceTargetCategoryDescription}" Width="300"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

@@ -571,6 +571,64 @@ namespace BookingCalc.ViewModels
             }
         }
 
+        // Добавление данных о прайсе бронирования в базу данных
+        private RelayCommand? _addPriceBookingFromDBCommand;
+        // Добавление данных о прайсе бронирования в базу данных
+        public RelayCommand AddPriceBookingFromDBCommand
+        {
+            get
+            {
+                return _addPriceBookingFromDBCommand ??
+                  (_addPriceBookingFromDBCommand = new RelayCommand(obj =>
+                  {
+                      using (ApplicationContext db = new ApplicationContext())
+                      {
+                          PriceBooking newPriceBooking = CreateNewPriceBooking();
+                          if (newPriceBooking != null)
+                          {
+                              db.PriceBookings.Add(newPriceBooking);
+                              db.SaveChanges();
+
+                              // TODO: Подумать как еще можно обновлять данные
+                              ExtractDataPriceBookingFromDBCommand.Execute(null!);
+                          }
+                          else
+                          {
+                              return;
+                          }
+                      }
+
+                  }));
+            }
+        }
+
+        private PriceBooking CreateNewPriceBooking()
+        {
+            PriceBooking createdNewPriceBooking = null!;
+            if (SanatoriumID > 0)
+            {
+                createdNewPriceBooking = new PriceBooking()
+                { PriceEffectiveDate = PriceEffectiveDate
+                , StartDatePeriodPrice = StartDatePeriodPrice
+                , EndDatePeriodPrice = EndDatePeriodPrice
+                , CurrentAccommodationType = CurrentAccommodationType
+                , CurrentPriceTargetCategory = CurrentPriceTargetCategory
+                , CurrentRoomCategory = CurrentRoomCategory
+                , CurrentSanatorium = CurrentSanatorium
+                , CurrentTarifCategory = CurrentTarifCategory
+                
+                , PricePeriodDay = PricePeriodDay};
+
+                return createdNewPriceBooking;
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать санаторий");
+                return createdNewPriceBooking; // Тут возвращает null
+            }
+
+        }
+
 
 
         #endregion КОМАНДЫ\

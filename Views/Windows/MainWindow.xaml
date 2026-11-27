@@ -8,7 +8,7 @@
 		xmlns:ts="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
 		xmlns:vm="clr-namespace:BookingCalc.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="1498">
 
     <DockPanel LastChildFill="True" Margin="5">
         

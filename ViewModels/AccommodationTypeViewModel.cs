@@ -364,7 +364,7 @@ namespace BookingCalc.ViewModels
             if (SanatoriumID > 0)
             {
                 createdNewAccommodationType = new AccommodationType()
-                { SanatoriumID = SanatoriumID, AccommodationTypeName = AccommodationTypeName };
+                { AccommodationTypeName = AccommodationTypeName };
                 return createdNewAccommodationType;
             }
             else

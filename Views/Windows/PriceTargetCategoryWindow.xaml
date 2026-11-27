@@ -4,9 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingCalc.Views.Windows"
-        mc:Ignorable="d"
-        Title="PriceTargetCategoryWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d"        
+    Title="PriceTargetCategoryWindow" Height="450" Width="600">
+    <DockPanel LastChildFill="True" Margin="5">
+
+
+        <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="3,3,3,3" Command="{Binding AddSanatoriumToDBCommand}">Добавить</Button>
+                <Button Margin="3,3,3,3" Command ="{Binding EditSanatoriumToDBCommand}">Редактировать</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeleteSanatoriumToDBCommand}">Удалить</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeselectSanatoriumCommand}">Снять выделение</Button>
+                <Button Margin="3,3,3,3" Command="{Binding UpdateDataSanatoriumFromDBCommand}">Обновить данные</Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal">
+
+            <Grid Width="200">
+                <StackPanel Orientation="Vertical">
+
+                    <TextBlock>PriceTargetCategoryID</TextBlock>
+                    <TextBox Margin="3,3,3,3" 
+				            HorizontalAlignment="Left" 
+				            Width="100" 
+				            Height="20" 
+				            Text="{Binding PriceTargetCategoryID}"
+				            IsEnabled="False">
+                    </TextBox>
+
+                    <TextBlock>PriceTargetCategoryName</TextBlock>
+                    <TextBox Margin="3,3,3,3" 
+				HorizontalAlignment="Left" 
+				Width="100" 
+				Height="20" 
+				Text="{Binding PriceTargetCategoryName}"	>
+                    </TextBox>
+
+                    <TextBlock>PriceTargetCategoryDescription</TextBlock>
+                    <TextBox Name="PersonSurname"
+				Margin="3,3,3,3" 
+				HorizontalAlignment="Left" 
+				Width="200" 
+				Height="20" 
+				Text="{Binding PriceTargetCategoryDescription}">
+                    </TextBox>
+
+                </StackPanel>
+            </Grid>
+
+            <Grid>
+                <StackPanel Width="Auto"
+				Orientation="Vertical">
+
+                    <DataGrid ItemsSource="{Binding Sanatoriums}" 
+                          SelectedItem="{Binding SelectedSanatorium, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="All"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          Height="400">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="SanID" Binding="{Binding SanatoriumID}" Width="50"/>
+                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding SanatoriumName}" Width="100"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding EmailSanatorium}" Width="300"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+
+
+        </StackPanel>
+
+    </DockPanel>
 </Window>

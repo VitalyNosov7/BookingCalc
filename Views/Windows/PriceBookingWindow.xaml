@@ -162,7 +162,7 @@
                     </StackPanel>
 
                     <!--ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА-->
-                    <TextBlock>AccommodationTypeName</TextBlock>
+                    <TextBlock>PriceTargetCategory</TextBlock>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox x:Name="PriceTargetCategory"
 								  Width="200"

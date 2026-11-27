@@ -10,11 +10,11 @@
 
         <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
             <StackPanel Orientation="Horizontal">
-                <Button Margin="3,3,3,3" Command="{Binding AddAccommodationTypeFromDBCommand}">Добавить</Button>
-                <Button Margin="3,3,3,3" Command ="{Binding EditAccommodationTypeToDBCommand}">Редактировать</Button>
-                <Button Margin="3,3,3,3" Command="{Binding DeleteAccommodationTypeToDBCommand}">Удалить</Button>
-                <Button Margin="3,3,3,3" Command="{Binding DeselectAccommodationTypeCommand}">Снять выделение</Button>
-                <Button Margin="3,3,3,3" Command="{Binding UpdateDataAccommodationTypeFromDBCommand}">Обновить данные</Button>
+                <Button Margin="3,3,3,3" Command="{Binding AddPriceBookingFromDBCommand}">Добавить</Button>
+                <Button Margin="3,3,3,3" Command ="{Binding EditPriceBookingToDBCommand}">Редактировать</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeletePriceBookingToDBCommand}">Удалить</Button>
+                <Button Margin="3,3,3,3" Command="{Binding DeselectPriceBookingCommand}">Снять выделение</Button>
+                <Button Margin="3,3,3,3" Command="{Binding UpdateDataPriceBookingFromDBCommand}">Обновить данные</Button>
             </StackPanel>
         </Grid>
 

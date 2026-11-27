@@ -608,7 +608,8 @@ namespace BookingCalc.ViewModels
             if (SanatoriumID > 0)
             {
                 createdNewPriceBooking = new PriceBooking()
-                { PriceEffectiveDate = PriceEffectiveDate
+                { SanatoriumID = SanatoriumID
+                  ,PriceEffectiveDate = PriceEffectiveDate
                 , StartDatePeriodPrice = StartDatePeriodPrice
                 , EndDatePeriodPrice = EndDatePeriodPrice
                 , CurrentAccommodationType = CurrentAccommodationType

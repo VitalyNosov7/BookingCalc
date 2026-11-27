@@ -73,7 +73,7 @@ namespace BookingCalc.Commands
 
         // Окно для работы с данными TarifCategory из базы данных  
         private RelayCommand? _openTarifCategoryWindowCommand;
-        public RelayCommand OpenTarifCategoryeWindowCommand
+        public RelayCommand OpenTarifCategoryWindowCommand
         {
             get
             {
@@ -81,6 +81,20 @@ namespace BookingCalc.Commands
                   (_openTarifCategoryWindowCommand = new RelayCommand((o) =>
                   {
                       _windowManager.ShowOrActivate<TarifCategoryWindow>();
+                  }));
+            }
+        }
+
+        // Окно для работы с данными PriceTargetCategory из базы данных  
+        private RelayCommand? _openPriceTargetCategoryWindowCommand;
+        public RelayCommand OpenPriceTargetCategoryWindowCommand
+        {
+            get
+            {
+                return _openPriceTargetCategoryWindowCommand ??
+                  (_openPriceTargetCategoryWindowCommand = new RelayCommand((o) =>
+                  {
+                      _windowManager.ShowOrActivate<PriceTargetCategoryWindow>();
                   }));
             }
         }

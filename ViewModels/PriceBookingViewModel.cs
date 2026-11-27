@@ -166,6 +166,7 @@ namespace BookingCalc.ViewModels
                 {
                     SanatoriumID = SelectedSanatorium.SanatoriumID;
                     LoadRoomCategoryList();
+                    LoadAccommodationTypeList();
                 }
                 else { return; }
 
@@ -318,6 +319,28 @@ namespace BookingCalc.ViewModels
             set => Set(ref _currentAccommodationType, value);
         }
 
+        /// <summary>Загрузка полного списка видов размещения</summary>
+        private void LoadAccommodationTypeFullList()
+        {
+
+            /// <summary>Загрузка полного списка видов размещения</summary>
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                AccommodationTypeFullList = db.AccommodationTypes.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка видов размещения в зависимости от того какой санаторий был выбран</summary>
+        private void LoadAccommodationTypeList()
+        {
+            if (SelectedSanatorium != null)
+            {
+                var filteredAccommodationType = AccommodationTypeFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                AccommodationTypeList = new ObservableCollection<AccommodationType>(filteredAccommodationType);
+            }
+            else { return; }
+        }
+
         #endregion ВИД РАЗМЕЩЕНИЯ
 
         // ================================================================================
@@ -458,6 +481,7 @@ namespace BookingCalc.ViewModels
         private void LoadingListsFromDatabase()
         {
             LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
+            LoadAccommodationTypeFullList();  // Загрузка всех видов размещения
         }
 
         #endregion МЕТОДЫ

@@ -120,23 +120,6 @@ namespace BookingCalc.ViewModels
             set => Set(ref _pricePeriodDay, value);
         }
 
-        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
-        private Int32 _priceTargetCategoryID = default;
-        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
-        public Int32 PriceTargetCategoryID
-        {
-            get { return _priceTargetCategoryID; }
-            set => Set(ref _priceTargetCategoryID, value);
-        }
-
-        /// <summary>Целевая категория стоимости бронирования</summary>
-        private PriceTargetCategory _currentPriceTargetCategory = null!;
-        /// <summary>Целевая категория стоимости бронирования</summary>
-        public PriceTargetCategory CurrentPriceTargetCategory
-        {
-            get { return _currentPriceTargetCategory; }
-            set => Set(ref _currentPriceTargetCategory, value);
-        }
 
         #endregion ПРАЙС БРОНИРОВАНИЯ
 
@@ -168,6 +151,7 @@ namespace BookingCalc.ViewModels
                     LoadRoomCategoryList();
                     LoadAccommodationTypeList();
                     LoadTarifCategoryList();
+                    LoadPriceTargetCategoryList();
                 }
                 else { return; }
 
@@ -420,6 +404,76 @@ namespace BookingCalc.ViewModels
 
         #region ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА
 
+        /// <summary>Весь список целевых категорий прайсов из базы данных</summary>
+        private List<PriceTargetCategory> _priceTargetCategoryFullList = new List<PriceTargetCategory>();
+        /// <summary>Весь список целевых категорий прайсов из базы данных</summary>
+        private List<PriceTargetCategory> PriceTargetCategoryFullList
+        {
+            get { return _priceTargetCategoryFullList; }
+            set { _priceTargetCategoryFullList = value; }
+        }
+
+
+        /// <summary>Список целевых категорий прайсов</summary>
+        private ObservableCollection<PriceTargetCategory> _priceTargetCategoryList = new ObservableCollection<PriceTargetCategory>();
+        /// <summary>Список целевых категорий прайсов</summary>
+        public ObservableCollection<PriceTargetCategory> PriceTargetCategoryList
+        {
+            get { return _priceTargetCategoryList; }
+            set => Set(ref _priceTargetCategoryList, value);
+        }
+
+        /// <summary>Выбранная целевая категория прайсов</summary>
+        private PriceTargetCategory _selectedPriceTargetCategory = null!;
+        /// <summary>Выбранная целевая категория прайсов</summary>
+        public PriceTargetCategory SelectedPriceTargetCategory
+        {
+            get { return _selectedPriceTargetCategory; }
+
+            set => Set(ref _selectedPriceTargetCategory, value);
+        }
+
+
+        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
+        private Int32 _priceTargetCategoryID = default;
+        /// <summary>Идентификатор целевой категории стоимости бронирования</summary>
+        public Int32 PriceTargetCategoryID
+        {
+            get { return _priceTargetCategoryID; }
+            set => Set(ref _priceTargetCategoryID, value);
+        }
+
+        /// <summary>Целевая категория стоимости бронирования</summary>
+        private PriceTargetCategory _currentPriceTargetCategory = null!;
+        /// <summary>Целевая категория стоимости бронирования</summary>
+        public PriceTargetCategory CurrentPriceTargetCategory
+        {
+            get { return _currentPriceTargetCategory; }
+            set => Set(ref _currentPriceTargetCategory, value);
+        }
+
+        /// <summary>Загрузка полного списка целевых категорий стоимости бронирования</summary>
+        private void LoadPriceTargetCategoryFullList()
+        {
+
+            /// <summary>Загрузка полного списка видов размещения</summary>
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                PriceTargetCategoryFullList = db.PriceTargetCategories.ToList();
+            }
+        }
+
+        /// <summary>Загрузка списка целевых категорий стоимости бронирования в зависимости от того какой санаторий был выбран</summary>
+        private void LoadPriceTargetCategoryList()
+        {
+            if (SelectedSanatorium != null)
+            {
+               // var filteredPriceTargetCategory = PriceTargetCategoryFullList.Where(x => x.SanatoriumID == SelectedSanatorium.SanatoriumID).ToList();
+                var filteredPriceTargetCategory = PriceTargetCategoryFullList.ToList();
+                PriceTargetCategoryList = new ObservableCollection<PriceTargetCategory>(filteredPriceTargetCategory);
+            }
+            else { return; }
+        }
 
         #endregion ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА
 
@@ -538,6 +592,7 @@ namespace BookingCalc.ViewModels
             LoadRoomCategoryFullList(); // Загрузка всех категорий номеров
             LoadAccommodationTypeFullList();  // Загрузка всех видов размещения
             LoadTarifCategoryFullList(); // Загрузка тарифов
+            LoadPriceTargetCategoryFullList(); // Загрузка целевых категорий прайсов
         }
 
         #endregion МЕТОДЫ

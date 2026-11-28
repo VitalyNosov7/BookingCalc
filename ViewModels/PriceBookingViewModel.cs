@@ -167,13 +167,14 @@ namespace BookingCalc.ViewModels
 			set => Set(ref _sanatoriumID, value);
 		}
 
+		// Используется для перебора из списка SanatoriumList
 		/// <summary>Санаторий</summary>
 		private Sanatorium _currentSanatorium = null!;
 		/// <summary>Санаторий</summary>
 		public Sanatorium CurrentSanatorium
 		{
 			get { return _currentSanatorium; }
-			set => Set(ref _currentSanatorium, value);
+			set { _currentSanatorium = value; }
 		}
 
 		#endregion САНАТОРИЙ
@@ -498,23 +499,68 @@ namespace BookingCalc.ViewModels
 						  foreach (PriceBooking priceBooking in priceBookingList)
 						  {
 
+							  // Находим объект Sanatorium по ID. Найденный объект помещаем в свойство PriceBooking.CurrentSanatorium
 							  Sanatorium? foundSanatorium = db.Sanatoriums.Find(priceBooking.SanatoriumID);
-							  if (foundSanatorium != null)
+							  // Находим объект RoomCategory по ID. Найденный объект помещаем в свойство PriceBooking.CurrentSanatorium
+							  RoomCategory? foundRoomCategory = db.RoomCategories.Find(priceBooking.RoomCategoryID);
+							  // Находим объект AccommodationType по ID. Найденный объект помещаем в свойство PriceBooking.CurrentAccommodationType
+							  AccommodationType? foundAccommodationType = db.AccommodationTypes.Find(priceBooking.AccommodationTypeID);
+							  // Находим объект PriceTargetCategory по ID. Найденный объект помещаем в свойство PriceTargetCategory.CurrentPriceTargetCategory
+							  PriceTargetCategory? foundPriceTargetCategory = db.PriceTargetCategories.Find(priceBooking.PriceTargetCategoryID);
+							  if (foundSanatorium != null && foundRoomCategory != null && foundAccommodationType != null && foundPriceTargetCategory != null)
 							  {
 								  Sanatorium createdNewSanatorium = new Sanatorium
 								  {
 									  SanatoriumID = foundSanatorium.SanatoriumID,
-									  SanatoriumName = foundSanatorium.SanatoriumName,
-									  EmailSanatorium = foundSanatorium.EmailSanatorium
+									  SanatoriumName = foundSanatorium.SanatoriumName
 								  };
 								  priceBooking.CurrentSanatorium = createdNewSanatorium;
+
+								  RoomCategory createdNewRoomCategory = new RoomCategory
+								  {
+									  RoomCategoryID = foundRoomCategory.RoomCategoryID,
+									  RoomCategoryName = foundRoomCategory.RoomCategoryName
+								  };
+								  priceBooking.CurrentRoomCategory = createdNewRoomCategory;
+
+								  AccommodationType createdAccommodationType = new AccommodationType
+								  {
+									  AccommodationTypeID = foundAccommodationType.AccommodationTypeID,
+									  AccommodationTypeName = foundAccommodationType.AccommodationTypeName
+								  };
+								  priceBooking.CurrentAccommodationType = createdAccommodationType;
+
+								  PriceTargetCategory createdNewPriceTargetCategory = new PriceTargetCategory
+								  {
+									  PriceTargetCategoryID = foundPriceTargetCategory.PriceTargetCategoryID,
+									  PriceTargetCategoryName = foundPriceTargetCategory.PriceTargetCategoryName
+								  };
+								  priceBooking.CurrentPriceTargetCategory = createdNewPriceTargetCategory;
+
 								  PriceBookingList.Add(priceBooking);
 							  }
 							  else
 							  {
-								  MessageBox.Show("Данные о санатории не найдены в базе данных!");
+								  MessageBox.Show("Данные  не найдены в базе данных!");
 								  return;
 							  }
+
+							
+							  //if (foundRoomCategory != null)
+							  //{
+								 // RoomCategory createdNewRoomCategory = new RoomCategory
+								 // {
+									//  RoomCategoryID = foundRoomCategory.RoomCategoryID,
+									//  RoomCategoryName = foundRoomCategory.RoomCategoryName
+								 // };
+								 // priceBooking.CurrentRoomCategory = createdNewRoomCategory;
+								 // PriceBookingList.Add(priceBooking);
+							  //}
+							  //else
+							  //{
+								 // MessageBox.Show("Данные о категории номера не найдены в базе данных!");
+								 // return;
+							  //}
 
 						  }
 
@@ -616,7 +662,7 @@ namespace BookingCalc.ViewModels
 					AccommodationTypeID = SelectedAccommodationType.AccommodationTypeID,
 					PriceTargetCategoryID = SelectedPriceTargetCategory.PriceTargetCategoryID,
 					RoomCategoryID = SelectedRoomCategory.RoomCategoryID,
-					TarifCategoryID= SelectedTarifCategory.TarifCategoryID,
+					TarifCategoryID = SelectedTarifCategory.TarifCategoryID,
 					PricePeriodDay = PricePeriodDay
 				};
 

@@ -5,221 +5,221 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingCalc.Views.Windows"
         mc:Ignorable="d"
-        Title="PriceBookingWindow" Height="450" Width="1122">    
-    <DockPanel LastChildFill="True" Margin="5">
+        Title="PriceBookingWindow" Height="450" Width="1122">
+	<DockPanel LastChildFill="True" Margin="5">
 
-        <Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="3,3,3,3" Command="{Binding AddPriceBookingFromDBCommand}">Добавить</Button>
-                <Button Margin="3,3,3,3" Command ="{Binding EditPriceBookingToDBCommand}">Редактировать</Button>
-                <Button Margin="3,3,3,3" Command="{Binding DeletePriceBookingToDBCommand}">Удалить</Button>
-                <Button Margin="3,3,3,3" Command="{Binding DeselectPriceBookingCommand}">Снять выделение</Button>
-                <Button Margin="3,3,3,3" Command="{Binding UpdateDataPriceBookingFromDBCommand}">Обновить данные</Button>
-            </StackPanel>
-        </Grid>
+		<Grid Name="GridBottom" DockPanel.Dock="Bottom" Background="BlanchedAlmond" Width="Auto" Height="30">
+			<StackPanel Orientation="Horizontal">
+				<Button Margin="3,3,3,3" Command="{Binding AddPriceBookingFromDBCommand}">Добавить</Button>
+				<Button Margin="3,3,3,3" Command ="{Binding EditPriceBookingToDBCommand}">Редактировать</Button>
+				<Button Margin="3,3,3,3" Command="{Binding DeletePriceBookingToDBCommand}">Удалить</Button>
+				<Button Margin="3,3,3,3" Command="{Binding DeselectPriceBookingCommand}">Снять выделение</Button>
+				<Button Margin="3,3,3,3" Command="{Binding UpdateDataPriceBookingFromDBCommand}">Обновить данные</Button>
+			</StackPanel>
+		</Grid>
 
-        <StackPanel Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal">
 
-            <Grid Width="250">
-                <StackPanel Orientation="Vertical">
+			<Grid Width="250">
+				<StackPanel Orientation="Vertical">
 
-                    <TextBlock>PriceBookingID</TextBlock>
-                    <TextBox Margin="3,3,3,3" 
+					<TextBlock>PriceBookingID</TextBlock>
+					<TextBox Margin="3,3,3,3" 
 							HorizontalAlignment="Left" 
 							Width="50" 
 							Height="20" 
 							Text="{Binding PriceBookingID}"
 							IsEnabled="False">
-                    </TextBox>
-                    
-                    <!--САНАТОРИЙ-->
-                    <TextBlock>SanatoriumID</TextBlock>
-                    <TextBox Margin="3,3,3,3" 
+					</TextBox>
+
+					<!--САНАТОРИЙ-->
+					<TextBlock>SanatoriumID</TextBlock>
+					<TextBox Margin="3,3,3,3" 
 							HorizontalAlignment="Left" 
 							Width="50" 
 							Height="20" 
 							Text="{Binding SanatoriumID}"
 							IsEnabled="False">
-                    </TextBox>
+					</TextBox>
 
-                    <TextBlock>SanatoriumName</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="Sanatorium"
+					<TextBlock>SanatoriumName</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="Sanatorium"
 												  Width="200"
 												  Margin="3,0,3,1"
 												  ItemsSource="{Binding SanatoriumList}"
 												  SelectedItem="{Binding SelectedSanatorium, UpdateSourceTrigger=PropertyChanged}"  
 												  IsTextSearchEnabled="True"                                            
 												  TextSearch.TextPath="SanatoriumName">
-                            <!--DisplayMemberPath="Name"-->
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}">
-                                                <Binding Path="SanatoriumName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <Button Content="DB"
+							<!--DisplayMemberPath="Name"-->
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{}{0}">
+												<Binding Path="SanatoriumName"/>
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Content="DB"
 								Command="{Binding OpenWindowsCommands.OpenSanatoriumWindomCommand}"
 								Width="30"
 								Height="20"
 								Margin="3,3,3,3"/>
-                    </StackPanel>
+					</StackPanel>
 
-                    <!--КАТЕГОРИЯ НОМЕРА-->
-                    <TextBlock>RoomCategoryName</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="RoomCategory"
+					<!--КАТЕГОРИЯ НОМЕРА-->
+					<TextBlock>RoomCategoryName</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="RoomCategory"
 											  Width="200"
 											  Margin="3,0,3,1"
 											  ItemsSource="{Binding RoomCategoryList}"
 											  SelectedItem="{Binding SelectedRoomCategory, UpdateSourceTrigger=PropertyChanged}"  
 											  IsTextSearchEnabled="True"                                            
 											  TextSearch.TextPath="RoomCategoryName">
-                            <!--DisplayMemberPath="Name"-->
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}">
-                                                <Binding Path="RoomCategoryName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <Button Content="DB"
+							<!--DisplayMemberPath="Name"-->
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{}{0}">
+												<Binding Path="RoomCategoryName"/>
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Content="DB"
 							Command="{Binding OpenWindowsCommands.OpenRoomCategoryWindowCommand}"
 							Width="30"
 							Height="20"
 							Margin="3,3,3,3"/>
-                    </StackPanel>
+					</StackPanel>
 
-                    <!--ВИД РАЗМЕЩЕНИЯ-->
-                    <TextBlock>AccommodationTypeName</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="AccommodationType"
+					<!--ВИД РАЗМЕЩЕНИЯ-->
+					<TextBlock>AccommodationTypeName</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="AccommodationType"
 										  Width="200"
 										  Margin="3,0,3,1"
 										  ItemsSource="{Binding AccommodationTypeList}"
 										  SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger=PropertyChanged}"  
 										  IsTextSearchEnabled="True"                                            
 										  TextSearch.TextPath="AccommodationTypeName">
-                            <!--DisplayMemberPath="Name"-->
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}">
-                                                <Binding Path="AccommodationTypeName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <Button Content="DB"
+							<!--DisplayMemberPath="Name"-->
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{}{0}">
+												<Binding Path="AccommodationTypeName"/>
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Content="DB"
 						Command="{Binding OpenWindowsCommands.OpenAccommodationTypeWindowCommand}"
 						Width="30"
 						Height="20"
 						Margin="3,3,3,3"/>
-                    </StackPanel>
+					</StackPanel>
 
-                    <!--ТАРИФ-->
-                    <TextBlock>TarifCategoryName</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="TarifCategory"
+					<!--ТАРИФ-->
+					<TextBlock>TarifCategoryName</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="TarifCategory"
 								  Width="200"
 								  Margin="3,0,3,1"
 								  ItemsSource="{Binding TarifCategoryList}"
 								  SelectedItem="{Binding SelectedTarifCategory, UpdateSourceTrigger=PropertyChanged}"  
 								  IsTextSearchEnabled="True"                                            
 								  TextSearch.TextPath="TarifCategoryName">
-                            <!--DisplayMemberPath="Name"-->
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}">
-                                                <Binding Path="TarifCategoryName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <Button Content="DB"
+							<!--DisplayMemberPath="Name"-->
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{}{0}">
+												<Binding Path="TarifCategoryName"/>
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Content="DB"
 				Command="{Binding OpenWindowsCommands.OpenTarifCategoryWindowCommand}"
 				Width="30"
 				Height="20"
 				Margin="3,3,3,3"/>
-                    </StackPanel>
+					</StackPanel>
 
-                    <!--ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА-->
-                    <TextBlock>PriceTargetCategory</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="PriceTargetCategory"
+					<!--ЦЕЛЕВАЯ КАТЕГОРИЯ ПРАЙСА-->
+					<TextBlock>PriceTargetCategory</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="PriceTargetCategory"
 								  Width="200"
 								  Margin="3,0,3,1"
 								  ItemsSource="{Binding PriceTargetCategoryList}"
 								  SelectedItem="{Binding SelectedPriceTargetCategory, UpdateSourceTrigger=PropertyChanged}"  
 								  IsTextSearchEnabled="True"                                            
 								  TextSearch.TextPath="PriceTargetCategoryName">
-                            <!--DisplayMemberPath="Name"-->
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}">
-                                                <Binding Path="PriceTargetCategoryName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <Button Content="DB"
+							<!--DisplayMemberPath="Name"-->
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat="{}{0}">
+												<Binding Path="PriceTargetCategoryName"/>
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<Button Content="DB"
 				Command="{Binding OpenWindowsCommands.OpenPriceTargetCategoryWindowCommand}"
 				Width="30"
 				Height="20"
 				Margin="3,3,3,3"/>
-                    </StackPanel>
+					</StackPanel>
 
 
 
-                </StackPanel>
-            </Grid>
+				</StackPanel>
+			</Grid>
 
-            <Grid>
-                <StackPanel Width="Auto"
+			<Grid>
+				<StackPanel Width="Auto"
 					Orientation="Vertical">
-                    <DataGrid ItemsSource="{Binding PriceBookingList}" 
+					<DataGrid ItemsSource="{Binding PriceBookingList}" 
 					  SelectedItem="{Binding SelectedPriceBooking, Mode=TwoWay}"
 					  AutoGenerateColumns="False"
 					  GridLinesVisibility="All"
 					  CanUserAddRows="False"
 					  IsReadOnly="True"
 					  Height="400">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="PBID" Binding="{Binding PriceBookingID}" Width="50"/>                           
-                            <DataGridTextColumn Header="Sanatorium" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="100"/>
-                            <DataGridTextColumn Header="ActualDate" Binding="{Binding PriceEffectiveDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
-                            <DataGridTextColumn Header="StartDate" Binding="{Binding StartDatePeriodPrice, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
-                            <DataGridTextColumn Header="EndDate" Binding="{Binding EndDatePeriodPrice, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
-                            <DataGridTextColumn Header="PriceForDay" Binding="{Binding PricePeriodDay}" Width="100"/>
-                            <DataGridTextColumn Header="RoomCategory" Binding="{Binding CurrentRoomCategory.RoomCategoryName}" Width="100"/>
-                            <DataGridTextColumn Header="AccommodationType" Binding="{Binding CurrentAccommodationType.AccommodationTypeName}" Width="100"/>
-                            <DataGridTextColumn Header="PriceTargetCategory" Binding="{Binding CurrentPriceTargetCategory.PriceTargetCategoryName}" Width="100"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-    </DockPanel>
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="PBID" Binding="{Binding PriceBookingID}" Width="50"/>
+							<DataGridTextColumn Header="Sanatorium" Binding="{Binding CurrentSanatorium.SanatoriumName}" Width="100"/>
+							<DataGridTextColumn Header="ActualDate" Binding="{Binding PriceEffectiveDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+							<DataGridTextColumn Header="StartDate" Binding="{Binding StartDatePeriodPrice, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+							<DataGridTextColumn Header="EndDate" Binding="{Binding EndDatePeriodPrice, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+							<DataGridTextColumn Header="PriceForDay" Binding="{Binding PricePeriodDay}" Width="100"/>
+							<DataGridTextColumn Header="RoomCategory" Binding="{Binding CurrentRoomCategory.RoomCategoryName}" Width="100"/>
+							<DataGridTextColumn Header="AccommodationType" Binding="{Binding CurrentAccommodationType.AccommodationTypeName}" Width="100"/>
+							<DataGridTextColumn Header="PriceTargetCategory" Binding="{Binding CurrentPriceTargetCategory.PriceTargetCategoryName}" Width="100"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+			</Grid>
+		</StackPanel>
+	</DockPanel>
 </Window>
